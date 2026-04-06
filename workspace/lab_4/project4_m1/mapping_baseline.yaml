@@ -1,0 +1,34 @@
+mapping:
+  nodes:
+  - !Storage
+    tensors: [A, W, Y]
+    component: DRAM
+  - !Temporal
+    rank_variable: m
+    tile_shape: 8
+  - !Temporal
+    rank_variable: n
+    tile_shape: 8
+  - !Temporal
+    rank_variable: k
+    tile_shape: 8
+  - !Storage
+    tensors: [A, W, Y]
+    component: Buffer
+  - !Temporal
+    rank_variable: n
+    tile_shape: 1
+  - !Temporal
+    rank_variable: k
+    tile_shape: 1
+  - !Temporal
+    rank_variable: m
+    tile_shape: 1
+  - !Spatial
+    rank_variable: m
+    tile_shape: 1
+    name: X
+    component: PEArray
+  - !Compute
+    einsum: MatMul
+    component: MAC

@@ -16,7 +16,9 @@ workload:
     Aq: 4
     Wq: 4
     Yraw: 32
+    Ytmp: 32
     Yblk: 32
+    Ytmp2: 32
     Y: 16
   einsums:
   - name: TensorScaleA
@@ -28,7 +30,8 @@ workload:
       - ki
       density: 1.0
     - name: Sga
-      projection: []
+      projection:
+      - m
       output: true
   - name: TensorQuantA
     tensor_accesses:
@@ -39,7 +42,8 @@ workload:
       - ki
       density: 1.0
     - name: Sga
-      projection: []
+      projection:
+      - m
       density: 1.0
     - name: Ascl
       projection:
@@ -88,7 +92,8 @@ workload:
       - ki
       density: 1.0
     - name: Sgw
-      projection: []
+      projection:
+      - n
       output: true
   - name: TensorQuantW
     tensor_accesses:
@@ -99,7 +104,8 @@ workload:
       - ki
       density: 1.0
     - name: Sgw
-      projection: []
+      projection:
+      - n
       density: 1.0
     - name: Wscl
       projection:
@@ -159,7 +165,7 @@ workload:
       - n
       - kb
       output: true
-  - name: RescaleBlock
+  - name: RescaleBlockA
     tensor_accesses:
     - name: Yraw
       projection:
@@ -170,6 +176,20 @@ workload:
     - name: Sba
       projection:
       - m
+      - kb
+      density: 1.0
+    - name: Ytmp
+      projection:
+      - m
+      - n
+      - kb
+      output: true
+  - name: RescaleBlockW
+    tensor_accesses:
+    - name: Ytmp
+      projection:
+      - m
+      - n
       - kb
       density: 1.0
     - name: Sbw
@@ -183,7 +203,7 @@ workload:
       - n
       - kb
       output: true
-  - name: RescaleTensor
+  - name: RescaleTensorA
     tensor_accesses:
     - name: Yblk
       projection:
@@ -192,10 +212,24 @@ workload:
       - kb
       density: 1.0
     - name: Sga
-      projection: []
+      projection:
+      - m
+      density: 1.0
+    - name: Ytmp2
+      projection:
+      - m
+      - n
+      output: true
+  - name: RescaleTensorW
+    tensor_accesses:
+    - name: Ytmp2
+      projection:
+      - m
+      - n
       density: 1.0
     - name: Sgw
-      projection: []
+      projection:
+      - n
       density: 1.0
     - name: Y
       projection:

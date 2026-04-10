@@ -1,7 +1,7 @@
 mapping:
   nodes:
   - !Storage
-    tensors: [A, W, Sga, Sgw, Ascl, Wscl, Sba, Sbw, Aq, Wq, Yraw, Yblk, Y]
+    tensors: [A, W, Sga, Sgw, Ascl, Wscl, Sba, Sbw, Aq, Wq, Yraw, Ytmp, Yblk, Ytmp2, Y]
     component: DRAM
   - !Temporal
     rank_variable: m
@@ -16,8 +16,8 @@ mapping:
     rank_variable: ki
     tile_shape: 8
   - !Storage
-    tensors: [A, W, Sga, Sgw, Ascl, Wscl, Sba, Sbw, Aq, Wq, Yraw, Yblk, Y]
-    component: Buffer
+    tensors: [A, W, Sga, Sgw, Ascl, Wscl, Sba, Sbw, Aq, Wq, Yraw, Ytmp, Yblk, Ytmp2, Y]
+    component: GLB
   - !Temporal
     rank_variable: n
     tile_shape: 1
@@ -34,37 +34,43 @@ mapping:
     rank_variable: m
     tile_shape: 1
     name: X
-    component: PEArray
+    component: RF
   - !Compute
     einsum: TensorScaleA
-    component: MAC
+    component: QuantMAC
   - !Compute
     einsum: TensorQuantA
-    component: MAC
+    component: QuantMAC
   - !Compute
     einsum: BlockScaleA
-    component: MAC
+    component: QuantMAC
   - !Compute
     einsum: BlockQuantA
-    component: MAC
+    component: QuantMAC
   - !Compute
     einsum: TensorScaleW
-    component: MAC
+    component: QuantMAC
   - !Compute
     einsum: TensorQuantW
-    component: MAC
+    component: QuantMAC
   - !Compute
     einsum: BlockScaleW
-    component: MAC
+    component: QuantMAC
   - !Compute
     einsum: BlockQuantW
-    component: MAC
+    component: QuantMAC
   - !Compute
     einsum: MatMulNVFP4
-    component: MAC
+    component: FP4MAC
   - !Compute
-    einsum: RescaleBlock
-    component: MAC
+    einsum: RescaleBlockA
+    component: RescaleMAC
   - !Compute
-    einsum: RescaleTensor
-    component: MAC
+    einsum: RescaleBlockW
+    component: RescaleMAC
+  - !Compute
+    einsum: RescaleTensorA
+    component: RescaleMAC
+  - !Compute
+    einsum: RescaleTensorW
+    component: RescaleMAC

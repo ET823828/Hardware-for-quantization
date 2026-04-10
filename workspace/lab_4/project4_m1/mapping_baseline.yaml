@@ -14,7 +14,7 @@ mapping:
     tile_shape: 8
   - !Storage
     tensors: [A, W, Y]
-    component: Buffer
+    component: GLB
   - !Temporal
     rank_variable: n
     tile_shape: 1
@@ -28,7 +28,7 @@ mapping:
     rank_variable: m
     tile_shape: 1
     name: X
-    component: PEArray
+    component: RF
   - !Compute
     einsum: MatMul
-    component: MAC
+    component: FP4MAC

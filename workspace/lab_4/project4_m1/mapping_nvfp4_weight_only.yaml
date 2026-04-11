@@ -1,0 +1,43 @@
+mapping:
+  nodes:
+  - !Storage
+    tensors: [A, Wq, Sw, Wdq, Y]
+    component: DRAM
+  - !Temporal
+    rank_variable: m
+    tile_shape: 8
+  - !Temporal
+    rank_variable: n
+    tile_shape: 4
+  - !Temporal
+    rank_variable: kb
+    tile_shape: 2
+  - !Temporal
+    rank_variable: ki
+    tile_shape: 8
+  - !Storage
+    tensors: [A, Wq, Sw, Wdq, Y]
+    component: GLB
+  - !Temporal
+    rank_variable: n
+    tile_shape: 1
+  - !Temporal
+    rank_variable: kb
+    tile_shape: 1
+  - !Temporal
+    rank_variable: ki
+    tile_shape: 1
+  - !Temporal
+    rank_variable: m
+    tile_shape: 1
+  - !Spatial
+    rank_variable: m
+    tile_shape: 1
+    name: X
+    component: RF
+  - !Compute
+    einsum: DequantW
+    component: QuantMAC
+  - !Compute
+    einsum: MatMulQ
+    component: FP16MAC

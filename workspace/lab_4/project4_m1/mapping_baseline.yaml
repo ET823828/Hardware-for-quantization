@@ -31,4 +31,4 @@ mapping:
     component: RF
   - !Compute
     einsum: MatMul
-    component: QuantMAC
+    component: FP4MAC

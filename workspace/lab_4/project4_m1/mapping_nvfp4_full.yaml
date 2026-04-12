@@ -30,6 +30,11 @@ mapping:
   - !Temporal
     rank_variable: m
     tile_shape: 1
+  - !Spatial
+    rank_variable: m
+    tile_shape: 1
+    name: X
+    component: RF
   - !Compute
     einsum: TensorScaleA
     component: QuantMAC

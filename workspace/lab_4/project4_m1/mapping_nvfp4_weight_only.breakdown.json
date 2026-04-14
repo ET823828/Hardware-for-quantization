@@ -1,0 +1,16 @@
+{
+  "energy_total": 240548052992.0,
+  "latency_total": 1074790400.0,
+  "einsum_names": [
+    "DequantW",
+    "MatMulQ"
+  ],
+  "energy_per_einsum": {
+    "DequantW": 71827456.0,
+    "MatMulQ": 240476225536.0
+  },
+  "latency_per_einsum": {
+    "DequantW": 1048576.0,
+    "MatMulQ": 1073741824.0
+  }
+}

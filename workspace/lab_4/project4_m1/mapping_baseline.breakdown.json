@@ -1,0 +1,13 @@
+{
+  "energy_total": 240560111616.0,
+  "latency_total": 1073741824.0,
+  "einsum_names": [
+    "MatMul"
+  ],
+  "energy_per_einsum": {
+    "MatMul": 240560111616.0
+  },
+  "latency_per_einsum": {
+    "MatMul": 1073741824.0
+  }
+}

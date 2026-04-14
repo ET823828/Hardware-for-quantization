@@ -27,16 +27,13 @@
 services:
   labs:
     hostname: labs
-    image: timeloopaccelergy/accelforge-extra:latest-${DOCKER_ARCH}
+    image: timeloopaccelergy/accelforge-extra:latest-${DOCKER_ARCH:-arm64}
     working_dir: /home/workspace
     ports:
       - "8888:8888"
     volumes:
       - ./:/home/workspace
-    mem_limit: 12g
     environment:
       - USER_UID=501
       - USER_GID=20
       - JUPYTER_SWITCHES=--NotebookApp.token=''
-      - JOBLIB_TEMP_FOLDER=/tmp
-      - LOKY_MAX_CPU_COUNT=2

@@ -1,8 +1,8 @@
 workload:
   iteration_space_shape:
-    m: 0 <= m < 64
-    n: 0 <= n < 64
-    kb: 0 <= kb < 8
+    m: 0 <= m < 4096
+    n: 0 <= n < 4096
+    kb: 0 <= kb < 256
     ki: 0 <= ki < 16
   bits_per_value:
     A: 16

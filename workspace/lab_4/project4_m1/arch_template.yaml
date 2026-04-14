@@ -62,8 +62,10 @@ arch:
 
   # ======================== QuantMAC (FP16 quant ops) =============
   # Horowitz: 16b FP multiply ≈ 1.0 pJ; area ≈ 90 um² = 9e-11 m²
+  # Handles: TensorScale/Quant, BlockScale/Quant (A & W), DequantW
   - !Compute
     name: QuantMAC
+    enabled: "'Ascl' in All or 'Wscl' in All or 'Sw' in All or ('A' in All and 'Sga' in All) or ('W' in All and 'Sgw' in All)"
     leak_power: 0
     area: 9e-11
     actions:
@@ -71,8 +73,10 @@ arch:
 
   # ======================== FP4MAC (FP4×FP4 + FP32 accum) ========
   # Horowitz: 8b Int Mult = 0.2 pJ; area ≈ 60 um² = 6e-11 m²
+  # Handles: MatMulNVFP4 only (Aq × Wq → Yraw)
   - !Compute
     name: FP4MAC
+    enabled: "'Aq' in All and 'Wq' in All"
     leak_power: 0
     area: 6e-11
     actions:
@@ -80,17 +84,20 @@ arch:
 
   # ======================== RescaleMAC (FP32 rescale) =============
   # Horowitz: 32b FP Mult = 3.7 pJ; area ≈ 720 um² = 7.2e-10 m²
+  # Handles: RescaleBlockA/W, RescaleTensorA/W
   - !Compute
     name: RescaleMAC
+    enabled: "('Yraw' in All and 'Sba' in All) or ('Ytmp' in All and 'Sbw' in All) or ('Yblk' in All and 'Sga' in All) or ('Ytmp2' in All and 'Sgw' in All)"
     leak_power: 0
     area: 7.2e-10
     actions:
     - {name: compute, energy: 3.7, latency: 2}
 
-    # ======================== FP16MAC (FP16 multiply-accumulate) =========
-  # First-pass proxy: same cost as QuantMAC unless you have better numbers
+  # ======================== FP16MAC (FP16 multiply-accumulate) =========
+  # Handles: Baseline MatMul (A,W,Y) and weight-only MatMulQ (A,Wdq,Y)
   - !Compute
     name: FP16MAC
+    enabled: "'A' in All and 'Y' in All"
     leak_power: 0
     area: 9e-11
     actions:

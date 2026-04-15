@@ -1,0 +1,201 @@
+\documentclass[conference,onecolumn]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Rescale Pipeline Design-Space Exploration for\\4-Bit Quantized MMA in Transformer FFN Layers}
+
+\author{
+\IEEEauthorblockN{Yichong Zhang}
+\IEEEauthorblockA{yichongz@mit.edu}
+\and
+\IEEEauthorblockN{Wenye Xiong}
+\IEEEauthorblockA{wenyexio@mit.edu}
+}
+
+\maketitle
+
+%% ================================================================
+\section{Project Overview}
+%% ================================================================
+
+This project is based on \textbf{Example Project 4 (Quantization)}.
+
+\subsection{Problem and Motivation}
+
+LLM inference is memory-bandwidth bound: during autoregressive decoding the entire weight matrix must be streamed from HBM for every token. 4-bit weight quantization achieves a 4$\times$ reduction over BF16, and all major vendors have responded---NVIDIA introduced NVFP4 with Blackwell, and the Microscaling standard (MXFP4) is gaining cross-vendor adoption.
+
+However, these schemes are \textbf{bundled, one-size-fits-all solutions} designed for general-purpose GPUs. Each implicitly fixes the entire MMA datapath: operand format, number of rescale levels, per-level granularity, scale-factor precision, and accumulator precision. These choices are conservative to guarantee numerical safety across arbitrary workloads. For a \textbf{domain-specific accelerator targeting known workloads}, this conservatism leaves significant efficiency on the table.
+
+We focus on \textbf{FFN/MLP layers} as the target workload because they account for approximately two-thirds of total model parameters and a comparable share of FLOPs in standard transformer architectures. During autoregressive decoding these large weight matrices dominate memory bandwidth and energy consumption, making FFN the primary efficiency bottleneck for 4-bit quantization.
+
+Our preliminary AccelForge modeling of the NVFP4 W4A4 pipeline (Figure~\ref{fig:energy}) reveals that the \textbf{rescale stages alone account for 67\% of total energy}. The core FP4 multiply contributes only 33\%, while quant/scale preprocessing is negligible ($<$0.2\%). This motivates exploring whether cheaper rescale configurations can preserve accuracy at substantially lower cost.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\columnwidth]{figures/energy_breakdown.pdf}
+\caption{NVFP4 W4A4 energy breakdown by pipeline stage. Rescale operations (block-level + tensor-level) dominate at 67\% of total energy, while the core FP4 MatMul accounts for only 33\%.}
+\label{fig:energy}
+\end{figure}
+
+Recent works have made isolated improvements along individual pipeline dimensions---HiFloat4 \cite{hifloat4} proposes a fixed three-level scaling hierarchy, AXE \cite{axe} treats accumulator precision as tunable, MixPE \cite{mixpe} explores dequantization placement, and ``Is Finer Better?'' \cite{isfiner} analyzes block-size/scale-format interactions. However, each produces a single new hand-designed point in the space, fixing all other dimensions. \textbf{The problem has never been formulated as a joint design-space exploration (DSE)}: no prior work decomposes these dimensions into an orthogonal search space and systematically evaluates the accuracy--hardware-cost tradeoff across configurations.
+
+\subsection{Key Questions}
+
+\textbf{Core question:} Can we formulate the design of a 4-bit MMA rescale pipeline as a structured DSE problem---defining the search space (orthogonal pipeline dimensions), the search method (systematic sweep with pruning), and the evaluation metric (joint accuracy--hardware-cost)---such that this formulation is both \emph{valid} (contains configurations dominating all existing bundled schemes) and \emph{necessary} (the optimal configuration is workload-specific, so no single bundled scheme can be universally optimal)?
+
+Our contribution is not a single better configuration, but \textbf{the problem formulation itself}: the decomposition of the bundled pipeline into a tractable search space, paired with a hardware-aware evaluation framework. The finding that optimal configurations are workload-specific validates this formulation---it proves that hand-designed one-size-fits-all schemes inherently leave efficiency on the table.
+
+\subsection{Hypotheses}
+
+\begin{enumerate}
+    \item \textbf{FP32 rescale is over-provisioned} for many FFN GEMMs, particularly those with moderate accumulation chain lengths ($K \leq 4096$) and well-behaved weight distributions. Lower-precision rescale (FP16 or shift-only) can preserve accuracy at substantially lower energy.
+    \item \textbf{Two-level scaling is not universally necessary.} For layers with low dynamic range, single-level scaling with an appropriate block size and scale precision can match accuracy while eliminating an entire rescale stage.
+    \item \textbf{The optimal configuration is workload-specific.} Small-$K$, low-kurtosis layers tolerate aggressive precision reduction; large-$K$, heavy-tailed layers require conservative accumulation. This workload-dependence is the key validation of our framework---it proves no single bundled scheme can be universally optimal.
+    \item We target $\geq 2\times$ \textbf{energy reduction} in the rescale/accumulation stages with $<$1\% accuracy degradation relative to NVFP4 for the workload-optimal configuration.
+\end{enumerate}
+
+%% ================================================================
+\section{Technical Contributions}
+%% ================================================================
+
+\subsection{Current Solutions and Related Work}
+
+Current 4-bit schemes each bundle a fixed rescale pipeline (Table~\ref{tab:existing}).
+
+\begin{table}[ht]
+\centering
+\caption{Existing 4-bit schemes as fixed pipeline configurations.}
+\label{tab:existing}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Scheme & \# Levels & Scale Fmt & Granularity & Rescale Op \\
+\midrule
+INT4-GPTQ  & 1 & FP16+zp     & g=128       & FP16 dequant \\
+MXFP4      & 1 & E8M0        & b=32        & Bit-shift \\
+NVFP4      & 2 & FP8+tensor  & b=16+tensor & FP32 $\times$2 \\
+HiFloat4   & 3 & E6M2+E1+E1  & hierarchical & Mixed \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+All recent works share a common pattern: each proposes or optimizes one new fixed design without formulating the problem as a joint search. HiFloat4 fixes its three-level hierarchy as a single format; AXE optimizes accumulator precision in a software-only PTQ framework without hardware cost modeling; MixPE performs Pareto DSE over dequantization \emph{placement} but does not touch the internal rescale pipeline structure; M$^2$XFP \cite{m2xfp} and MX+ \cite{mxplus} enhance MX through metadata augmentation, each producing one new fixed scheme. Hardware-aware quantization (HAQ, mixed-precision NAS) searches over per-layer bit-width on \emph{fixed} hardware, not over the MMA pipeline structure.
+
+\textbf{What's missing:} The problem has never been formulated as a structured DSE---decomposing the rescale pipeline into orthogonal dimensions, defining a tractable search space, and systematically evaluating the joint accuracy--hardware-cost tradeoff.
+
+\subsection{Our Approach: Unbundling the Rescale Pipeline}
+
+We decompose the 4-bit MMA datapath into independently tunable dimensions. We fix weight format (E2M1) and activation format (FP8 E4M3) and focus on the three core rescale-pipeline dimensions:
+
+\textbf{Dimension 1: Rescale pipeline structure}---the number of rescale levels (0, 1, or 2) and block granularity at each level ($b \in \{16, 32, 64, \text{per-channel}\}$; for 2-level, coarse $B \in \{256, \text{per-channel}, \text{per-tensor}\}$). Finer granularity and more levels improve accuracy but add rescale operations and scale-factor storage.
+
+\textbf{Dimension 2: Scale-factor format} (per level, independently)---FP32, FP16, BF16, FP8 E4M3, E8M0 (power-of-2 bit-shift, nearly free), or fixed-point. In a 2-level pipeline the fine and coarse levels may use different formats, e.g., E8M0 shift at fine level + FP16 at coarse level.
+
+\textbf{Dimension 3: Accumulator precision}---FP32, FP16, BF16, INT32, or segmented (accumulate $N$ partial products in FP16, then reduce to FP32).
+
+After pruning invalid combinations (e.g., accumulator precision $\geq$ operand precision), we estimate $\sim$50 viable configurations.
+
+\subsubsection{Locating existing schemes}
+Every existing scheme is a single hand-designed point in this space:
+\begin{itemize}
+    \item \textbf{NVFP4} = \{2-level (b=16, B=tensor), FP32 rescale $\times$2, FP32 acc\}
+    \item \textbf{MXFP4} = \{1-level (b=32), E8M0 shift, FP32 acc\}
+    \item \textbf{INT4-GPTQ} = \{1-level (g=128), FP16 dequant, FP32 acc\}
+    \item \textbf{HiFloat4} = \{3-level (hierarchical), E6M2+E1+E1, FP32 acc\}
+\end{itemize}
+
+Our contribution is the \textbf{formulation itself}: decomposing the bundled pipeline into this search space, building the evaluation infrastructure (PyTorch accuracy emulation + AccelForge hardware cost modeling), and demonstrating that (a) all existing schemes are suboptimal, and (b) the optimal configuration is workload-dependent---validating the necessity of this DSE framework.
+
+\subsection{Tradeoffs and Challenges}
+
+\begin{itemize}
+    \item \textbf{Search space tractability:} Pruning reduces the combinatorial space to $\sim$50 configurations, manageable for exhaustive sweep.
+    \item \textbf{Design-time vs.\ runtime:} The accelerator fixes the pipeline at design time; a single configuration must cover all FFN layers, or we allow 2--3 switchable modes with accounted switching cost.
+    \item \textbf{Scale-factor storage overhead:} Finer blocks increase scale-factor storage, reducing effective compression. This overhead is included in total efficiency metrics.
+\end{itemize}
+
+%% ================================================================
+\section{Evaluation}
+%% ================================================================
+
+\subsection{Baselines and Fair Comparison}
+
+We compare against INT4, MXFP4, NVFP4, and HiFloat4. All configurations use 4-bit weights with FP8 E4M3 activations; effective compression ratio (including scale-factor overhead) is reported. GEMM shapes are identical across configurations. Area is held constant or included via energy-delay-area product (EDAP). Accuracy is measured as per-layer output MSE relative to FP16 and end-to-end perplexity when feasible.
+
+\subsection{Experiment 1: Energy Breakdown of Existing Schemes}
+
+\textbf{Goal:} Quantify the energy cost of each MMA pipeline stage for baseline schemes, establishing that the rescale/accumulation overhead is significant and worth optimizing.
+
+\textbf{Method:} Model a systolic-array MMA unit in AccelForge for each baseline. Decompose energy into: operand fetch, multiply, accumulation, rescale (per level), scale-factor fetch, and writeback.
+
+\textbf{Class concepts:} Energy cost hierarchy (compute vs.\ data movement); multiplier energy scaling with bit-width.
+
+\textbf{Metrics \& visualization:} Stacked bar chart---X-axis: scheme, Y-axis: energy per output element (pJ), segmented by pipeline stage. Area per MAC ($\mu$m$^2$) reported alongside.
+
+\textbf{Expected trend:} Our preliminary results (Figure~\ref{fig:energy}) already confirm that NVFP4's rescale stages dominate at 67\% of energy. Extending this analysis to INT4 and MXFP4 will show that MXFP4's shift-based rescale is nearly free, while INT4 falls in between, establishing the motivation for rescale pipeline optimization.
+
+\subsection{Experiment 2: Accuracy--Efficiency Pareto Frontier}
+
+\textbf{Goal:} Sweep the design space and demonstrate that the Pareto frontier contains configurations dominating all existing bundled schemes.
+
+\textbf{Method:} (1) \emph{Accuracy:} PyTorch emulator with configurable rescale pipeline; evaluate on FFN layers from Llama-2-7B and ViT-L; measure per-layer MSE. (2) \emph{Hardware cost:} AccelForge model for each configuration; extract energy per output element and area. (3) Overlay all configurations and baselines on the accuracy--energy plane.
+
+\textbf{Class concepts:} Design-space exploration; Pareto optimality; precision--efficiency tradeoff.
+
+\textbf{Metrics \& visualization:} Scatter plot---X-axis: energy/output (pJ), Y-axis: negative MSE. Pareto frontier curve highlighted; existing schemes as labeled reference points.
+
+\textbf{Expected trend:} Configurations such as \{1-level b=16, E8M0 fine shift, FP16 acc\} or \{2-level b=16+channel, E8M0 fine + FP16 coarse, BF16 acc\} will match NVFP4 accuracy at lower energy. All four existing schemes will be interior to the Pareto frontier, demonstrating the value of unbundled pipeline design.
+
+\subsection{Experiment 3: Workload-Specificity of Optimal Configuration}
+
+\textbf{Goal:} Show that the optimal pipeline configuration varies with workload characteristics ($K$, weight distribution), validating that the DSE framework is \emph{necessary}---not just that better points exist, but that no single point is universally best.
+
+\textbf{Method:} Select 3 configurations from the Pareto frontier (aggressive / moderate / conservative). Evaluate each on every FFN GEMM layer from Llama-2-7B and ViT-L, varying in $K$ and weight distribution. Map the per-layer optimal configuration to the feature space.
+
+\textbf{Class concepts:} Workload characterization; accumulation chain length vs.\ required dynamic range; design-time specialization vs.\ one-size-fits-all.
+
+\textbf{Metrics \& visualization:} (a) 2D scatter---X=$K$, Y=kurtosis, color=optimal configuration, revealing decision boundaries. (b) Table: percentage of layers where each configuration wins, by model. (c) Energy savings from per-layer-optimal assignment vs.\ best single fixed configuration.
+
+\textbf{Expected trend:} Small-$K$ layers tolerate aggressive precision reduction (shift-only rescale, FP16 accumulator); large-$K$ layers require conservative settings. $K$ will be the strongest predictor. Cross-model analysis will confirm that workload features---not model identity---determine the optimal configuration.
+
+%% ================================================================
+\section{Timeline and Work Distribution}
+%% ================================================================
+
+\begin{table}[ht]
+\centering
+\small
+\begin{tabular}{@{}clc@{}}
+\toprule
+Week & Tasks & Owner \\
+\midrule
+1--2 & Define/prune search space; PyTorch MMA emulator & Joint \\
+3--4 & AccelForge models; Experiment 1 (energy breakdown) & Joint \\
+5--6 & Full DSE sweep; Pareto frontier (Experiment 2) & Joint \\
+7--8 & Workload sensitivity (Experiment 3); write-up & Joint \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Work split:} One member focuses on the software accuracy pipeline (PyTorch emulation, model profiling). The other focuses on hardware cost modeling (AccelForge configuration, energy/area estimation). Both collaborate on Pareto analysis, workload sensitivity analysis, and writing.
+
+\begin{thebibliography}{00}
+\bibitem{hifloat4} Y.~Sun et al., ``HiFloat4 Format for Language Model Inference,'' arXiv:2602.11287, 2026.
+\bibitem{axe} A.~Saha et al., ``AXE: Accumulator-Aware Post-Training Quantization,'' arXiv:2409.17092, 2024.
+\bibitem{mixpe} Z.~Zhang et al., ``MixPE: Quantization and Hardware Co-design,'' arXiv:2411.16158, 2024.
+\bibitem{isfiner} T.~Jeong et al., ``Is Finer Better? Limits of Microscaling Data Formats,'' arXiv:2601.19026, 2026.
+\bibitem{m2xfp} J.~Park et al., ``M$^2$XFP: Metadata-Augmented Microscaling,'' ASPLOS, 2026.
+\bibitem{mxplus} S.~Kim et al., ``MX+: Pushing the Limits of Microscaling Formats,'' MICRO, 2025.
+\end{thebibliography}
+
+\end{document}

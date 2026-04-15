@@ -1,0 +1,123 @@
+def component_latency(
+    looptree_results: SymbolicAnalysisOutput,
+    flattened_arch: list[Leaf],
+    mapping: Mapping,
+    spec: Spec,
+):
+    component_to_actions: dict[str, dict[str, float]] = defaultdict(
+        lambda: defaultdict(lambda: 0)
+    )
+    name2component: dict[str, Component] = {node.name: node for node in flattened_arch}
+
+    # Per-tensor tracking for max-based latency (e.g., Reg with dedicated ports)
+    per_tensor_reads: dict[str, dict[str, float]] = defaultdict(
+        lambda: defaultdict(float)
+    )
+    per_tensor_writes: dict[str, dict[str, float]] = defaultdict(
+        lambda: defaultdict(float)
+    )
+
+    compute_obj = flattened_arch[-1]
+    if not isinstance(compute_obj, arch.Compute):
+        raise ValueError("Last node in flattened_arch must be a Compute")
+
+    for buffet, buffet_stats in looptree_results.buffet_stats.items():
+        component = buffet.level
+        actions = component_to_actions[component]
+        if component not in name2component:
+            raise ValueError(f"Component {component} found in mapping but not arch")
+
+        for action in name2component[component].actions:
+            actions[f"{action.name}_actions"] += 0
+
+        if isinstance(name2component[component], TensorHolder):
+            # On main, max_per_unit_read_actions already includes drain reads
+            # (folded in by analyze_storage).
+            read_actions_val = buffet_stats.max_per_unit_read_actions
+            actions["read_actions"] += read_actions_val
+            per_tensor_reads[component][buffet.tensor] += read_actions_val
+            # Per-unit computation-path reads (on main, same as read_actions
+            # since fill/drain are folded in).
+            actions["pu_read_actions"] += buffet_stats.max_per_unit_read_actions
+            # Total actions across all spatial instances (for BW throttling
+            # of shared levels above spatial, e.g. shared_glb)
+            actions["total_read_actions"] += buffet_stats.total_read_actions
+            if not isinstance(name2component[component], arch.Toll):
+                write_actions_val = buffet_stats.max_per_unit_write_actions
+                actions["write_actions"] += write_actions_val
+                per_tensor_writes[component][buffet.tensor] += write_actions_val
+                actions["pu_write_actions"] += (
+                    buffet_stats.max_per_unit_write_actions
+                )
+                actions["total_write_actions"] += buffet_stats.total_write_actions
+        elif isinstance(name2component[component], arch.Compute):
+            pass
+        else:
+            raise NotImplementedError(
+                f"Component {component} is not a TensorHolder or Compute"
+            )
+
+    # Compute per-tensor max for levels with dedicated ports (e.g., Reg)
+    for component in component_to_actions:
+        if per_tensor_reads[component]:
+            component_to_actions[component]["max_tensor_read_actions"] = Max(
+                *per_tensor_reads[component].values()
+            )
+        if per_tensor_writes[component]:
+            component_to_actions[component]["max_tensor_write_actions"] = Max(
+                *per_tensor_writes[component].values()
+            )
+
+    longest_compute_latency = Max(
+        0, *[s.max_latency for s in looptree_results.compute_stats.values()]
+    )
+    component_to_actions[compute_obj.name]["compute_actions"] = longest_compute_latency
+
+    # Synthetic variables (not real actions — skip in action-latency loop)
+    _SYNTHETIC_ACTIONS = {
+        "max_tensor_read_actions", "max_tensor_write_actions",
+        "total_read_actions", "total_write_actions",
+        "pu_read_actions", "pu_write_actions",
+    }
+
+    # TODO: Unhardcode "compute" name"
+    component_to_action_latency = defaultdict(dict)
+    for component, actions in component_to_actions.items():
+        component_obj = name2component[component]
+        for action, count in actions.items():
+            if action in _SYNTHETIC_ACTIONS:
+                continue
+            action_name = action.rsplit("_", 1)[0]
+            latency = component_obj.actions[action_name].latency
+            component_to_action_latency[component][f"{action_name}_latency"] = (
+                latency * count
+            )
+
+    component_latency = {}
+
+    symbol_table_base = {
+        **dict(spec.variables),
+        "variables": spec.variables,
+        "max": Max,
+        "min": Min,
+        "sum": sp.Add,
+    }
+
+    for component, actions in component_to_actions.items():
+        component_obj = name2component[component]
+        symbol_table = {
+            "action2latency": component_to_action_latency[component],
+            **symbol_table_base,
+            **dict(name2component[component]),
+            **actions,
+            **component_to_action_latency[component],
+        }
+        if name2component[component].total_latency is not None:
+            component_latency[component] = eval_expression(
+                name2component[component].total_latency,
+                symbol_table,
+                attr_name="latency",
+                location=component,
+            )
+
+    return component_latency

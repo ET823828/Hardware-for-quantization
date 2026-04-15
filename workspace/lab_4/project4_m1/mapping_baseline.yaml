@@ -96,11 +96,11 @@ nodes:
   - rank_variable: k
     tile_shape: 8
     initial_tile_shape: null
-  - rank_variable: n
+  - rank_variable: m
     tile_shape: 4
     initial_tile_shape: null
   - tensors:
-      - W
+      - A
     component: GLB
     component_object:
         name: GLB
@@ -186,10 +186,10 @@ nodes:
         extra_attributes_for_component_model: {}
     persistent: false
   - purposes:
-      - W
+      - A
     resource: GLB
     persistent: false
-  - rank_variable: m
+  - rank_variable: n
     tile_shape: 2
     initial_tile_shape: null
   - rank_variable: k

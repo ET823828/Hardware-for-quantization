@@ -27,6 +27,7 @@ ARCH_PARAMS = {
 }
 
 KI = 16
+MAX_SAFE_RANK_EXTENT = 128
 
 SHAPES = {
     "decode_up": {"m": 1, "n": 11008, "k": 4096},
@@ -115,6 +116,27 @@ def _safe_ratio(numerator: float | None, denominator: float | None) -> float | N
     return float(numerator) / float(denominator)
 
 
+def _factor_rank(rank_name: str, size: int, max_extent: int = MAX_SAFE_RANK_EXTENT) -> tuple[list[str], dict[str, int]]:
+    if size <= max_extent:
+        return [rank_name], {rank_name: size}
+
+    preferred_inner = [128, 64, 32, 16, 8, 4, 2]
+    for inner in preferred_inner:
+        if inner <= max_extent and size % inner == 0:
+            outer = size // inner
+            if outer <= max_extent:
+                return [f"{rank_name}o", f"{rank_name}i"], {f"{rank_name}o": outer, f"{rank_name}i": inner}
+
+    raise ValueError(
+        f"Cannot split rank {rank_name}={size} into mapper-safe extents <= {max_extent}. "
+        "Please choose a different shape or add another factoring rule."
+    )
+
+
+def _iteration_space(rank_sizes: dict[str, int]) -> dict[str, str]:
+    return {rank: f"0 <= {rank} < {extent}" for rank, extent in rank_sizes.items()}
+
+
 def make_architecture(rescale_energy_pj: float = 3.7, rescale_latency: int = 2) -> str:
     return f"""arch:
   nodes:
@@ -193,21 +215,24 @@ def make_architecture(rescale_energy_pj: float = 3.7, rescale_latency: int = 2) 
 
 
 def _baseline_workload(m: int, n: int, k: int) -> dict:
+    m_ranks, m_sizes = _factor_rank("m", m)
+    n_ranks, n_sizes = _factor_rank("n", n)
+    k_ranks, k_sizes = _factor_rank("k", k)
+    rank_sizes = {}
+    rank_sizes.update(m_sizes)
+    rank_sizes.update(n_sizes)
+    rank_sizes.update(k_sizes)
     return {
         "workload": {
-            "iteration_space_shape": {
-                "m": f"0 <= m < {m}",
-                "n": f"0 <= n < {n}",
-                "k": f"0 <= k < {k}",
-            },
+            "iteration_space_shape": _iteration_space(rank_sizes),
             "bits_per_value": {"A": 16, "W": 16, "Y": 16},
             "einsums": [
                 {
                     "name": "MatMul",
                     "tensor_accesses": [
-                        {"name": "A", "projection": ["m", "k"], "density": 1.0},
-                        {"name": "W", "projection": ["n", "k"], "density": 1.0},
-                        {"name": "Y", "projection": ["m", "n"], "output": True},
+                        {"name": "A", "projection": m_ranks + k_ranks, "density": 1.0},
+                        {"name": "W", "projection": n_ranks + k_ranks, "density": 1.0},
+                        {"name": "Y", "projection": m_ranks + n_ranks, "output": True},
                     ],
                 }
             ],
@@ -217,30 +242,33 @@ def _baseline_workload(m: int, n: int, k: int) -> dict:
 
 def _w4a16_prequant_workload(m: int, n: int, k: int) -> dict:
     kb = k // KI
+    m_ranks, m_sizes = _factor_rank("m", m)
+    n_ranks, n_sizes = _factor_rank("n", n)
+    kb_ranks, kb_sizes = _factor_rank("kb", kb)
+    rank_sizes = {}
+    rank_sizes.update(m_sizes)
+    rank_sizes.update(n_sizes)
+    rank_sizes.update(kb_sizes)
+    rank_sizes["ki"] = KI
     return {
         "workload": {
-            "iteration_space_shape": {
-                "m": f"0 <= m < {m}",
-                "n": f"0 <= n < {n}",
-                "kb": f"0 <= kb < {kb}",
-                "ki": f"0 <= ki < {KI}",
-            },
+            "iteration_space_shape": _iteration_space(rank_sizes),
             "bits_per_value": {"A": 16, "Wq": 4, "Sw": 16, "Wdq": 16, "Y": 16},
             "einsums": [
                 {
                     "name": "DequantW",
                     "tensor_accesses": [
-                        {"name": "Wq", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Sw", "projection": ["n", "kb"], "density": 1.0},
-                        {"name": "Wdq", "projection": ["n", "kb", "ki"], "output": True},
+                        {"name": "Wq", "projection": n_ranks + kb_ranks + ["ki"], "density": 1.0},
+                        {"name": "Sw", "projection": n_ranks + kb_ranks, "density": 1.0},
+                        {"name": "Wdq", "projection": n_ranks + kb_ranks + ["ki"], "output": True},
                     ],
                 },
                 {
                     "name": "MatMulQ",
                     "tensor_accesses": [
-                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Wdq", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Y", "projection": ["m", "n"], "output": True},
+                        {"name": "A", "projection": m_ranks + kb_ranks + ["ki"], "density": 1.0},
+                        {"name": "Wdq", "projection": n_ranks + kb_ranks + ["ki"], "density": 1.0},
+                        {"name": "Y", "projection": m_ranks + n_ranks, "output": True},
                     ],
                 },
             ],
@@ -250,14 +278,17 @@ def _w4a16_prequant_workload(m: int, n: int, k: int) -> dict:
 
 def _w4a4_inference_workload(m: int, n: int, k: int) -> dict:
     kb = k // KI
+    m_ranks, m_sizes = _factor_rank("m", m)
+    n_ranks, n_sizes = _factor_rank("n", n)
+    kb_ranks, kb_sizes = _factor_rank("kb", kb)
+    rank_sizes = {}
+    rank_sizes.update(m_sizes)
+    rank_sizes.update(n_sizes)
+    rank_sizes.update(kb_sizes)
+    rank_sizes["ki"] = KI
     return {
         "workload": {
-            "iteration_space_shape": {
-                "m": f"0 <= m < {m}",
-                "n": f"0 <= n < {n}",
-                "kb": f"0 <= kb < {kb}",
-                "ki": f"0 <= ki < {KI}",
-            },
+            "iteration_space_shape": _iteration_space(rank_sizes),
             "bits_per_value": {
                 "A": 16,
                 "Sga": 32,
@@ -277,71 +308,71 @@ def _w4a4_inference_workload(m: int, n: int, k: int) -> dict:
                 {
                     "name": "TensorScaleA",
                     "tensor_accesses": [
-                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Sga", "projection": ["m"], "output": True},
+                        {"name": "A", "projection": m_ranks + kb_ranks + ["ki"], "density": 1.0},
+                        {"name": "Sga", "projection": m_ranks, "output": True},
                     ],
                 },
                 {
                     "name": "TensorQuantA",
                     "tensor_accesses": [
-                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Sga", "projection": ["m"], "density": 1.0},
-                        {"name": "Ascl", "projection": ["m", "kb", "ki"], "output": True},
+                        {"name": "A", "projection": m_ranks + kb_ranks + ["ki"], "density": 1.0},
+                        {"name": "Sga", "projection": m_ranks, "density": 1.0},
+                        {"name": "Ascl", "projection": m_ranks + kb_ranks + ["ki"], "output": True},
                     ],
                 },
                 {
                     "name": "BlockScaleA",
                     "tensor_accesses": [
-                        {"name": "Ascl", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Sba", "projection": ["m", "kb"], "output": True},
+                        {"name": "Ascl", "projection": m_ranks + kb_ranks + ["ki"], "density": 1.0},
+                        {"name": "Sba", "projection": m_ranks + kb_ranks, "output": True},
                     ],
                 },
                 {
                     "name": "BlockQuantA",
                     "tensor_accesses": [
-                        {"name": "Ascl", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
-                        {"name": "Aq", "projection": ["m", "kb", "ki"], "output": True},
+                        {"name": "Ascl", "projection": m_ranks + kb_ranks + ["ki"], "density": 1.0},
+                        {"name": "Sba", "projection": m_ranks + kb_ranks, "density": 1.0},
+                        {"name": "Aq", "projection": m_ranks + kb_ranks + ["ki"], "output": True},
                     ],
                 },
                 {
                     "name": "MatMulNVFP4",
                     "tensor_accesses": [
-                        {"name": "Aq", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Wq", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Yraw", "projection": ["m", "n", "kb"], "output": True},
+                        {"name": "Aq", "projection": m_ranks + kb_ranks + ["ki"], "density": 1.0},
+                        {"name": "Wq", "projection": n_ranks + kb_ranks + ["ki"], "density": 1.0},
+                        {"name": "Yraw", "projection": m_ranks + n_ranks + kb_ranks, "output": True},
                     ],
                 },
                 {
                     "name": "RescaleBlockA",
                     "tensor_accesses": [
-                        {"name": "Yraw", "projection": ["m", "n", "kb"], "density": 1.0},
-                        {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
-                        {"name": "Ytmp", "projection": ["m", "n", "kb"], "output": True},
+                        {"name": "Yraw", "projection": m_ranks + n_ranks + kb_ranks, "density": 1.0},
+                        {"name": "Sba", "projection": m_ranks + kb_ranks, "density": 1.0},
+                        {"name": "Ytmp", "projection": m_ranks + n_ranks + kb_ranks, "output": True},
                     ],
                 },
                 {
                     "name": "RescaleBlockW",
                     "tensor_accesses": [
-                        {"name": "Ytmp", "projection": ["m", "n", "kb"], "density": 1.0},
-                        {"name": "Sbw", "projection": ["n", "kb"], "density": 1.0},
-                        {"name": "Yblk", "projection": ["m", "n", "kb"], "output": True},
+                        {"name": "Ytmp", "projection": m_ranks + n_ranks + kb_ranks, "density": 1.0},
+                        {"name": "Sbw", "projection": n_ranks + kb_ranks, "density": 1.0},
+                        {"name": "Yblk", "projection": m_ranks + n_ranks + kb_ranks, "output": True},
                     ],
                 },
                 {
                     "name": "RescaleTensorA",
                     "tensor_accesses": [
-                        {"name": "Yblk", "projection": ["m", "n", "kb"], "density": 1.0},
-                        {"name": "Sga", "projection": ["m"], "density": 1.0},
-                        {"name": "Ytmp2", "projection": ["m", "n"], "output": True},
+                        {"name": "Yblk", "projection": m_ranks + n_ranks + kb_ranks, "density": 1.0},
+                        {"name": "Sga", "projection": m_ranks, "density": 1.0},
+                        {"name": "Ytmp2", "projection": m_ranks + n_ranks, "output": True},
                     ],
                 },
                 {
                     "name": "RescaleTensorW",
                     "tensor_accesses": [
-                        {"name": "Ytmp2", "projection": ["m", "n"], "density": 1.0},
-                        {"name": "Sgw", "projection": ["n"], "density": 1.0},
-                        {"name": "Y", "projection": ["m", "n"], "output": True},
+                        {"name": "Ytmp2", "projection": m_ranks + n_ranks, "density": 1.0},
+                        {"name": "Sgw", "projection": n_ranks, "density": 1.0},
+                        {"name": "Y", "projection": m_ranks + n_ranks, "output": True},
                     ],
                 },
             ],
@@ -351,22 +382,25 @@ def _w4a4_inference_workload(m: int, n: int, k: int) -> dict:
 
 def _w4a4_ideal_workload(m: int, n: int, k: int) -> dict:
     kb = k // KI
+    m_ranks, m_sizes = _factor_rank("m", m)
+    n_ranks, n_sizes = _factor_rank("n", n)
+    kb_ranks, kb_sizes = _factor_rank("kb", kb)
+    rank_sizes = {}
+    rank_sizes.update(m_sizes)
+    rank_sizes.update(n_sizes)
+    rank_sizes.update(kb_sizes)
+    rank_sizes["ki"] = KI
     return {
         "workload": {
-            "iteration_space_shape": {
-                "m": f"0 <= m < {m}",
-                "n": f"0 <= n < {n}",
-                "kb": f"0 <= kb < {kb}",
-                "ki": f"0 <= ki < {KI}",
-            },
+            "iteration_space_shape": _iteration_space(rank_sizes),
             "bits_per_value": {"Aq": 4, "Wq": 4, "Yraw": 32},
             "einsums": [
                 {
                     "name": "MatMulNVFP4",
                     "tensor_accesses": [
-                        {"name": "Aq", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Wq", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Yraw", "projection": ["m", "n", "kb"], "output": True},
+                        {"name": "Aq", "projection": m_ranks + kb_ranks + ["ki"], "density": 1.0},
+                        {"name": "Wq", "projection": n_ranks + kb_ranks + ["ki"], "density": 1.0},
+                        {"name": "Yraw", "projection": m_ranks + n_ranks + kb_ranks, "output": True},
                     ],
                 }
             ],

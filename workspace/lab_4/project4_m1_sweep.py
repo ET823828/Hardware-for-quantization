@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import traceback
 import types
 from pathlib import Path
 
@@ -444,7 +445,20 @@ def auto_map(arch_file: Path, workload_file: Path, mapping_out_file: Path) -> ty
     latency_total = float(df[latency_cols[0]].values[best_idx]) if latency_cols else None
     energy_breakdown, latency_breakdown = _extract_breakdown(df, best_idx, einsum_names)
 
-    mapping_out_file.write_text(all_mappings[best_idx].mapping().to_yaml())
+    mapping_exported = False
+    mapping_export_error = None
+    try:
+        mapping_out_file.write_text(all_mappings[best_idx].mapping().to_yaml())
+        mapping_exported = True
+    except Exception as exc:
+        mapping_export_error = f"{type(exc).__name__}: {exc}"
+        error_path = mapping_out_file.with_suffix(".export_error.txt")
+        error_path.write_text(
+            "AccelForge mapping export failed, but numeric results were still captured.\n\n"
+            f"{mapping_export_error}\n\n"
+            f"{traceback.format_exc()}"
+        )
+
     breakdown_path = mapping_out_file.with_suffix(".breakdown.json")
     with open(breakdown_path, "w") as handle:
         json.dump(
@@ -454,6 +468,8 @@ def auto_map(arch_file: Path, workload_file: Path, mapping_out_file: Path) -> ty
                 "einsum_names": einsum_names,
                 "energy_per_einsum": energy_breakdown,
                 "latency_per_einsum": latency_breakdown,
+                "mapping_exported": mapping_exported,
+                "mapping_export_error": mapping_export_error,
             },
             handle,
             indent=2,
@@ -465,6 +481,8 @@ def auto_map(arch_file: Path, workload_file: Path, mapping_out_file: Path) -> ty
         energy_breakdown=energy_breakdown,
         latency_breakdown=latency_breakdown,
         einsum_names=einsum_names,
+        mapping_exported=mapping_exported,
+        mapping_export_error=mapping_export_error,
     )
 
 
@@ -497,6 +515,8 @@ def run_case(shape_name: str, dims: dict[str, int], config_name: str) -> dict:
     latency_breakdown = {}
     einsum_names = [einsum["name"] for einsum in workload["workload"]["einsums"]]
     status = "generated_only"
+    mapping_exported = None
+    mapping_export_error = None
 
     if AF_AVAILABLE:
         result = auto_map(arch_file, workload_file, mapping_file)
@@ -505,7 +525,9 @@ def run_case(shape_name: str, dims: dict[str, int], config_name: str) -> dict:
         energy_breakdown = result.energy_breakdown
         latency_breakdown = result.latency_breakdown
         einsum_names = result.einsum_names
-        status = "mapped"
+        mapping_exported = result.mapping_exported
+        mapping_export_error = result.mapping_export_error
+        status = "mapped" if result.mapping_exported else "mapped_metrics_only"
     else:
         saved = _load_saved_breakdown(breakdown_file)
         if saved:
@@ -514,6 +536,8 @@ def run_case(shape_name: str, dims: dict[str, int], config_name: str) -> dict:
             energy_breakdown = saved.get("energy_per_einsum", {})
             latency_breakdown = saved.get("latency_per_einsum", {})
             einsum_names = saved.get("einsum_names", einsum_names)
+            mapping_exported = saved.get("mapping_exported")
+            mapping_export_error = saved.get("mapping_export_error")
             status = "loaded_saved_breakdown"
 
     dominant_energy_name, dominant_energy_value = _dominant_entry(energy_breakdown)
@@ -532,6 +556,8 @@ def run_case(shape_name: str, dims: dict[str, int], config_name: str) -> dict:
         "workload_file": str(workload_file),
         "mapping_file": str(mapping_file),
         "breakdown_file": str(breakdown_file),
+        "mapping_exported": mapping_exported,
+        "mapping_export_error": mapping_export_error,
         "energy_pj": energy_total,
         "latency_cycles": latency_total,
         "dominant_energy_einsum": dominant_energy_name,

@@ -1,0 +1,39 @@
+{
+  "energy_total": 17719708544.0,
+  "latency_total": 428591456.0,
+  "einsum_names": [
+    "TensorScaleA",
+    "TensorQuantA",
+    "BlockScaleA",
+    "BlockQuantA",
+    "MatMulNVFP4",
+    "RescaleBlockA",
+    "RescaleBlockW",
+    "RescaleTensorA",
+    "RescaleTensorW"
+  ],
+  "energy_per_einsum": {
+    "TensorScaleA": 1916288.0,
+    "TensorQuantA": 3186688.0,
+    "BlockScaleA": 1875968.0,
+    "BlockQuantA": 2203648.0,
+    "MatMulNVFP4": 4581412044.8,
+    "RescaleBlockA": 4948774092.8,
+    "RescaleBlockW": 4948774092.8,
+    "RescaleTensorA": 3215674572.8,
+    "RescaleTensorW": 15891148.8
+  },
+  "latency_per_einsum": {
+    "TensorScaleA": 16384.0,
+    "TensorQuantA": 32768.0,
+    "BlockScaleA": 32768.0,
+    "BlockQuantA": 32768.0,
+    "MatMulNVFP4": 360710144.0,
+    "RescaleBlockA": 22544384.0,
+    "RescaleBlockW": 22632448.0,
+    "RescaleTensorA": 22544384.0,
+    "RescaleTensorW": 45408.0
+  },
+  "mapping_exported": false,
+  "mapping_export_error": "PydanticSerializationError: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value'"
+}

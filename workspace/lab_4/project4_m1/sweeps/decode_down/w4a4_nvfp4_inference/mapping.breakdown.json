@@ -1,0 +1,39 @@
+{
+  "energy_total": 165862868.6,
+  "latency_total": 6615058.0,
+  "einsum_names": [
+    "TensorScaleA",
+    "TensorQuantA",
+    "BlockScaleA",
+    "BlockQuantA",
+    "MatMulNVFP4",
+    "RescaleBlockA",
+    "RescaleBlockW",
+    "RescaleTensorA",
+    "RescaleTensorW"
+  ],
+  "energy_per_einsum": {
+    "TensorScaleA": 40253.0,
+    "TensorQuantA": 66918.0,
+    "BlockScaleA": 39388.0,
+    "BlockQuantA": 46268.0,
+    "MatMulNVFP4": 58333593.6,
+    "RescaleBlockA": 38662297.6,
+    "RescaleBlockW": 42129817.6,
+    "RescaleTensorA": 26477977.6,
+    "RescaleTensorW": 66355.2
+  },
+  "latency_per_einsum": {
+    "TensorScaleA": 345.0,
+    "TensorQuantA": 345.0,
+    "BlockScaleA": 688.0,
+    "BlockQuantA": 688.0,
+    "MatMulNVFP4": 704512.0,
+    "RescaleBlockA": 176128.0,
+    "RescaleBlockW": 5636096.0,
+    "RescaleTensorA": 88064.0,
+    "RescaleTensorW": 8192.0
+  },
+  "mapping_exported": true,
+  "mapping_export_error": null
+}

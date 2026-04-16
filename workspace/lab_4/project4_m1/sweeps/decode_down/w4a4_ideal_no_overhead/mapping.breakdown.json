@@ -1,0 +1,15 @@
+{
+  "energy_total": 58333593.6,
+  "latency_total": 704512.0,
+  "einsum_names": [
+    "MatMulNVFP4"
+  ],
+  "energy_per_einsum": {
+    "MatMulNVFP4": 58333593.6
+  },
+  "latency_per_einsum": {
+    "MatMulNVFP4": 704512.0
+  },
+  "mapping_exported": true,
+  "mapping_export_error": null
+}

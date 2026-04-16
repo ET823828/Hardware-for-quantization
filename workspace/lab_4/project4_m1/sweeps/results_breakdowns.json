@@ -1,0 +1,350 @@
+[
+  {
+    "shape": "decode_up",
+    "config": "fp16_baseline",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "MatMul": 183862400.0
+    },
+    "latency_breakdown": {
+      "MatMul": 11272192.0
+    },
+    "einsum_names": [
+      "MatMul"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/decode_up/fp16_baseline/mapping.breakdown.json"
+  },
+  {
+    "shape": "decode_up",
+    "config": "w4a16_prequant",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "DequantW": 193036288.0,
+      "MatMulQ": 183862400.0
+    },
+    "latency_breakdown": {
+      "DequantW": 2818048.0,
+      "MatMulQ": 11272192.0
+    },
+    "einsum_names": [
+      "DequantW",
+      "MatMulQ"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/decode_up/w4a16_prequant/mapping.breakdown.json"
+  },
+  {
+    "shape": "decode_up",
+    "config": "w4a4_nvfp4_inference",
+    "status": "mapped",
+    "energy_breakdown": {
+      "TensorScaleA": 14981.0,
+      "TensorQuantA": 24906.0,
+      "BlockScaleA": 14656.0,
+      "BlockQuantA": 17216.0,
+      "MatMulNVFP4": 58333593.6,
+      "RescaleBlockA": 38662297.6,
+      "RescaleBlockW": 42129817.6,
+      "RescaleTensorA": 25122457.6,
+      "RescaleTensorW": 178329.6
+    },
+    "latency_breakdown": {
+      "TensorScaleA": 129.0,
+      "TensorQuantA": 129.0,
+      "BlockScaleA": 256.0,
+      "BlockQuantA": 256.0,
+      "MatMulNVFP4": 704512.0,
+      "RescaleBlockA": 176128.0,
+      "RescaleBlockW": 5636096.0,
+      "RescaleTensorA": 88064.0,
+      "RescaleTensorW": 22016.0
+    },
+    "einsum_names": [
+      "TensorScaleA",
+      "TensorQuantA",
+      "BlockScaleA",
+      "BlockQuantA",
+      "MatMulNVFP4",
+      "RescaleBlockA",
+      "RescaleBlockW",
+      "RescaleTensorA",
+      "RescaleTensorW"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/decode_up/w4a4_nvfp4_inference/mapping.breakdown.json"
+  },
+  {
+    "shape": "decode_up",
+    "config": "w4a4_ideal_no_overhead",
+    "status": "mapped",
+    "energy_breakdown": {
+      "MatMulNVFP4": 58333593.6
+    },
+    "latency_breakdown": {
+      "MatMulNVFP4": 704512.0
+    },
+    "einsum_names": [
+      "MatMulNVFP4"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/decode_up/w4a4_ideal_no_overhead/mapping.breakdown.json"
+  },
+  {
+    "shape": "decode_down",
+    "config": "fp16_baseline",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "MatMul": 183900416.0
+    },
+    "latency_breakdown": {
+      "MatMul": 11272192.0
+    },
+    "einsum_names": [
+      "MatMul"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/decode_down/fp16_baseline/mapping.breakdown.json"
+  },
+  {
+    "shape": "decode_down",
+    "config": "w4a16_prequant",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "DequantW": 193036288.0,
+      "MatMulQ": 183900416.0
+    },
+    "latency_breakdown": {
+      "DequantW": 2818048.0,
+      "MatMulQ": 11272192.0
+    },
+    "einsum_names": [
+      "DequantW",
+      "MatMulQ"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/decode_down/w4a16_prequant/mapping.breakdown.json"
+  },
+  {
+    "shape": "decode_down",
+    "config": "w4a4_nvfp4_inference",
+    "status": "mapped",
+    "energy_breakdown": {
+      "TensorScaleA": 40253.0,
+      "TensorQuantA": 66918.0,
+      "BlockScaleA": 39388.0,
+      "BlockQuantA": 46268.0,
+      "MatMulNVFP4": 58333593.6,
+      "RescaleBlockA": 38662297.6,
+      "RescaleBlockW": 42129817.6,
+      "RescaleTensorA": 26477977.6,
+      "RescaleTensorW": 66355.2
+    },
+    "latency_breakdown": {
+      "TensorScaleA": 345.0,
+      "TensorQuantA": 345.0,
+      "BlockScaleA": 688.0,
+      "BlockQuantA": 688.0,
+      "MatMulNVFP4": 704512.0,
+      "RescaleBlockA": 176128.0,
+      "RescaleBlockW": 5636096.0,
+      "RescaleTensorA": 88064.0,
+      "RescaleTensorW": 8192.0
+    },
+    "einsum_names": [
+      "TensorScaleA",
+      "TensorQuantA",
+      "BlockScaleA",
+      "BlockQuantA",
+      "MatMulNVFP4",
+      "RescaleBlockA",
+      "RescaleBlockW",
+      "RescaleTensorA",
+      "RescaleTensorW"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/decode_down/w4a4_nvfp4_inference/mapping.breakdown.json"
+  },
+  {
+    "shape": "decode_down",
+    "config": "w4a4_ideal_no_overhead",
+    "status": "mapped",
+    "energy_breakdown": {
+      "MatMulNVFP4": 58333593.6
+    },
+    "latency_breakdown": {
+      "MatMulNVFP4": 704512.0
+    },
+    "einsum_names": [
+      "MatMulNVFP4"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/decode_down/w4a4_ideal_no_overhead/mapping.breakdown.json"
+  },
+  {
+    "shape": "prefill_up",
+    "config": "fp16_baseline",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "MatMul": 14065745920.0
+    },
+    "latency_breakdown": {
+      "MatMul": 1442840576.0
+    },
+    "einsum_names": [
+      "MatMul"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/prefill_up/fp16_baseline/mapping.breakdown.json"
+  },
+  {
+    "shape": "prefill_up",
+    "config": "w4a16_prequant",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "DequantW": 193036288.0,
+      "MatMulQ": 14065745920.0
+    },
+    "latency_breakdown": {
+      "DequantW": 2818048.0,
+      "MatMulQ": 1442840576.0
+    },
+    "einsum_names": [
+      "DequantW",
+      "MatMulQ"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/prefill_up/w4a16_prequant/mapping.breakdown.json"
+  },
+  {
+    "shape": "prefill_up",
+    "config": "w4a4_nvfp4_inference",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "TensorScaleA": 1916288.0,
+      "TensorQuantA": 3186688.0,
+      "BlockScaleA": 1875968.0,
+      "BlockQuantA": 2203648.0,
+      "MatMulNVFP4": 4581412044.8,
+      "RescaleBlockA": 4948774092.8,
+      "RescaleBlockW": 4948774092.8,
+      "RescaleTensorA": 3215674572.8,
+      "RescaleTensorW": 15891148.8
+    },
+    "latency_breakdown": {
+      "TensorScaleA": 16384.0,
+      "TensorQuantA": 32768.0,
+      "BlockScaleA": 32768.0,
+      "BlockQuantA": 32768.0,
+      "MatMulNVFP4": 360710144.0,
+      "RescaleBlockA": 22544384.0,
+      "RescaleBlockW": 22632448.0,
+      "RescaleTensorA": 22544384.0,
+      "RescaleTensorW": 45408.0
+    },
+    "einsum_names": [
+      "TensorScaleA",
+      "TensorQuantA",
+      "BlockScaleA",
+      "BlockQuantA",
+      "MatMulNVFP4",
+      "RescaleBlockA",
+      "RescaleBlockW",
+      "RescaleTensorA",
+      "RescaleTensorW"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/prefill_up/w4a4_nvfp4_inference/mapping.breakdown.json"
+  },
+  {
+    "shape": "prefill_up",
+    "config": "w4a4_ideal_no_overhead",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "MatMulNVFP4": 4581412044.8
+    },
+    "latency_breakdown": {
+      "MatMulNVFP4": 360710144.0
+    },
+    "einsum_names": [
+      "MatMulNVFP4"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/prefill_up/w4a4_ideal_no_overhead/mapping.breakdown.json"
+  },
+  {
+    "shape": "prefill_down",
+    "config": "fp16_baseline",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "MatMul": 14070611968.0
+    },
+    "latency_breakdown": {
+      "MatMul": 1442840576.0
+    },
+    "einsum_names": [
+      "MatMul"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/prefill_down/fp16_baseline/mapping.breakdown.json"
+  },
+  {
+    "shape": "prefill_down",
+    "config": "w4a16_prequant",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "DequantW": 193036288.0,
+      "MatMulQ": 14070611968.0
+    },
+    "latency_breakdown": {
+      "DequantW": 2818048.0,
+      "MatMulQ": 1442840576.0
+    },
+    "einsum_names": [
+      "DequantW",
+      "MatMulQ"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/prefill_down/w4a16_prequant/mapping.breakdown.json"
+  },
+  {
+    "shape": "prefill_down",
+    "config": "w4a4_nvfp4_inference",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "TensorScaleA": 5152384.0,
+      "TensorQuantA": 8565504.0,
+      "BlockScaleA": 5041664.0,
+      "BlockQuantA": 5922304.0,
+      "MatMulNVFP4": 4582075596.8,
+      "RescaleBlockA": 4948774092.8,
+      "RescaleBlockW": 4948774092.8,
+      "RescaleTensorA": 3389181132.8,
+      "RescaleTensorW": 5953945.6
+    },
+    "latency_breakdown": {
+      "TensorScaleA": 44040.0,
+      "TensorQuantA": 88072.0,
+      "BlockScaleA": 88064.0,
+      "BlockQuantA": 88064.0,
+      "MatMulNVFP4": 360710144.0,
+      "RescaleBlockA": 22632448.0,
+      "RescaleBlockW": 22632448.0,
+      "RescaleTensorA": 11272192.0,
+      "RescaleTensorW": 49408.0
+    },
+    "einsum_names": [
+      "TensorScaleA",
+      "TensorQuantA",
+      "BlockScaleA",
+      "BlockQuantA",
+      "MatMulNVFP4",
+      "RescaleBlockA",
+      "RescaleBlockW",
+      "RescaleTensorA",
+      "RescaleTensorW"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/prefill_down/w4a4_nvfp4_inference/mapping.breakdown.json"
+  },
+  {
+    "shape": "prefill_down",
+    "config": "w4a4_ideal_no_overhead",
+    "status": "mapped_metrics_only",
+    "energy_breakdown": {
+      "MatMulNVFP4": 4582075596.8
+    },
+    "latency_breakdown": {
+      "MatMulNVFP4": 360710144.0
+    },
+    "einsum_names": [
+      "MatMulNVFP4"
+    ],
+    "breakdown_file": "/home/workspace/workspace/lab_4/project4_m1/sweeps/prefill_down/w4a4_ideal_no_overhead/mapping.breakdown.json"
+  }
+]

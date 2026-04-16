@@ -1,0 +1,18 @@
+{
+  "energy_total": 376936704.0,
+  "latency_total": 14090240.0,
+  "einsum_names": [
+    "DequantW",
+    "MatMulQ"
+  ],
+  "energy_per_einsum": {
+    "DequantW": 193036288.0,
+    "MatMulQ": 183900416.0
+  },
+  "latency_per_einsum": {
+    "DequantW": 2818048.0,
+    "MatMulQ": 11272192.0
+  },
+  "mapping_exported": false,
+  "mapping_export_error": "PydanticSerializationError: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value'"
+}

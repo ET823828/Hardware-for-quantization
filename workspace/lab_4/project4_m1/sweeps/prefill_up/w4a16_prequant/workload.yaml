@@ -1,0 +1,63 @@
+workload:
+  iteration_space_shape:
+    m: 0 <= m < 128
+    'no': 0 <= no < 86
+    ni: 0 <= ni < 128
+    kbo: 0 <= kbo < 2
+    kbi: 0 <= kbi < 128
+    ki: 0 <= ki < 16
+  bits_per_value:
+    A: 16
+    Wq: 4
+    Sw: 16
+    Wdq: 16
+    Y: 16
+  einsums:
+  - name: DequantW
+    tensor_accesses:
+    - name: Wq
+      projection:
+      - 'no'
+      - ni
+      - kbo
+      - kbi
+      - ki
+      density: 1.0
+    - name: Sw
+      projection:
+      - 'no'
+      - ni
+      - kbo
+      - kbi
+      density: 1.0
+    - name: Wdq
+      projection:
+      - 'no'
+      - ni
+      - kbo
+      - kbi
+      - ki
+      output: true
+  - name: MatMulQ
+    tensor_accesses:
+    - name: A
+      projection:
+      - m
+      - kbo
+      - kbi
+      - ki
+      density: 1.0
+    - name: Wdq
+      projection:
+      - 'no'
+      - ni
+      - kbo
+      - kbi
+      - ki
+      density: 1.0
+    - name: Y
+      projection:
+      - m
+      - 'no'
+      - ni
+      output: true

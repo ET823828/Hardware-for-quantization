@@ -1,0 +1,15 @@
+{
+  "energy_total": 183900416.0,
+  "latency_total": 11272192.0,
+  "einsum_names": [
+    "MatMul"
+  ],
+  "energy_per_einsum": {
+    "MatMul": 183900416.0
+  },
+  "latency_per_einsum": {
+    "MatMul": 11272192.0
+  },
+  "mapping_exported": false,
+  "mapping_export_error": "PydanticSerializationError: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value'"
+}

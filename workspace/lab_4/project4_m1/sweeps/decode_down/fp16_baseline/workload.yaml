@@ -1,0 +1,33 @@
+workload:
+  iteration_space_shape:
+    m: 0 <= m < 1
+    'no': 0 <= no < 32
+    ni: 0 <= ni < 128
+    ko: 0 <= ko < 86
+    ki: 0 <= ki < 128
+  bits_per_value:
+    A: 16
+    W: 16
+    Y: 16
+  einsums:
+  - name: MatMul
+    tensor_accesses:
+    - name: A
+      projection:
+      - m
+      - ko
+      - ki
+      density: 1.0
+    - name: W
+      projection:
+      - 'no'
+      - ni
+      - ko
+      - ki
+      density: 1.0
+    - name: Y
+      projection:
+      - m
+      - 'no'
+      - ni
+      output: true

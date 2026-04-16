@@ -1,4 +1,7 @@
-"""Generate proposal figures from AccelForge breakdown data."""
+"""Generate proposal figures from AccelForge breakdown JSON files."""
+import json
+from pathlib import Path
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -15,45 +18,32 @@ plt.rcParams.update({
 
 OUT = "figures"
 
-# ── Raw data from AccelForge breakdown ──────────────────────────────
+# ── Load breakdown data from JSON files ───────────────────────────────
 
-# NVFP4 Full (W4A4) per-einsum energy (pJ)
-w4a4_energy = {
-    "TensorScale\n(A+W)":   61_362_176 * 2,
-    "TensorQuant\n(A+W)":  101_974_016 * 2,
-    "BlockScale\n(A+W)":    60_030_976 * 2,
-    "BlockQuant\n(A+W)":    70_516_736 * 2,
-    "MatMul\nNVFP4":     78_168_404_787,
-    "Rescale\nBlock(A+W)": 59_008_824_115 * 2,
-    "Rescale\nTensor(A+W)": 42_986_582_835 + 189_256_499,
-}
+DATA_DIR = Path(__file__).resolve().parent.parent / "workspace" / "lab_4" / "project4_m1"
 
-# W4A4 per-einsum latency (cycles)
-w4a4_latency = {
-    "TensorScale\n(A+W)":   524_544 * 2,
-    "TensorQuant\n(A+W)":  540_672 * 2,
-    "BlockScale\n(A+W)":  1_048_576 * 2,
-    "BlockQuant\n(A+W)":  1_048_576 * 2,
-    "MatMul\nNVFP4":   1_073_741_824,
-    "Rescale\nBlock(A+W)": 268_435_456 * 2,
-    "Rescale\nTensor(A+W)": 134_217_728 + 1_573_120,
-}
+def load_breakdown(name):
+    path = DATA_DIR / name
+    with open(path) as f:
+        return json.load(f)
 
-# Totals for the 3 configs
-configs_total = {
-    "Baseline\n(FP16)":  {"energy": 240_560_111_616, "latency": 1_073_741_824},
-    "W4A16\n(weight-only)": {"energy": 240_548_052_992, "latency": 1_074_790_400},
-    "W4A4\n(NVFP4 full)":  {"energy": 239_949_660_160, "latency": 1_752_728_320},
-}
+bk_baseline = load_breakdown("mapping_baseline.breakdown.json")
+bk_w4a16    = load_breakdown("mapping_nvfp4_weight_only.breakdown.json")
+bk_w4a4     = load_breakdown("mapping_nvfp4_full_auto.breakdown.json")
 
-# ── Figure 1: W4A4 Energy Breakdown (grouped into categories) ──────
+
+# ── Figure 1: W4A4 Energy Breakdown (grouped into categories) ────────
 
 def fig1_energy_breakdown():
-    # Group into: Quant/Scale, Core MatMul, Rescale
-    quant_e = (61_362_176*2 + 101_974_016*2 + 60_030_976*2 + 70_516_736*2)
-    matmul_e = 78_168_404_787
-    rescale_block_e = 59_008_824_115 * 2
-    rescale_tensor_e = 42_986_582_835 + 189_256_499
+    e = bk_w4a4["energy_per_einsum"]
+
+    quant_e = (e["TensorScaleA"] + e["TensorScaleW"]
+             + e["TensorQuantA"] + e["TensorQuantW"]
+             + e["BlockScaleA"]  + e["BlockScaleW"]
+             + e["BlockQuantA"]  + e["BlockQuantW"])
+    matmul_e = e["MatMulNVFP4"]
+    rescale_block_e = e["RescaleBlockA"] + e["RescaleBlockW"]
+    rescale_tensor_e = e["RescaleTensorA"] + e["RescaleTensorW"]
 
     total = quant_e + matmul_e + rescale_block_e + rescale_tensor_e
 
@@ -76,8 +66,9 @@ def fig1_energy_breakdown():
         ax.text(w + 1.5, bar.get_y() + bar.get_height()/2,
                 f"{pct:.1f}%", va="center", fontsize=9, fontweight="bold")
 
+    rescale_pct = (rescale_block_e + rescale_tensor_e) / total * 100
     ax.set_xlabel("Energy (×10⁹ pJ)")
-    ax.set_title("NVFP4 W4A4 Pipeline Energy Breakdown — Rescale Dominates (67%)")
+    ax.set_title(f"NVFP4 W4A4 Pipeline Energy Breakdown — Rescale Dominates ({rescale_pct:.0f}%)")
     ax.set_xlim(0, max(values/1e9) * 1.25)
 
     plt.tight_layout()
@@ -87,20 +78,29 @@ def fig1_energy_breakdown():
     plt.close(fig)
 
 
-# ── Figure 2: Latency comparison with breakdown ──────────────────
+# ── Figure 2: Latency comparison with breakdown ─────────��────────────
 
 def fig2_latency_comparison():
+    bl_l = bk_baseline["latency_per_einsum"]
+    w16_l = bk_w4a16["latency_per_einsum"]
+    w4_l = bk_w4a4["latency_per_einsum"]
+
     # Baseline: all MatMul
-    bl_matmul = 1_073_741_824
+    bl_matmul = bl_l["MatMul"]
 
     # W4A16: MatMulQ + DequantW
-    w16_matmul = 1_073_741_824
-    w16_dequant = 1_048_576
+    w16_matmul = w16_l["MatMulQ"]
+    w16_dequant = w16_l["DequantW"]
 
     # W4A4 breakdown
-    w4_quant = (524_544*2 + 540_672*2 + 1_048_576*2 + 1_048_576*2)
-    w4_matmul = 1_073_741_824
-    w4_rescale = 268_435_456*2 + 134_217_728 + 1_573_120
+    w4_quant = sum(w4_l[k] for k in [
+        "TensorScaleA", "TensorQuantA", "BlockScaleA", "BlockQuantA",
+        "TensorScaleW", "TensorQuantW", "BlockScaleW", "BlockQuantW",
+    ])
+    w4_matmul = w4_l["MatMulNVFP4"]
+    w4_rescale = sum(w4_l[k] for k in [
+        "RescaleBlockA", "RescaleBlockW", "RescaleTensorA", "RescaleTensorW",
+    ])
 
     configs = ["Baseline\n(FP16)", "W4A16\n(weight-only)", "W4A4\n(NVFP4 full)"]
 
@@ -133,7 +133,7 @@ def fig2_latency_comparison():
     ax.set_xticks(x)
     ax.set_xticklabels(configs)
     ax.set_ylabel("Latency (×10⁶ cycles)")
-    ax.set_title("Latency Comparison: Rescale Adds 63% Overhead in W4A4")
+    ax.set_title(f"Latency Comparison: Rescale Adds {overhead:.0f}% Overhead in W4A4")
     ax.legend(loc="upper left", framealpha=0.9)
 
     plt.tight_layout()
@@ -145,3 +145,4 @@ def fig2_latency_comparison():
 
 if __name__ == "__main__":
     fig1_energy_breakdown()
+    fig2_latency_comparison()

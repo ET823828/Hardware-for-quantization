@@ -10,6 +10,7 @@ arch:
   #   PE_Y      : spatial Y fanout           (default 8)
   #   DRAM_BW   : DRAM actions/cycle         (default 8)
   #   GLB_BW    : GLB actions/cycle          (default 32)
+  #
   # =================================================================
   nodes:
 

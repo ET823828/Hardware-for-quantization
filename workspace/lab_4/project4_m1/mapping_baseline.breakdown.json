@@ -9,5 +9,17 @@
   },
   "latency_per_einsum": {
     "MatMul": 1073741824.0
+  },
+  "energy_compute_per_einsum": {
+    "MatMul": 68719476736.0
+  },
+  "energy_memory_per_einsum": {
+    "MatMul": 171840634880.0
+  },
+  "latency_compute_per_einsum": {
+    "MatMul": 1073741824.0
+  },
+  "latency_memory_per_einsum": {
+    "MatMul": 805830656.0
   }
 }

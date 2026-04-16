@@ -38,12 +38,12 @@ However, these schemes are \textbf{bundled, one-size-fits-all solutions} designe
 
 We focus on \textbf{FFN/MLP layers} as the target workload because they account for approximately two-thirds of total model parameters and a comparable share of FLOPs in standard transformer architectures. During autoregressive decoding these large weight matrices dominate memory bandwidth and energy consumption, making FFN the primary efficiency bottleneck for 4-bit quantization.
 
-Our preliminary AccelForge modeling of the NVFP4 W4A4 pipeline (Figure~\ref{fig:energy}) reveals that the \textbf{rescale stages alone account for 67\% of total energy}. The core FP4 multiply contributes only 33\%, while quant/scale preprocessing is negligible ($<$0.2\%). This motivates exploring whether cheaper rescale configurations can preserve accuracy at substantially lower cost.
+Our preliminary AccelForge modeling already supports the core motivation. In a representative NVFP4-style W4A4 pipeline (Figure~\ref{fig:energy}), the \textbf{combined rescale stages dominate total energy}, while quant/scale preprocessing is negligible. Extending this to an inference-faithful sweep over four Llama-2-7B FFN-like shapes, we find that W4A4 inference reduces \emph{decode} energy by 9.8--10.5\% and latency by 41.2--41.3\% versus FP16, but for \emph{prefill} it still increases energy by 26.0--27.2\% even while cutting latency by 70.3--71.1\%. This gap between the realized design and the ideal no-overhead quantized lower bound directly motivates rescale-pipeline optimization.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.85\columnwidth]{figures/energy_breakdown.pdf}
-\caption{NVFP4 W4A4 energy breakdown by pipeline stage. Rescale operations (block-level + tensor-level) dominate at 67\% of total energy, while the core FP4 MatMul accounts for only 33\%.}
+\caption{Representative NVFP4-style W4A4 energy breakdown by pipeline stage. Rescale operations dominate total energy, while the core FP4 MatMul is a minority share and quant/scale preprocessing is negligible.}
 \label{fig:energy}
 \end{figure}
 
@@ -132,6 +132,45 @@ Our contribution is the \textbf{formulation itself}: decomposing the bundled pip
 
 We compare against INT4, MXFP4, NVFP4, and HiFloat4. All configurations use 4-bit weights with FP8 E4M3 activations; effective compression ratio (including scale-factor overhead) is reported. GEMM shapes are identical across configurations. Area is held constant or included via energy-delay-area product (EDAP). Accuracy is measured as per-layer output MSE relative to FP16 and end-to-end perplexity when feasible.
 
+\subsection{Current Progress and Preliminary Results}
+
+We have \textbf{completed Milestone 1} and completed the \textbf{hardware-cost portion of Milestone 2}. Concretely, the current notebook and AccelForge flow now support: (1) an FP16 baseline, (2) a prequantized weight-only W4A16 runtime, (3) an \emph{inference-faithful} W4A4 NVFP4-style runtime with prequantized weights and online activation quantization only, and (4) an ideal no-overhead W4A4 lower bound. We evaluated four FFN-like GEMM shapes derived from Llama-2-7B: decode-up, decode-down, prefill-up, and prefill-down.
+
+\begin{table}[ht]
+\centering
+\caption{Current hardware-only preliminary results, normalized to FP16 baseline for each shape.}
+\label{tab:prelim}
+\small
+\begin{tabular}{@{}lccccp{2.3in}@{}}
+\toprule
+Shape & W4A16 E & W4A16 L & W4A4 E & W4A4 L & Main bottleneck observation \\
+\midrule
+Decode-up   & 2.05$\times$ & 1.25$\times$ & 0.895$\times$ & 0.588$\times$ & Combined rescale is 64.5\% of W4A4 energy; \texttt{RescaleBlockW} is the latency bottleneck. \\
+Decode-down & 2.05$\times$ & 1.25$\times$ & 0.902$\times$ & 0.587$\times$ & Combined rescale is 64.8\% of W4A4 energy; \texttt{RescaleBlockW} is the latency bottleneck. \\
+Prefill-up  & 1.014$\times$ & 1.002$\times$ & 1.260$\times$ & 0.297$\times$ & Combined rescale is 74.1\% of W4A4 energy; MatMul is still the latency bottleneck. \\
+Prefill-down& 1.014$\times$ & 1.002$\times$ & 1.272$\times$ & 0.289$\times$ & Combined rescale is 74.4\% of W4A4 energy; MatMul is still the latency bottleneck. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Several findings are already useful for the final project. First, the naive prequantized W4A16 path is \emph{not} competitive on this architecture: explicit dequantization more than doubles decode energy and still slightly increases prefill energy. Second, the inference-faithful W4A4 model behaves qualitatively as expected for decode-time inference: the quantized compute path is faster and modestly lower-energy than FP16, but still 2.82--2.84$\times$ higher energy and 9.39--9.41$\times$ higher latency than the ideal no-overhead W4A4 lower bound. Third, prefill reveals a different regime: W4A4 reduces latency to 0.289--0.297$\times$ of FP16, but its energy remains 3.87--3.91$\times$ higher than the ideal lower bound because rescale dominates the realized cost.
+
+These results are strong proposal evidence because they validate the central thesis while also sharpening it: \textbf{the opportunity is real, but the relevant bottleneck depends on workload regime}. Decode workloads already show end-to-end benefit from W4A4 on this architecture, whereas prefill workloads expose a large energy gap that is overwhelmingly due to online rescale. The software-accuracy half of Milestone 2 and the architectural optimization work of Milestone 3 remain open.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.95\columnwidth]{figures/sweep_summary.pdf}
+\caption{Inference-faithful sweep summary across four FFN-like shapes. W4A16 prequantization is consistently uncompetitive on this architecture. W4A4 improves both energy and latency for decode, but for prefill it trades substantially lower latency for higher energy.}
+\label{fig:sweep_summary}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.95\columnwidth]{figures/overhead_vs_ideal.pdf}
+\caption{Gap between realized W4A4 inference and the ideal no-overhead W4A4 lower bound. Decode remains roughly 2.8$\times$ above the ideal energy and 9.4$\times$ above the ideal latency, while prefill is much closer in latency but still nearly 3.9$\times$ above the ideal energy due to online rescale overhead.}
+\label{fig:overhead}
+\end{figure}
+
 \subsection{Experiment 1: Energy Breakdown of Existing Schemes}
 
 \textbf{Goal:} Quantify the energy cost of each MMA pipeline stage for baseline schemes, establishing that the rescale/accumulation overhead is significant and worth optimizing.
@@ -142,7 +181,7 @@ We compare against INT4, MXFP4, NVFP4, and HiFloat4. All configurations use 4-bi
 
 \textbf{Metrics \& visualization:} Stacked bar chart---X-axis: scheme, Y-axis: energy per output element (pJ), segmented by pipeline stage. Area per MAC ($\mu$m$^2$) reported alongside.
 
-\textbf{Expected trend:} Our preliminary results (Figure~\ref{fig:energy}) already confirm that NVFP4's rescale stages dominate at 67\% of energy. Extending this analysis to INT4 and MXFP4 will show that MXFP4's shift-based rescale is nearly free, while INT4 falls in between, establishing the motivation for rescale pipeline optimization.
+\textbf{Current status:} The current W4A4 inference-faithful sweep already confirms the main trend: combined rescale stages account for 64.5--64.8\% of total W4A4 decode energy and 74.1--74.4\% of total W4A4 prefill energy, while quant/scale preprocessing is negligible. Extending this analysis to additional baselines such as MXFP4 and INT4 remains future work, but the key motivation for rescale-pipeline optimization is now empirically established.
 
 \subsection{Experiment 2: Accuracy--Efficiency Pareto Frontier}
 

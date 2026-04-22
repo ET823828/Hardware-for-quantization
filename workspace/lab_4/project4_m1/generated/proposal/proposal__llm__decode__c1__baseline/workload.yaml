@@ -1,0 +1,222 @@
+{
+  "workload": {
+    "iteration_space_shape": {
+      "m": "0 <= m < 1",
+      "n": "0 <= n < 11008",
+      "kb": "0 <= kb < 128",
+      "ki": "0 <= ki < 32"
+    },
+    "bits_per_value": {
+      "A": 16,
+      "W": 16,
+      "Sba": 8,
+      "Sbw": 8,
+      "Aq": 4,
+      "Wq": 4,
+      "Yraw": 32,
+      "Ytmp": 32,
+      "Y": 16
+    },
+    "einsums": [
+      {
+        "name": "BlockScaleA",
+        "tensor_accesses": [
+          {
+            "name": "A",
+            "projection": [
+              "m",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sba",
+            "projection": [
+              "m",
+              "kb"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "BlockQuantA",
+        "tensor_accesses": [
+          {
+            "name": "A",
+            "projection": [
+              "m",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sba",
+            "projection": [
+              "m",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Aq",
+            "projection": [
+              "m",
+              "kb",
+              "ki"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "BlockScaleW",
+        "tensor_accesses": [
+          {
+            "name": "W",
+            "projection": [
+              "n",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sbw",
+            "projection": [
+              "n",
+              "kb"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "BlockQuantW",
+        "tensor_accesses": [
+          {
+            "name": "W",
+            "projection": [
+              "n",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sbw",
+            "projection": [
+              "n",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Wq",
+            "projection": [
+              "n",
+              "kb",
+              "ki"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "MatMulBlock",
+        "tensor_accesses": [
+          {
+            "name": "Aq",
+            "projection": [
+              "m",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Wq",
+            "projection": [
+              "n",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Yraw",
+            "projection": [
+              "m",
+              "n",
+              "kb"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "RescaleBlockA",
+        "tensor_accesses": [
+          {
+            "name": "Yraw",
+            "projection": [
+              "m",
+              "n",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sba",
+            "projection": [
+              "m",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Ytmp",
+            "projection": [
+              "m",
+              "n",
+              "kb"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "RescaleBlockW",
+        "tensor_accesses": [
+          {
+            "name": "Ytmp",
+            "projection": [
+              "m",
+              "n",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sbw",
+            "projection": [
+              "n",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Y",
+            "projection": [
+              "m",
+              "n"
+            ],
+            "output": true
+          }
+        ]
+      }
+    ]
+  }
+}

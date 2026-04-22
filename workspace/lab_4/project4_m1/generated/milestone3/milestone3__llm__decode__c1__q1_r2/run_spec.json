@@ -1,0 +1,15 @@
+{
+  "suite": "milestone3",
+  "run_id": "milestone3__llm__decode__c1__q1_r2",
+  "workload_id": "LLM",
+  "phase_id": "decode",
+  "config_id": "C1",
+  "arch_id": "q1_r2",
+  "num_quantmac": 1,
+  "num_rescalemac": 2,
+  "shape": {
+    "m": 1,
+    "n": 11008,
+    "k": 4096
+  }
+}

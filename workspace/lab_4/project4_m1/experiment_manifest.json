@@ -1,0 +1,5278 @@
+{
+  "schema_version": 1,
+  "defaults": {
+    "accuracy_floor": 0.98,
+    "saturation_tolerance": 0.05
+  },
+  "proposal_runs": [
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__decode__c0__baseline",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C0",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__decode__c1__baseline",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__decode__c2__baseline",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C2",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__decode__c3__baseline",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C3",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__decode__c4__baseline",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C4",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__decode__c5__baseline",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__decode__c6__baseline",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C6",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__decode__c7__baseline",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__decode__c8__baseline",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C8",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__decode__c9__baseline",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C9",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__prefill__c0__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C0",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__prefill__c1__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__prefill__c2__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C2",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__prefill__c3__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C3",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__prefill__c4__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C4",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__prefill__c5__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__prefill__c6__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C6",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__prefill__c7__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__prefill__c8__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C8",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__llm__prefill__c9__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C9",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__decode__c0__baseline",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C0",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__decode__c1__baseline",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__decode__c2__baseline",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C2",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__decode__c3__baseline",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C3",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__decode__c4__baseline",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C4",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__decode__c5__baseline",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__decode__c6__baseline",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C6",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__decode__c7__baseline",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__decode__c8__baseline",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C8",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__decode__c9__baseline",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C9",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__prefill__c0__baseline",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C0",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__prefill__c1__baseline",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__prefill__c2__baseline",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C2",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__prefill__c3__baseline",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C3",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__prefill__c4__baseline",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C4",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__prefill__c5__baseline",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__prefill__c6__baseline",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C6",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__prefill__c7__baseline",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__prefill__c8__baseline",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C8",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vlm__prefill__c9__baseline",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C9",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__decode__c0__baseline",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C0",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__decode__c1__baseline",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__decode__c2__baseline",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C2",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__decode__c3__baseline",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C3",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__decode__c4__baseline",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C4",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__decode__c5__baseline",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__decode__c6__baseline",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C6",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__decode__c7__baseline",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__decode__c8__baseline",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C8",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__decode__c9__baseline",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C9",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__prefill__c0__baseline",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C0",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__prefill__c1__baseline",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__prefill__c2__baseline",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C2",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__prefill__c3__baseline",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C3",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__prefill__c4__baseline",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C4",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__prefill__c5__baseline",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__prefill__c6__baseline",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C6",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__prefill__c7__baseline",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__prefill__c8__baseline",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C8",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "proposal",
+      "run_id": "proposal__vla__prefill__c9__baseline",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C9",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    }
+  ],
+  "milestone3_runs": [
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q1_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q1_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q1_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q1_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q2_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q2_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q2_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q2_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q4_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q4_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q4_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q4_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q8_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q8_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q8_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c1__q8_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q1_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q1_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q1_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q1_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q2_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q2_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q2_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q2_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q4_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q4_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q4_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q4_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q8_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q8_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q8_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c5__q8_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q1_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q1_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q1_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q1_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q2_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q2_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q2_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q2_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q4_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q4_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q4_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q4_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q8_r1",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q8_r2",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q8_r4",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__decode__c7__q8_r8",
+      "workload_id": "LLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q1_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q1_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q1_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q1_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q2_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q2_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q2_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q2_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q4_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q4_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q4_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q4_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q8_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q8_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q8_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c1__q8_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q1_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q1_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q1_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q1_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q2_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q2_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q2_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q2_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q4_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q4_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q4_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q4_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q8_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q8_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q8_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c5__q8_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q1_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q1_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q1_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q1_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q2_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q2_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q2_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q2_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q4_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q4_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q4_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q4_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q8_r1",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q8_r2",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q8_r4",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__llm__prefill__c7__q8_r8",
+      "workload_id": "LLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q1_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q1_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q1_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q1_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q2_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q2_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q2_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q2_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q4_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q4_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q4_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q4_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q8_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q8_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q8_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c1__q8_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q1_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q1_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q1_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q1_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q2_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q2_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q2_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q2_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q4_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q4_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q4_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q4_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q8_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q8_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q8_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c5__q8_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q1_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q1_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q1_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q1_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q2_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q2_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q2_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q2_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q4_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q4_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q4_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q4_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q8_r1",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q8_r2",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q8_r4",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__decode__c7__q8_r8",
+      "workload_id": "VLM",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q1_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q1_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q1_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q1_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q2_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q2_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q2_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q2_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q4_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q4_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q4_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q4_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q8_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q8_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q8_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c1__q8_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q1_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q1_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q1_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q1_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q2_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q2_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q2_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q2_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q4_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q4_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q4_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q4_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q8_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q8_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q8_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c5__q8_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q1_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q1_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q1_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q1_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q2_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q2_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q2_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q2_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q4_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q4_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q4_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q4_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q8_r1",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q8_r2",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q8_r4",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vlm__prefill__c7__q8_r8",
+      "workload_id": "VLM",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 3072,
+        "k": 3072
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q1_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q1_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q1_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q1_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q2_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q2_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q2_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q2_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q4_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q4_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q4_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q4_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q8_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q8_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q8_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c1__q8_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C1",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q1_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q1_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q1_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q1_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q2_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q2_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q2_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q2_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q4_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q4_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q4_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q4_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q8_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q8_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q8_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c5__q8_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C5",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q1_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q1_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q1_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q1_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q2_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q2_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q2_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q2_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q4_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q4_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q4_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q4_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q8_r1",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q8_r2",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q8_r4",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__decode__c7__q8_r8",
+      "workload_id": "VLA",
+      "phase_id": "decode",
+      "config_id": "C7",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 1,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q1_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q1_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q1_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q1_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q2_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q2_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q2_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q2_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q4_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q4_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q4_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q4_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q8_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q8_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q8_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c1__q8_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C1",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q1_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q1_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q1_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q1_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q2_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q2_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q2_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q2_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q4_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q4_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q4_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q4_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q8_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q8_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q8_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c5__q8_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C5",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q1_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r1",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q1_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r2",
+      "num_quantmac": 1,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q1_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r4",
+      "num_quantmac": 1,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q1_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q1_r8",
+      "num_quantmac": 1,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q2_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r1",
+      "num_quantmac": 2,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q2_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r2",
+      "num_quantmac": 2,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q2_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r4",
+      "num_quantmac": 2,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q2_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q2_r8",
+      "num_quantmac": 2,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q4_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r1",
+      "num_quantmac": 4,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q4_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r2",
+      "num_quantmac": 4,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q4_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r4",
+      "num_quantmac": 4,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q4_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q4_r8",
+      "num_quantmac": 4,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q8_r1",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r1",
+      "num_quantmac": 8,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q8_r2",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r2",
+      "num_quantmac": 8,
+      "num_rescalemac": 2,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q8_r4",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r4",
+      "num_quantmac": 8,
+      "num_rescalemac": 4,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "milestone3",
+      "run_id": "milestone3__vla__prefill__c7__q8_r8",
+      "workload_id": "VLA",
+      "phase_id": "prefill",
+      "config_id": "C7",
+      "arch_id": "q8_r8",
+      "num_quantmac": 8,
+      "num_rescalemac": 8,
+      "shape": {
+        "m": 128,
+        "n": 256,
+        "k": 4096
+      }
+    }
+  ],
+  "legacy_validation_runs": [
+    {
+      "suite": "legacy_validation",
+      "run_id": "legacy_validation__baseline_fp16",
+      "workload_id": "LEGACY_4096",
+      "phase_id": "legacy",
+      "config_id": "BASELINE_FP16",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 4096,
+        "n": 4096,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "legacy_validation",
+      "run_id": "legacy_validation__legacy_w4a16",
+      "workload_id": "LEGACY_4096",
+      "phase_id": "legacy",
+      "config_id": "LEGACY_W4A16",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 4096,
+        "n": 4096,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "legacy_validation",
+      "run_id": "legacy_validation__legacy_nvfp4_full",
+      "workload_id": "LEGACY_4096",
+      "phase_id": "legacy",
+      "config_id": "LEGACY_NVFP4_FULL",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 4096,
+        "n": 4096,
+        "k": 4096
+      }
+    }
+  ]
+}

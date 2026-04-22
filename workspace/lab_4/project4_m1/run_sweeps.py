@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ProcessPoolExecutor, as_completed
 import csv
 import importlib
 import json
 import math
 import random
 import sys
+import time
 import traceback
 from pathlib import Path
 from typing import Any
@@ -975,15 +977,17 @@ def evaluate_accuracy_case(
 
 def append_rows(csv_path: Path, rows: list[dict[str, Any]]) -> None:
     ensure_dir(csv_path.parent)
-    fieldnames = []
-    if rows:
-        fieldnames = list(rows[0].keys())
-    if not fieldnames:
-        return
     existing_rows: list[dict[str, Any]] = []
     if csv_path.exists():
         with csv_path.open(newline="") as handle:
             existing_rows = list(csv.DictReader(handle))
+    fieldnames: list[str] = []
+    for row in existing_rows + rows:
+        for key in row.keys():
+            if key not in fieldnames:
+                fieldnames.append(key)
+    if not fieldnames:
+        return
     combined = {row["run_id"]: row for row in existing_rows}
     for row in rows:
         combined[row["run_id"]] = {key: str(value) for key, value in row.items()}
@@ -1004,6 +1008,94 @@ def target_hardware_csv(suite: str) -> Path:
     raise KeyError(f"Unknown suite: {suite}")
 
 
+def run_hardware_case_with_timing(run_spec: dict[str, Any]) -> dict[str, Any]:
+    started_at = time.time()
+    row = run_hardware_case(run_spec)
+    row["duration_s"] = round(time.time() - started_at, 3)
+    return row
+
+
+def evaluate_accuracy_case_with_timing(
+    run_spec: dict[str, Any],
+    sample_m_max: int,
+    sample_n_max: int,
+) -> dict[str, Any]:
+    started_at = time.time()
+    row = evaluate_accuracy_case(
+        run_spec,
+        sample_m_max=sample_m_max,
+        sample_n_max=sample_n_max,
+    )
+    row["duration_s"] = round(time.time() - started_at, 3)
+    return row
+
+
+def print_case_start(kind: str, index: int, total: int, run_spec: dict[str, Any]) -> None:
+    print(
+        f"[{kind} {index}/{total}] start {run_spec['run_id']} "
+        f"(workload={run_spec['workload_id']}, phase={run_spec['phase_id']}, "
+        f"config={run_spec['config_id']}, arch={run_spec['arch_id']})"
+    )
+
+
+def print_case_done(kind: str, completed: int, total: int, row: dict[str, Any]) -> None:
+    duration = row.get("duration_s", "")
+    duration_text = f"{duration}s" if duration not in ("", None) else "n/a"
+    status = row.get("status", "unknown")
+    extra = ""
+    if status == "ok":
+        extra = (
+            f", energy={row.get('energy_pj', '')}, latency={row.get('latency_cycles', '')}, "
+            f"bottleneck={row.get('bottleneck_component', '')}"
+        )
+    elif status == "generated_only":
+        extra = ", generated inputs only"
+    elif status == "error":
+        extra = ", error recorded"
+    print(f"[{kind} {completed}/{total}] done {row['run_id']} status={status}, duration={duration_text}{extra}")
+
+
+def process_runs_with_progress(
+    *,
+    kind: str,
+    runs: list[dict[str, Any]],
+    csv_path: Path,
+    worker_fn: Any,
+    jobs: int = 1,
+) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    total = len(runs)
+    if total == 0:
+        return rows
+
+    jobs = max(1, int(jobs))
+    if jobs == 1:
+        for index, run_spec in enumerate(runs, start=1):
+            print_case_start(kind, index, total, run_spec)
+            row = worker_fn(run_spec)
+            append_rows(csv_path, [row])
+            rows.append(row)
+            print_case_done(kind, index, total, row)
+        return rows
+
+    for index, run_spec in enumerate(runs, start=1):
+        print_case_start(kind, index, total, run_spec)
+
+    with ProcessPoolExecutor(max_workers=jobs) as executor:
+        future_to_index = {
+            executor.submit(worker_fn, run_spec): index
+            for index, run_spec in enumerate(runs, start=1)
+        }
+        completed = 0
+        for future in as_completed(future_to_index):
+            row = future.result()
+            append_rows(csv_path, [row])
+            rows.append(row)
+            completed += 1
+            print_case_done(kind, completed, total, row)
+    return rows
+
+
 def command_write_manifest(args: argparse.Namespace) -> None:
     manifest = default_manifest()
     write_json_file(Path(args.output), manifest)
@@ -1016,9 +1108,14 @@ def command_run_hardware(args: argparse.Namespace) -> None:
     runs = manifest_runs(manifest, suite)
     if args.limit:
         runs = runs[: args.limit]
-    rows = [run_hardware_case(run_spec) for run_spec in runs]
     csv_path = target_hardware_csv(suite)
-    append_rows(csv_path, rows)
+    rows = process_runs_with_progress(
+        kind=f"hardware:{suite}",
+        runs=runs,
+        csv_path=csv_path,
+        worker_fn=run_hardware_case_with_timing,
+        jobs=args.jobs,
+    )
     ok_count = sum(1 for row in rows if row["status"] == "ok")
     print(f"Processed {len(rows)} hardware runs for suite={suite}. OK={ok_count}. Summary: {csv_path}")
 
@@ -1033,36 +1130,39 @@ def command_run_accuracy(args: argparse.Namespace) -> None:
     ordered_runs = [unique_runs[key] for key in sorted(unique_runs)]
     if args.limit:
         ordered_runs = ordered_runs[: args.limit]
-    rows = []
-    for run_spec in ordered_runs:
+    def worker(run_spec: dict[str, Any]) -> dict[str, Any]:
         try:
-            rows.append(
-                evaluate_accuracy_case(
-                    run_spec,
-                    sample_m_max=args.sample_m_max,
-                    sample_n_max=args.sample_n_max,
-                )
+            return evaluate_accuracy_case_with_timing(
+                run_spec,
+                sample_m_max=args.sample_m_max,
+                sample_n_max=args.sample_n_max,
             )
         except Exception as exc:
-            rows.append(
-                {
-                    "suite": run_spec["suite"],
-                    "run_id": run_spec["run_id"],
-                    "status": "error",
-                    "workload_id": run_spec["workload_id"],
-                    "phase_id": run_spec["phase_id"],
-                    "config_id": run_spec["config_id"],
-                    "m_eval": "",
-                    "n_eval": "",
-                    "k_eval": "",
-                    "cosine_similarity": "",
-                    "sqnr_db": "",
-                    "mse": "",
-                    "reference_norm": "",
-                    "error": f"{exc}\n{traceback.format_exc()}",
-                }
-            )
-    append_rows(ACCURACY_CSV, rows)
+            return {
+                "suite": run_spec["suite"],
+                "run_id": run_spec["run_id"],
+                "status": "error",
+                "workload_id": run_spec["workload_id"],
+                "phase_id": run_spec["phase_id"],
+                "config_id": run_spec["config_id"],
+                "m_eval": "",
+                "n_eval": "",
+                "k_eval": "",
+                "cosine_similarity": "",
+                "sqnr_db": "",
+                "mse": "",
+                "reference_norm": "",
+                "duration_s": "",
+                "error": f"{exc}\n{traceback.format_exc()}",
+            }
+
+    rows = process_runs_with_progress(
+        kind="accuracy",
+        runs=ordered_runs,
+        csv_path=ACCURACY_CSV,
+        worker_fn=worker,
+        jobs=1,
+    )
     ok_count = sum(1 for row in rows if row["status"] == "ok")
     print(f"Processed {len(rows)} accuracy runs. OK={ok_count}. Summary: {ACCURACY_CSV}")
 
@@ -1070,8 +1170,13 @@ def command_run_accuracy(args: argparse.Namespace) -> None:
 def command_verify_legacy(args: argparse.Namespace) -> None:
     manifest = manifest_or_default(Path(args.manifest))
     runs = manifest_runs(manifest, "legacy_validation")
-    rows = [run_hardware_case(run_spec) for run_spec in runs]
-    append_rows(LEGACY_HARDWARE_CSV, rows)
+    rows = process_runs_with_progress(
+        kind="hardware:legacy_validation",
+        runs=runs,
+        csv_path=LEGACY_HARDWARE_CSV,
+        worker_fn=run_hardware_case_with_timing,
+        jobs=1,
+    )
 
     reference_files = {
         "BASELINE_FP16": HERE / "mapping_baseline.breakdown.json",
@@ -1108,6 +1213,7 @@ def build_parser() -> argparse.ArgumentParser:
     run_hardware.add_argument("--manifest", default=str(DEFAULT_MANIFEST_PATH))
     run_hardware.add_argument("--suite", choices=["proposal", "milestone3", "legacy_validation"], default="proposal")
     run_hardware.add_argument("--limit", type=int)
+    run_hardware.add_argument("--jobs", type=int, default=1, help="Number of parallel workers to use for independent cases.")
     run_hardware.set_defaults(func=command_run_hardware)
 
     run_accuracy = subparsers.add_parser("run-accuracy", help="Run the pure-Python accuracy emulator for proposal configs.")

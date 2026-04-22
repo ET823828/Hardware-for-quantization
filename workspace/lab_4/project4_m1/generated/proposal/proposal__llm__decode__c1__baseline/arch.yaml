@@ -42,7 +42,7 @@ arch:
 
   - !Compute
     name: QuantMAC
-    enabled: "'Ascl' in All or 'Wscl' in All or 'Sw' in All or 'Sba' in All or 'Sbw' in All or ('A' in All and 'Sga' in All) or ('W' in All and 'Sgw' in All)"
+    enabled: "('Wq' in All and 'Sw' in All and 'Wdq' in All) or ('Sba' in All and ('A' in All or 'Ascl' in All)) or ('Sbw' in All and ('W' in All or 'Wscl' in All)) or ('Sga' in All and 'A' in All) or ('Sgw' in All and 'W' in All)"
     leak_power: 0
     area: 9e-11
     total_latency: "ceil(compute_latency / 1)"

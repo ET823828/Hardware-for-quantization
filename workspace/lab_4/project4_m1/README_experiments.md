@@ -30,8 +30,8 @@ From the repo root:
 ```bash
 python3 workspace/lab_4/project4_m1/run_sweeps.py write-manifest
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-accuracy
-python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite proposal
-python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite milestone3
+python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite proposal --jobs 4
+python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite milestone3 --jobs 4
 python3 workspace/lab_4/project4_m1/run_sweeps.py verify-legacy
 python3 workspace/lab_4/project4_m1/analyze_results.py
 ```
@@ -43,6 +43,10 @@ python3 workspace/lab_4/project4_m1/analyze_results.py
 - The hardware sweep requires an environment with `accelforge` installed.
   If it is missing, the runner still generates inputs and records
   `generated_only` rows in the CSV summaries.
+- Hardware progress is printed per case, and each completed case is appended
+  to the CSV summary immediately. `--jobs N` runs independent hardware cases
+  in parallel; start with `--jobs 2` or `--jobs 4` and adjust based on memory
+  pressure in your AccelForge environment.
 - The accuracy pipeline is dependency-free and uses a deterministic
   pure-Python quantization emulator. It samples small representative
   matrices while preserving the full reduction dimension `K`, which keeps

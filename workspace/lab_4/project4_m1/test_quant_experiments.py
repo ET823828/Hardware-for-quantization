@@ -25,6 +25,25 @@ def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
 
 
 class QuantExperimentTests(unittest.TestCase):
+    def test_qwen2_vl_conversation_resolves_image_path_and_prompt(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            image_path = Path(tmp_dir) / "example.jpg"
+            image_path.write_bytes(b"fake")
+            conversation = dump_accuracy_snapshot.build_qwen2_vl_conversation(
+                str(image_path),
+                "Describe the scene.",
+            )
+
+        self.assertEqual(len(conversation), 1)
+        content = conversation[0]["content"]
+        self.assertEqual(content[0]["type"], "image")
+        self.assertTrue(content[0]["path"].endswith("example.jpg"))
+        self.assertEqual(content[1]["text"], "Describe the scene.")
+
+    def test_openvla_prompt_builder_wraps_instruction(self) -> None:
+        prompt = dump_accuracy_snapshot.build_openvla_prompt("pick up the red block.")
+        self.assertEqual(prompt, "In: What action should the robot take to pick up the red block?\nOut:")
+
     def test_build_two_level_workload_uses_tensor_vs_row_projections(self) -> None:
         tensor_workload = run_sweeps.build_two_level_workload(
             shape={"m": 4, "n": 8, "k": 16},

@@ -35,8 +35,52 @@ python workspace/lab_4/project4_m1/dump_accuracy_snapshot.py from-hf-causal-lm \
 
 This path is ideal for the LLM snapshot.
 
-For VLM/VLA models, if you already have model-specific code that extracts the
-activation matrix `a` and weight matrix `w`, repack them with:
+For Qwen2-VL and OpenVLA, the helper now has direct local-checkpoint commands.
+
+1. Inspect candidate modules first:
+
+```bash
+python workspace/lab_4/project4_m1/dump_accuracy_snapshot.py inspect-modules \
+  --model-type qwen2-vl \
+  --model-path workspace/lab_4/project4_m1/accuracy_inputs/Qwen2-VL-2B \
+  --rows 3072 \
+  --cols 3072 \
+  --limit 20
+```
+
+```bash
+python workspace/lab_4/project4_m1/dump_accuracy_snapshot.py inspect-modules \
+  --model-type openvla \
+  --model-path workspace/lab_4/project4_m1/accuracy_inputs/openvla-7b \
+  --rows 256 \
+  --limit 20
+```
+
+2. Dump the actual snapshot once you choose a module path:
+
+```bash
+python workspace/lab_4/project4_m1/dump_accuracy_snapshot.py from-qwen2-vl \
+  --model-path workspace/lab_4/project4_m1/accuracy_inputs/Qwen2-VL-2B \
+  --module-path PATH_FOUND_FROM_INSPECT \
+  --image-path /path/to/example_image.jpg \
+  --prompt "Describe the important objects in this scene." \
+  --output workspace/lab_4/project4_m1/accuracy_inputs/vlm_vision_gemm.npz
+```
+
+```bash
+python workspace/lab_4/project4_m1/dump_accuracy_snapshot.py from-openvla \
+  --model-path workspace/lab_4/project4_m1/accuracy_inputs/openvla-7b \
+  --module-path PATH_FOUND_FROM_INSPECT \
+  --image-path /path/to/robot_scene.jpg \
+  --instruction "pick up the red block" \
+  --output workspace/lab_4/project4_m1/accuracy_inputs/vla_action_head.npz
+```
+
+`from-openvla` defaults to `--invoke forward`. If the chosen module is only
+hit during action decoding, retry with `--invoke predict_action --unnorm-key bridge_orig`.
+
+If you already have model-specific code that extracts the activation matrix `a`
+and weight matrix `w`, repack them with:
 
 ```bash
 python workspace/lab_4/project4_m1/dump_accuracy_snapshot.py from-files \
@@ -51,6 +95,9 @@ Supported input tensor formats for `from-files`:
 - `.npz`
 - `.pt`
 - `.pth`
+
+The `inspect-modules` command prints `<module_path> <rows>x<cols>` so you can
+choose a real module path from your local checkpoint instead of guessing names.
 
 ## Recommended target shapes
 

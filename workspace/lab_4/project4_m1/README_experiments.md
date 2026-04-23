@@ -19,7 +19,8 @@ actual proposal and milestone-3 sweeps into repeatable Python entrypoints.
   summarizes milestone-3 saturation points.
 - `dump_accuracy_snapshot.py`
   Creates proposal accuracy `.npz` snapshots either directly from a Hugging
-  Face causal LM checkpoint or from pre-extracted tensor files.
+  Face checkpoint or from pre-extracted tensor files. It now includes local
+  checkpoint helpers for Qwen2-VL and OpenVLA plus a module-inspection mode.
 - `experiment_manifest.json`
   Default checked-in manifest covering:
   - proposal sweep: `10 configs x 3 workloads x 2 phases`
@@ -37,6 +38,26 @@ python3 workspace/lab_4/project4_m1/dump_accuracy_snapshot.py from-hf-causal-lm 
   --module-path model.layers.0.mlp.up_proj \
   --prompt "Write a short summary of quantization-aware accelerator design." \
   --output workspace/lab_4/project4_m1/accuracy_inputs/llm_ffn_layer.npz
+python3 workspace/lab_4/project4_m1/dump_accuracy_snapshot.py inspect-modules \
+  --model-type qwen2-vl \
+  --model-path workspace/lab_4/project4_m1/accuracy_inputs/Qwen2-VL-2B \
+  --rows 3072 --cols 3072 --limit 20
+python3 workspace/lab_4/project4_m1/dump_accuracy_snapshot.py from-qwen2-vl \
+  --model-path workspace/lab_4/project4_m1/accuracy_inputs/Qwen2-VL-2B \
+  --module-path PATH_FOUND_FROM_INSPECT \
+  --image-path /path/to/example_image.jpg \
+  --prompt "Describe the important objects in this scene." \
+  --output workspace/lab_4/project4_m1/accuracy_inputs/vlm_vision_gemm.npz
+python3 workspace/lab_4/project4_m1/dump_accuracy_snapshot.py inspect-modules \
+  --model-type openvla \
+  --model-path workspace/lab_4/project4_m1/accuracy_inputs/openvla-7b \
+  --rows 256 --limit 20
+python3 workspace/lab_4/project4_m1/dump_accuracy_snapshot.py from-openvla \
+  --model-path workspace/lab_4/project4_m1/accuracy_inputs/openvla-7b \
+  --module-path PATH_FOUND_FROM_INSPECT \
+  --image-path /path/to/robot_scene.jpg \
+  --instruction "pick up the red block" \
+  --output workspace/lab_4/project4_m1/accuracy_inputs/vla_action_head.npz
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-accuracy
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite proposal --jobs 4
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite milestone3 --jobs 4
@@ -59,6 +80,9 @@ python3 workspace/lab_4/project4_m1/analyze_results.py
   pure-Python quantization emulator in `--input-mode debug`. The default
   proposal path (`--input-mode proposal`) requires representative tensor
   snapshots configured in the manifest under `accuracy_inputs`.
+- For Qwen2-VL and OpenVLA, use `dump_accuracy_snapshot.py inspect-modules`
+  first to discover a real module path from your local checkpoint, then use
+  `from-qwen2-vl` or `from-openvla` to write the `.npz` snapshot.
 - Proposal accuracy runs now fail closed: missing tensor snapshots are
   recorded as `missing_inputs` rows instead of silently falling back to
   synthetic Gaussian data.

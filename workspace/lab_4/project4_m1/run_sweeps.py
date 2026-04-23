@@ -683,7 +683,43 @@ def run_hardware_case(run_spec: dict[str, Any]) -> dict[str, Any]:
         breakdown = extract_hardware_breakdown(df, best_idx, list(all_mappings.einsum_names))
         breakdown["energy_total"] = energy_total
         breakdown["latency_total"] = latency_total
-        breakdown["area_total"] = getattr(spec.arch, "total_area", None)
+
+        area_total = None
+        area_warning = ""
+        for method_name in (
+            "calculate_component_area_energy_latency_leak",
+            "calculate_component_area_energy_latency_leak_power",
+            "calculate_area_energy_latency_leak",
+        ):
+            method = getattr(spec, method_name, None)
+            if callable(method):
+                try:
+                    method()
+                    break
+                except Exception as exc:
+                    area_warning = f"{method_name} failed: {exc}"
+
+        try:
+            area_total = getattr(spec.arch, "total_area", None)
+        except Exception as exc:
+            if not area_warning:
+                area_warning = f"total_area unavailable: {exc}"
+            try:
+                # Fallback: sum any per-node area values that are already materialized.
+                nodes = getattr(spec.arch, "nodes", [])
+                partial_area = 0.0
+                found_any = False
+                for node in nodes:
+                    area_value = getattr(node, "area", None)
+                    if isinstance(area_value, (int, float)):
+                        partial_area += float(area_value)
+                        found_any = True
+                if found_any:
+                    area_total = partial_area
+            except Exception:
+                pass
+
+        breakdown["area_total"] = area_total
         write_json_file(paths["breakdown_path"], breakdown)
 
         row["status"] = "ok"
@@ -691,6 +727,8 @@ def run_hardware_case(run_spec: dict[str, Any]) -> dict[str, Any]:
         row["latency_cycles"] = latency_total
         row["area_m2"] = breakdown["area_total"]
         row["bottleneck_component"] = breakdown["bottleneck_component"]
+        if area_warning:
+            row["error"] = area_warning
         return row
     except Exception as exc:
         row["status"] = "error"

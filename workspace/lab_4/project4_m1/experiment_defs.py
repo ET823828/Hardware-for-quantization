@@ -11,10 +11,16 @@ ROOT = Path(__file__).resolve().parent
 GENERATED_DIR = ROOT / "generated"
 RESULTS_DIR = ROOT / "results"
 FIGURES_DIR = ROOT / "figures"
+ACCURACY_INPUTS_DIR = ROOT / "accuracy_inputs"
 DEFAULT_MANIFEST_PATH = ROOT / "experiment_manifest.json"
 
 DEFAULT_ACCURACY_FLOOR = 0.98
 DEFAULT_SATURATION_TOLERANCE = 0.05
+DEFAULT_ALPHA_BY_WORKLOAD = {
+    "LLM": 0.3,
+    "VLM": 0.5,
+    "VLA": 0.5,
+}
 
 
 @dataclass(frozen=True)
@@ -45,6 +51,7 @@ class QuantConfig:
     fine_scale_bits: int | None
     coarse_scale_bits: int | None
     accumulator_format: str
+    coarse_granularity: str | None = None
     reference_scheme: str | None = None
 
 
@@ -189,6 +196,7 @@ QUANT_CONFIGS: dict[str, QuantConfig] = {
         fine_scale_bits=8,
         coarse_scale_bits=16,
         accumulator_format="fp32",
+        coarse_granularity="tensor",
     ),
     "C6": QuantConfig(
         config_id="C6",
@@ -200,17 +208,19 @@ QUANT_CONFIGS: dict[str, QuantConfig] = {
         fine_scale_bits=16,
         coarse_scale_bits=16,
         accumulator_format="fp32",
+        coarse_granularity="tensor",
     ),
     "C7": QuantConfig(
         config_id="C7",
         topology="two_level",
-        description="NVFP4-like two-level b=16 coarse+tower pipeline with FP32 rescale",
+        description="Proposal NVFP4-like two-level b=16 with tensor coarse scaling and FP32 rescale",
         block_size=16,
         fine_rescale_format="fp32",
         coarse_rescale_format="fp32",
         fine_scale_bits=8,
         coarse_scale_bits=32,
         accumulator_format="fp32",
+        coarse_granularity="tensor",
         reference_scheme="nvfp4-like",
     ),
     "C8": QuantConfig(
@@ -234,6 +244,7 @@ QUANT_CONFIGS: dict[str, QuantConfig] = {
         fine_scale_bits=8,
         coarse_scale_bits=16,
         accumulator_format="fp16",
+        coarse_granularity="tensor",
     ),
 }
 
@@ -255,7 +266,8 @@ SPECIAL_CONFIGS: dict[str, dict[str, Any]] = {
     "LEGACY_NVFP4_FULL": {
         "config_id": "LEGACY_NVFP4_FULL",
         "topology": "legacy_nvfp4_full",
-        "description": "Notebook-compatible full NVFP4 W4A4 model",
+        "description": "Historical notebook-compatible NVFP4 W4A4 model with row-wise coarse scaling",
+        "coarse_granularity": "row",
     },
 }
 
@@ -291,6 +303,29 @@ def ensure_dir(path: Path) -> Path:
 
 def write_json_file(path: Path, payload: Any) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=False) + "\n")
+
+
+def default_accuracy_inputs() -> dict[str, dict[str, str]]:
+    return {
+        "LLM": {
+            "path": str(ACCURACY_INPUTS_DIR / "llm_ffn_layer.npz"),
+            "format": "npz",
+            "activation_key": "a",
+            "weight_key": "w",
+        },
+        "VLM": {
+            "path": str(ACCURACY_INPUTS_DIR / "vlm_vision_gemm.npz"),
+            "format": "npz",
+            "activation_key": "a",
+            "weight_key": "w",
+        },
+        "VLA": {
+            "path": str(ACCURACY_INPUTS_DIR / "vla_action_head.npz"),
+            "format": "npz",
+            "activation_key": "a",
+            "weight_key": "w",
+        },
+    }
 
 
 def phase_shape(workload_id: str, phase_id: str) -> dict[str, int]:
@@ -409,11 +444,13 @@ def default_manifest() -> dict[str, Any]:
     ]
 
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "defaults": {
             "accuracy_floor": DEFAULT_ACCURACY_FLOOR,
             "saturation_tolerance": DEFAULT_SATURATION_TOLERANCE,
+            "alpha_by_workload": DEFAULT_ALPHA_BY_WORKLOAD,
         },
+        "accuracy_inputs": default_accuracy_inputs(),
         "proposal_runs": proposal_runs,
         "milestone3_runs": milestone3_runs,
         "legacy_validation_runs": legacy_runs,
@@ -427,6 +464,14 @@ def manifest_runs(manifest: dict[str, Any], suite: str) -> list[dict[str, Any]]:
         "legacy_validation": "legacy_validation_runs",
     }[suite]
     return list(manifest.get(key, []))
+
+
+def manifest_accuracy_input(manifest: dict[str, Any], workload_id: str) -> dict[str, Any] | None:
+    inputs = manifest.get("accuracy_inputs", {})
+    entry = inputs.get(workload_id)
+    if entry is None:
+        return None
+    return dict(entry)
 
 
 def get_quant_config(config_id: str) -> QuantConfig | dict[str, Any]:

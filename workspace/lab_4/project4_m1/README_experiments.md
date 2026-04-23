@@ -48,9 +48,15 @@ python3 workspace/lab_4/project4_m1/analyze_results.py
   in parallel; start with `--jobs 2` or `--jobs 4` and adjust based on memory
   pressure in your AccelForge environment.
 - The accuracy pipeline is dependency-free and uses a deterministic
-  pure-Python quantization emulator. It samples small representative
-  matrices while preserving the full reduction dimension `K`, which keeps
-  the runtime manageable while still exercising accumulator stress.
-- `C7` is wired to stay compatible with the current notebook's NVFP4-style
-  storage assumptions: fine scales remain 8-bit metadata, while rescale
-  computation is modeled as FP32.
+  pure-Python quantization emulator in `--input-mode debug`. The default
+  proposal path (`--input-mode proposal`) requires representative tensor
+  snapshots configured in the manifest under `accuracy_inputs`.
+- Proposal accuracy runs now fail closed: missing tensor snapshots are
+  recorded as `missing_inputs` rows instead of silently falling back to
+  synthetic Gaussian data.
+- `C7` is the corrected proposal NVFP4-like reference with tensor-granular
+  coarse scaling. `LEGACY_NVFP4_FULL` preserves the historical notebook
+  row-wise coarse-scale behavior for validation only.
+- `analyze_results.py` writes `results/analysis_status.json`. The notebook
+  uses this status file to decide whether proposal-derived CSVs and figures
+  should be shown or marked as skipped.

@@ -13,6 +13,11 @@ import traceback
 from pathlib import Path
 from typing import Any
 
+try:
+    import numpy as np
+except Exception:
+    np = None
+
 HERE = Path(__file__).resolve().parent
 if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
@@ -32,6 +37,7 @@ from experiment_defs import (
     default_manifest,
     ensure_dir,
     get_quant_config,
+    manifest_accuracy_input,
     manifest_or_default,
     manifest_runs,
     write_json_file,
@@ -355,8 +361,13 @@ def build_two_level_workload(
     fine_scale_bits: int,
     coarse_scale_bits: int,
     acc_bits: int,
+    coarse_granularity: str,
 ) -> dict[str, Any]:
     kb = shape["k"] // block_size
+    if coarse_granularity not in {"tensor", "row"}:
+        raise ValueError(f"Unsupported coarse granularity: {coarse_granularity}")
+    activation_projection = [] if coarse_granularity == "tensor" else ["m"]
+    weight_projection = [] if coarse_granularity == "tensor" else ["n"]
     return {
         "workload": {
             "iteration_space_shape": {
@@ -387,14 +398,14 @@ def build_two_level_workload(
                     "name": "TensorScaleA",
                     "tensor_accesses": [
                         {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Sga", "projection": ["m"], "output": True},
+                        {"name": "Sga", "projection": activation_projection, "output": True},
                     ],
                 },
                 {
                     "name": "TensorQuantA",
                     "tensor_accesses": [
                         {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Sga", "projection": ["m"], "density": 1.0},
+                        {"name": "Sga", "projection": activation_projection, "density": 1.0},
                         {"name": "Ascl", "projection": ["m", "kb", "ki"], "output": True},
                     ],
                 },
@@ -417,14 +428,14 @@ def build_two_level_workload(
                     "name": "TensorScaleW",
                     "tensor_accesses": [
                         {"name": "W", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Sgw", "projection": ["n"], "output": True},
+                        {"name": "Sgw", "projection": weight_projection, "output": True},
                     ],
                 },
                 {
                     "name": "TensorQuantW",
                     "tensor_accesses": [
                         {"name": "W", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Sgw", "projection": ["n"], "density": 1.0},
+                        {"name": "Sgw", "projection": weight_projection, "density": 1.0},
                         {"name": "Wscl", "projection": ["n", "kb", "ki"], "output": True},
                     ],
                 },
@@ -471,7 +482,7 @@ def build_two_level_workload(
                     "name": "RescaleTensorA",
                     "tensor_accesses": [
                         {"name": "Yblk", "projection": ["m", "n", "kb"], "density": 1.0},
-                        {"name": "Sga", "projection": ["m"], "density": 1.0},
+                        {"name": "Sga", "projection": activation_projection, "density": 1.0},
                         {"name": "Ytmp2", "projection": ["m", "n"], "output": True},
                     ],
                 },
@@ -479,7 +490,7 @@ def build_two_level_workload(
                     "name": "RescaleTensorW",
                     "tensor_accesses": [
                         {"name": "Ytmp2", "projection": ["m", "n"], "density": 1.0},
-                        {"name": "Sgw", "projection": ["n"], "density": 1.0},
+                        {"name": "Sgw", "projection": weight_projection, "density": 1.0},
                         {"name": "Y", "projection": ["m", "n"], "output": True},
                     ],
                 },
@@ -496,7 +507,14 @@ def build_workload(run_spec: dict[str, Any]) -> dict[str, Any]:
     if run_spec["config_id"] == "LEGACY_W4A16":
         return build_weight_only_workload(shape, block_size=16, scale_bits=16, output_bits=16)
     if run_spec["config_id"] == "LEGACY_NVFP4_FULL":
-        return build_two_level_workload(shape, block_size=16, fine_scale_bits=8, coarse_scale_bits=32, acc_bits=32)
+        return build_two_level_workload(
+            shape,
+            block_size=16,
+            fine_scale_bits=8,
+            coarse_scale_bits=32,
+            acc_bits=32,
+            coarse_granularity="row",
+        )
     if isinstance(config, dict):
         raise ValueError(f"Unsupported special config: {run_spec['config_id']}")
     acc_bits = ACCUMULATOR_BITS[config.accumulator_format]
@@ -516,6 +534,7 @@ def build_workload(run_spec: dict[str, Any]) -> dict[str, Any]:
             fine_scale_bits=config.fine_scale_bits or SCALE_FORMATS[config.fine_rescale_format]["storage_bits"],
             coarse_scale_bits=config.coarse_scale_bits or SCALE_FORMATS[config.coarse_rescale_format]["storage_bits"],
             acc_bits=acc_bits,
+            coarse_granularity=config.coarse_granularity or "tensor",
         )
     raise ValueError(f"Unknown topology: {config.topology}")
 
@@ -550,6 +569,26 @@ def import_accelforge() -> tuple[Any, Any] | tuple[None, str]:
         return af, metrics_mod.Metrics
     except Exception as exc:
         return None, str(exc)
+
+
+def resolve_total_metric_column(columns: list[str], metric: str) -> str:
+    metric = metric.lower()
+    exact_candidates = {
+        "energy": {"energy", "energy_total", "total_energy"},
+        "latency": {"latency", "latency_total", "total_latency"},
+    }[metric]
+    exact = [col for col in columns if col.lower() in exact_candidates]
+    if len(exact) == 1:
+        return exact[0]
+    if len(exact) > 1:
+        raise ValueError(f"Ambiguous {metric} total columns: {exact}")
+
+    fallback = [col for col in columns if metric in col.lower() and "<sep>" not in col.lower()]
+    if len(fallback) == 1:
+        return fallback[0]
+    if len(fallback) > 1:
+        raise ValueError(f"Ambiguous {metric} columns without explicit total: {fallback}")
+    raise ValueError(f"Could not resolve total {metric} column from dataframe columns.")
 
 
 def extract_hardware_breakdown(df: Any, best_idx: int, einsum_names: list[str]) -> dict[str, Any]:
@@ -627,6 +666,21 @@ def extract_hardware_breakdown(df: Any, best_idx: int, einsum_names: list[str]) 
     }
 
 
+def assert_energy_total_matches_breakdown(
+    *,
+    energy_total: float,
+    energy_per_einsum: dict[str, float],
+    tolerance_abs: float = 1e-3,
+    tolerance_rel: float = 1e-6,
+) -> None:
+    energy_sum = sum(energy_per_einsum.values())
+    tolerance = max(tolerance_abs, abs(energy_total) * tolerance_rel)
+    if abs(energy_total - energy_sum) > tolerance:
+        raise ValueError(
+            f"Energy total mismatch: total={energy_total}, per-einsum-sum={energy_sum}, tolerance={tolerance}"
+        )
+
+
 def run_hardware_case(run_spec: dict[str, Any]) -> dict[str, Any]:
     paths = write_run_inputs(run_spec)
     row = {
@@ -643,6 +697,8 @@ def run_hardware_case(run_spec: dict[str, Any]) -> dict[str, Any]:
         "num_quantmac": run_spec["num_quantmac"],
         "num_rescalemac": run_spec["num_rescalemac"],
         "energy_pj": "",
+        "energy_total_pj": "",
+        "energy_pj_per_output": "",
         "latency_cycles": "",
         "area_m2": "",
         "bottleneck_component": "",
@@ -668,21 +724,30 @@ def run_hardware_case(run_spec: dict[str, Any]) -> dict[str, Any]:
             row["status"] = "invalid"
             row["error"] = "No valid mappings were returned."
             return row
-        energy_cols = [col for col in df.columns if "energy" in col.lower()]
-        latency_cols = [col for col in df.columns if "latency" in col.lower()]
-        best_idx = 0
-        if energy_cols and latency_cols:
-            edp_values = (df[energy_cols[0]] * df[latency_cols[0]]).values
-            best_idx = int(min(range(len(edp_values)), key=lambda idx: edp_values[idx]))
 
-        energy_total = float(df[energy_cols[0]].values[best_idx]) if energy_cols else float("nan")
-        latency_total = float(df[latency_cols[0]].values[best_idx]) if latency_cols else float("nan")
+        energy_col = resolve_total_metric_column(list(df.columns), "energy")
+        latency_col = resolve_total_metric_column(list(df.columns), "latency")
+        best_idx = 0
+        edp_values = (df[energy_col] * df[latency_col]).values
+        best_idx = int(min(range(len(edp_values)), key=lambda idx: edp_values[idx]))
+
+        energy_total = float(df[energy_col].values[best_idx])
+        latency_total = float(df[latency_col].values[best_idx])
         result = all_mappings[best_idx]
         paths["mapping_path"].write_text(result.mapping().to_yaml())
 
         breakdown = extract_hardware_breakdown(df, best_idx, list(all_mappings.einsum_names))
+        assert_energy_total_matches_breakdown(
+            energy_total=energy_total,
+            energy_per_einsum=breakdown["energy_per_einsum"],
+        )
         breakdown["energy_total"] = energy_total
         breakdown["latency_total"] = latency_total
+        breakdown["energy_total_column"] = energy_col
+        breakdown["latency_total_column"] = latency_col
+        output_elements = int(run_spec["shape"]["m"]) * int(run_spec["shape"]["n"])
+        breakdown["output_elements"] = output_elements
+        breakdown["energy_pj_per_output"] = energy_total / output_elements if output_elements else float("nan")
 
         area_total = None
         area_warning = ""
@@ -724,6 +789,8 @@ def run_hardware_case(run_spec: dict[str, Any]) -> dict[str, Any]:
 
         row["status"] = "ok"
         row["energy_pj"] = energy_total
+        row["energy_total_pj"] = energy_total
+        row["energy_pj_per_output"] = breakdown["energy_pj_per_output"]
         row["latency_cycles"] = latency_total
         row["area_m2"] = breakdown["area_total"]
         row["bottleneck_component"] = breakdown["bottleneck_component"]
@@ -797,6 +864,72 @@ def quantize_fp4_block(block: list[float], scale_format: str) -> tuple[list[floa
         scale = 1.0
     quantized = [nearest_level(value / scale, fp_levels_e2m1()) for value in block]
     return quantized, scale
+
+
+def matrix_from_payload(payload: Any, key: str) -> list[list[float]]:
+    if np is not None and hasattr(payload, "shape"):
+        array = np.asarray(payload, dtype=float)
+        if array.ndim != 2:
+            raise ValueError(f"Expected 2D array for {key}, got shape {array.shape}")
+        return [[float(value) for value in row] for row in array.tolist()]
+    if not isinstance(payload, list) or not payload:
+        raise ValueError(f"Expected non-empty 2D list for {key}")
+    rows: list[list[float]] = []
+    for row in payload:
+        if not isinstance(row, list) or not row:
+            raise ValueError(f"Expected non-empty row list for {key}")
+        rows.append([float(value) for value in row])
+    return rows
+
+
+def load_accuracy_snapshot(entry: dict[str, Any]) -> tuple[list[list[float]], list[list[float]], Path]:
+    path = Path(entry["path"]).expanduser()
+    if not path.exists():
+        raise FileNotFoundError(path)
+
+    activation_key = entry.get("activation_key", "a")
+    weight_key = entry.get("weight_key", "w")
+    file_format = entry.get("format") or path.suffix.lstrip(".").lower()
+
+    if file_format == "npz":
+        if np is None:
+            raise RuntimeError("numpy is required to load .npz accuracy snapshots")
+        with np.load(path, allow_pickle=False) as payload:
+            a_rows = matrix_from_payload(payload[activation_key], activation_key)
+            w_rows = matrix_from_payload(payload[weight_key], weight_key)
+        return a_rows, w_rows, path
+
+    if file_format == "json":
+        payload = json.loads(path.read_text())
+        a_rows = matrix_from_payload(payload[activation_key], activation_key)
+        w_rows = matrix_from_payload(payload[weight_key], weight_key)
+        return a_rows, w_rows, path
+
+    raise ValueError(f"Unsupported accuracy snapshot format: {file_format}")
+
+
+def prepare_snapshot_views(
+    *,
+    a_rows: list[list[float]],
+    w_rows: list[list[float]],
+    phase_m: int,
+    workload_n: int,
+    workload_k: int,
+    sample_m_max: int,
+    sample_n_max: int,
+) -> tuple[list[list[float]], list[list[float]], int, int, int]:
+    if not a_rows or not w_rows:
+        raise ValueError("Accuracy snapshot must contain non-empty activation and weight matrices.")
+    if any(len(row) != workload_k for row in a_rows):
+        raise ValueError(f"Activation snapshot K dimension must be {workload_k}.")
+    if any(len(row) != workload_k for row in w_rows):
+        raise ValueError(f"Weight snapshot K dimension must be {workload_k}.")
+
+    m_eval = min(phase_m, sample_m_max, len(a_rows))
+    n_eval = min(workload_n, sample_n_max, len(w_rows))
+    if m_eval <= 0 or n_eval <= 0:
+        raise ValueError("Accuracy snapshot does not contain enough rows for evaluation.")
+    return a_rows[:m_eval], w_rows[:n_eval], m_eval, n_eval, workload_k
 
 
 def sample_matrix_rows(rng: random.Random, rows: int, cols: int, distribution: str) -> list[list[float]]:
@@ -881,6 +1014,47 @@ def matmul_one_level(
     return output
 
 
+def quantize_two_level_rows(
+    rows: list[list[float]],
+    *,
+    block_size: int,
+    fine_scale_format: str,
+    coarse_scale_format: str,
+    coarse_granularity: str,
+) -> list[tuple[list[list[float]], float, list[float]]]:
+    if coarse_granularity not in {"tensor", "row"}:
+        raise ValueError(f"Unsupported coarse granularity: {coarse_granularity}")
+
+    max_level = fp_levels_e2m1()[-1]
+    tensor_scale = 1.0
+    if coarse_granularity == "tensor":
+        tensor_max = max((abs(value) for row in rows for value in row), default=0.0)
+        if tensor_max > 0.0:
+            tensor_scale = quantize_scale_value(tensor_max / max_level, coarse_scale_format)
+            if tensor_scale == 0.0:
+                tensor_scale = 1.0
+
+    quantized_rows: list[tuple[list[list[float]], float, list[float]]] = []
+    for row in rows:
+        row_scale = tensor_scale
+        if coarse_granularity == "row":
+            row_max = max((abs(value) for value in row), default=0.0)
+            if row_max > 0.0:
+                row_scale = quantize_scale_value(row_max / max_level, coarse_scale_format)
+                if row_scale == 0.0:
+                    row_scale = 1.0
+        scaled_row = [value / row_scale for value in row]
+        blocks = blockify(scaled_row, block_size)
+        q_blocks = []
+        fine_scales = []
+        for block in blocks:
+            quantized, fine_scale = quantize_fp4_block(block, fine_scale_format)
+            q_blocks.append(quantized)
+            fine_scales.append(fine_scale)
+        quantized_rows.append((q_blocks, row_scale, fine_scales))
+    return quantized_rows
+
+
 def matmul_two_level(
     a_rows: list[list[float]],
     w_rows: list[list[float]],
@@ -888,38 +1062,25 @@ def matmul_two_level(
     fine_scale_format: str,
     coarse_scale_format: str,
     accumulator_format: str,
+    coarse_granularity: str,
 ) -> list[list[float]]:
-    a_tensor_scaled: list[tuple[list[list[float]], float, list[float]]] = []
-    for row in a_rows:
-        max_level = fp_levels_e2m1()[-1]
-        coarse_scale = quantize_scale_value(max(abs(value) for value in row) / max_level if row else 1.0, coarse_scale_format)
-        if coarse_scale == 0.0:
-            coarse_scale = 1.0
-        scaled_row = [value / coarse_scale for value in row]
-        blocks = blockify(scaled_row, block_size)
-        q_blocks = []
-        fine_scales = []
-        for block in blocks:
-            quantized, fine_scale = quantize_fp4_block(block, fine_scale_format)
-            q_blocks.append(quantized)
-            fine_scales.append(fine_scale)
-        a_tensor_scaled.append((q_blocks, coarse_scale, fine_scales))
+    if coarse_granularity not in {"tensor", "row"}:
+        raise ValueError(f"Unsupported coarse granularity: {coarse_granularity}")
 
-    w_tensor_scaled: list[tuple[list[list[float]], float, list[float]]] = []
-    for row in w_rows:
-        max_level = fp_levels_e2m1()[-1]
-        coarse_scale = quantize_scale_value(max(abs(value) for value in row) / max_level if row else 1.0, coarse_scale_format)
-        if coarse_scale == 0.0:
-            coarse_scale = 1.0
-        scaled_row = [value / coarse_scale for value in row]
-        blocks = blockify(scaled_row, block_size)
-        q_blocks = []
-        fine_scales = []
-        for block in blocks:
-            quantized, fine_scale = quantize_fp4_block(block, fine_scale_format)
-            q_blocks.append(quantized)
-            fine_scales.append(fine_scale)
-        w_tensor_scaled.append((q_blocks, coarse_scale, fine_scales))
+    a_tensor_scaled = quantize_two_level_rows(
+        a_rows,
+        block_size=block_size,
+        fine_scale_format=fine_scale_format,
+        coarse_scale_format=coarse_scale_format,
+        coarse_granularity=coarse_granularity,
+    )
+    w_tensor_scaled = quantize_two_level_rows(
+        w_rows,
+        block_size=block_size,
+        fine_scale_format=fine_scale_format,
+        coarse_scale_format=coarse_scale_format,
+        coarse_granularity=coarse_granularity,
+    )
 
     output: list[list[float]] = []
     for a_q_blocks, a_coarse_scale, a_fine_scales in a_tensor_scaled:
@@ -947,6 +1108,8 @@ def evaluate_accuracy_case(
     run_spec: dict[str, Any],
     sample_m_max: int,
     sample_n_max: int,
+    manifest: dict[str, Any],
+    input_mode: str,
 ) -> dict[str, Any]:
     config = get_quant_config(run_spec["config_id"])
     if run_spec["config_id"] in SPECIAL_CONFIGS:
@@ -955,14 +1118,68 @@ def evaluate_accuracy_case(
     workload = WORKLOADS[run_spec["workload_id"]]
     phase = PHASES[run_spec["phase_id"]]
 
-    m_eval = min(phase.m, sample_m_max)
-    n_eval = min(workload.n, sample_n_max)
-    k_eval = workload.k
-    seed = sum(ord(ch) for ch in f"{run_spec['workload_id']}::{run_spec['phase_id']}::{run_spec['config_id']}")
-    rng = random.Random(seed)
+    if input_mode == "proposal":
+        entry = manifest_accuracy_input(manifest, run_spec["workload_id"])
+        if entry is None:
+            return {
+                "suite": run_spec["suite"],
+                "run_id": run_spec["run_id"],
+                "status": "missing_inputs",
+                "workload_id": run_spec["workload_id"],
+                "phase_id": run_spec["phase_id"],
+                "config_id": run_spec["config_id"],
+                "m_eval": "",
+                "n_eval": "",
+                "k_eval": "",
+                "cosine_similarity": "",
+                "sqnr_db": "",
+                "mse": "",
+                "reference_norm": "",
+                "input_source": "",
+                "error": f"No accuracy input manifest entry for workload={run_spec['workload_id']}",
+            }
+        try:
+            a_rows_all, w_rows_all, snapshot_path = load_accuracy_snapshot(entry)
+        except FileNotFoundError as exc:
+            return {
+                "suite": run_spec["suite"],
+                "run_id": run_spec["run_id"],
+                "status": "missing_inputs",
+                "workload_id": run_spec["workload_id"],
+                "phase_id": run_spec["phase_id"],
+                "config_id": run_spec["config_id"],
+                "m_eval": "",
+                "n_eval": "",
+                "k_eval": "",
+                "cosine_similarity": "",
+                "sqnr_db": "",
+                "mse": "",
+                "reference_norm": "",
+                "input_source": str(exc),
+                "error": f"Missing accuracy snapshot: {exc}",
+            }
+        a_rows, w_rows, m_eval, n_eval, k_eval = prepare_snapshot_views(
+            a_rows=a_rows_all,
+            w_rows=w_rows_all,
+            phase_m=phase.m,
+            workload_n=workload.n,
+            workload_k=workload.k,
+            sample_m_max=sample_m_max,
+            sample_n_max=sample_n_max,
+        )
+        input_source = str(snapshot_path)
+    elif input_mode == "debug":
+        m_eval = min(phase.m, sample_m_max)
+        n_eval = min(workload.n, sample_n_max)
+        k_eval = workload.k
+        seed = sum(ord(ch) for ch in f"{run_spec['workload_id']}::{run_spec['phase_id']}::{run_spec['config_id']}")
+        rng = random.Random(seed)
+        a_rows = sample_matrix_rows(rng, m_eval, k_eval, workload.distribution)
+        w_rows = sample_matrix_rows(rng, n_eval, k_eval, workload.distribution)
+        input_source = f"debug::{workload.distribution}"
+    else:
+        raise ValueError(f"Unsupported accuracy input mode: {input_mode}")
 
-    a_rows = sample_matrix_rows(rng, m_eval, k_eval, workload.distribution)
-    w_rows = sample_matrix_rows(rng, n_eval, k_eval, workload.distribution)
     reference = matmul_reference(a_rows, w_rows)
     if config.topology == "zero_level":
         quantized = matmul_zero_level(a_rows, w_rows, accumulator_format=config.accumulator_format)
@@ -982,6 +1199,7 @@ def evaluate_accuracy_case(
             fine_scale_format=config.fine_rescale_format or "fp32",
             coarse_scale_format=config.coarse_rescale_format or "fp32",
             accumulator_format=config.accumulator_format,
+            coarse_granularity=config.coarse_granularity or "tensor",
         )
     else:
         raise ValueError(f"Unsupported topology for accuracy: {config.topology}")
@@ -1009,6 +1227,7 @@ def evaluate_accuracy_case(
         "sqnr_db": sqnr,
         "mse": mse,
         "reference_norm": ref_norm,
+        "input_source": input_source,
         "error": "",
     }
 
@@ -1057,12 +1276,16 @@ def evaluate_accuracy_case_with_timing(
     run_spec: dict[str, Any],
     sample_m_max: int,
     sample_n_max: int,
+    manifest: dict[str, Any],
+    input_mode: str,
 ) -> dict[str, Any]:
     started_at = time.time()
     row = evaluate_accuracy_case(
         run_spec,
         sample_m_max=sample_m_max,
         sample_n_max=sample_n_max,
+        manifest=manifest,
+        input_mode=input_mode,
     )
     row["duration_s"] = round(time.time() - started_at, 3)
     return row
@@ -1174,6 +1397,8 @@ def command_run_accuracy(args: argparse.Namespace) -> None:
                 run_spec,
                 sample_m_max=args.sample_m_max,
                 sample_n_max=args.sample_n_max,
+                manifest=manifest,
+                input_mode=args.input_mode,
             )
         except Exception as exc:
             return {
@@ -1190,6 +1415,7 @@ def command_run_accuracy(args: argparse.Namespace) -> None:
                 "sqnr_db": "",
                 "mse": "",
                 "reference_norm": "",
+                "input_source": "",
                 "duration_s": "",
                 "error": f"{exc}\n{traceback.format_exc()}",
             }
@@ -1259,6 +1485,7 @@ def build_parser() -> argparse.ArgumentParser:
     run_accuracy.add_argument("--limit", type=int)
     run_accuracy.add_argument("--sample-m-max", type=int, default=4)
     run_accuracy.add_argument("--sample-n-max", type=int, default=16)
+    run_accuracy.add_argument("--input-mode", choices=["proposal", "debug"], default="proposal")
     run_accuracy.set_defaults(func=command_run_accuracy)
 
     verify_legacy = subparsers.add_parser("verify-legacy", help="Re-run the legacy 4096x4096 baselines and compare against saved notebook outputs.")

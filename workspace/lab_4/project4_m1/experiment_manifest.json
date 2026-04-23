@@ -11,19 +11,19 @@
   },
   "accuracy_inputs": {
     "LLM": {
-      "path": "/n/holylabs/ydu_lab/Lab/wxiong/Hardware-for-quantization/workspace/lab_4/project4_m1/accuracy_inputs/llm_ffn_layer.npz",
+      "path": "accuracy_inputs/llm_ffn_layer.npz",
       "format": "npz",
       "activation_key": "a",
       "weight_key": "w"
     },
     "VLM": {
-      "path": "/n/holylabs/ydu_lab/Lab/wxiong/Hardware-for-quantization/workspace/lab_4/project4_m1/accuracy_inputs/vlm_vision_gemm.npz",
+      "path": "accuracy_inputs/vlm_vision_gemm.npz",
       "format": "npz",
       "activation_key": "a",
       "weight_key": "w"
     },
     "VLA": {
-      "path": "/n/holylabs/ydu_lab/Lab/wxiong/Hardware-for-quantization/workspace/lab_4/project4_m1/accuracy_inputs/vla_action_head.npz",
+      "path": "accuracy_inputs/vla_action_head.npz",
       "format": "npz",
       "activation_key": "a",
       "weight_key": "w"

@@ -17,6 +17,9 @@ actual proposal and milestone-3 sweeps into repeatable Python entrypoints.
   Joins hardware and accuracy summaries, computes Pareto frontiers, selects
   best configs per `(workload, phase)`, computes phase-adaptive savings, and
   summarizes milestone-3 saturation points.
+- `dump_accuracy_snapshot.py`
+  Creates proposal accuracy `.npz` snapshots either directly from a Hugging
+  Face causal LM checkpoint or from pre-extracted tensor files.
 - `experiment_manifest.json`
   Default checked-in manifest covering:
   - proposal sweep: `10 configs x 3 workloads x 2 phases`
@@ -29,6 +32,11 @@ From the repo root:
 
 ```bash
 python3 workspace/lab_4/project4_m1/run_sweeps.py write-manifest
+python3 workspace/lab_4/project4_m1/dump_accuracy_snapshot.py from-hf-causal-lm \
+  --model-id meta-llama/Llama-2-7b-hf \
+  --module-path model.layers.0.mlp.up_proj \
+  --prompt "Write a short summary of quantization-aware accelerator design." \
+  --output workspace/lab_4/project4_m1/accuracy_inputs/llm_ffn_layer.npz
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-accuracy
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite proposal --jobs 4
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite milestone3 --jobs 4
@@ -54,6 +62,9 @@ python3 workspace/lab_4/project4_m1/analyze_results.py
 - Proposal accuracy runs now fail closed: missing tensor snapshots are
   recorded as `missing_inputs` rows instead of silently falling back to
   synthetic Gaussian data.
+- The default manifest points `accuracy_inputs` to relative paths under
+  `project4_m1/accuracy_inputs/` so the same manifest works on the host and
+  inside a containerized workspace mount.
 - `C7` is the corrected proposal NVFP4-like reference with tensor-granular
   coarse scaling. `LEGACY_NVFP4_FULL` preserves the historical notebook
   row-wise coarse-scale behavior for validation only.

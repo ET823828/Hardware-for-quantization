@@ -8,6 +8,7 @@ from argparse import Namespace
 from pathlib import Path
 
 import analyze_results
+import dump_accuracy_snapshot
 import experiment_defs
 import run_sweeps
 
@@ -87,6 +88,37 @@ class QuantExperimentTests(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             run_sweeps.resolve_total_metric_column(["einsum<SEP>energy"], "energy")
+
+    def test_select_best_mapping_index_falls_back_to_derived_totals(self) -> None:
+        class FakeFrame:
+            def __init__(self, rows):
+                self._rows = rows
+                self.columns = list(rows[0].keys())
+                self.iloc = self
+
+            def __len__(self):
+                return len(self._rows)
+
+            def __getitem__(self, idx):
+                return self._rows[idx]
+
+        rows = [
+            {
+                "MatMul<SEP>energy<SEP>Compute<SEP>compute": 10.0,
+                "MatMul<SEP>latency<SEP>Compute": 5.0,
+            },
+            {
+                "MatMul<SEP>energy<SEP>Compute<SEP>compute": 20.0,
+                "MatMul<SEP>latency<SEP>Compute": 2.0,
+            },
+        ]
+        df = FakeFrame(rows)
+        best_idx, energy_total, latency_total, energy_col, latency_col = run_sweeps.select_best_mapping_index(df, ["MatMul"])
+        self.assertEqual(best_idx, 1)
+        self.assertEqual(energy_total, 20.0)
+        self.assertEqual(latency_total, 2.0)
+        self.assertEqual(energy_col, "derived_from_breakdown")
+        self.assertEqual(latency_col, "derived_from_breakdown")
 
     def test_effective_bits_and_compression(self) -> None:
         c1_row = {"config_id": "C1", "n": "3072", "k": "3072"}
@@ -175,6 +207,35 @@ class QuantExperimentTests(unittest.TestCase):
                 self.assertEqual(rows[0]["status"], "missing_inputs")
             finally:
                 run_sweeps.ACCURACY_CSV = original_accuracy_csv
+
+    def test_dump_accuracy_snapshot_from_files_packs_npz(self) -> None:
+        try:
+            import numpy as np
+        except ModuleNotFoundError:
+            self.skipTest("numpy is not installed in this test environment")
+
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp = Path(tmp_dir)
+            a_path = tmp / "a.npy"
+            w_path = tmp / "w.npy"
+            out_path = tmp / "snapshot.npz"
+
+            np.save(a_path, np.arange(12, dtype=np.float32).reshape(3, 4))
+            np.save(w_path, np.arange(20, dtype=np.float32).reshape(5, 4))
+
+            dump_accuracy_snapshot.command_from_files(
+                Namespace(
+                    a_path=str(a_path),
+                    w_path=str(w_path),
+                    output=str(out_path),
+                    a_key=None,
+                    w_key=None,
+                )
+            )
+
+            with np.load(out_path, allow_pickle=False) as payload:
+                self.assertEqual(payload["a"].shape, (3, 4))
+                self.assertEqual(payload["w"].shape, (5, 4))
 
     def test_analyzer_reports_incomplete_proposal_results(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:

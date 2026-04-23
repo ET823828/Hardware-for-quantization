@@ -308,19 +308,19 @@ def write_json_file(path: Path, payload: Any) -> None:
 def default_accuracy_inputs() -> dict[str, dict[str, str]]:
     return {
         "LLM": {
-            "path": str(ACCURACY_INPUTS_DIR / "llm_ffn_layer.npz"),
+            "path": "accuracy_inputs/llm_ffn_layer.npz",
             "format": "npz",
             "activation_key": "a",
             "weight_key": "w",
         },
         "VLM": {
-            "path": str(ACCURACY_INPUTS_DIR / "vlm_vision_gemm.npz"),
+            "path": "accuracy_inputs/vlm_vision_gemm.npz",
             "format": "npz",
             "activation_key": "a",
             "weight_key": "w",
         },
         "VLA": {
-            "path": str(ACCURACY_INPUTS_DIR / "vla_action_head.npz"),
+            "path": "accuracy_inputs/vla_action_head.npz",
             "format": "npz",
             "activation_key": "a",
             "weight_key": "w",

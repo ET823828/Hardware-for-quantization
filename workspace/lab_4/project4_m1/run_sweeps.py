@@ -562,6 +562,29 @@ def write_run_inputs(run_spec: dict[str, Any]) -> dict[str, Path]:
     }
 
 
+def resolve_accuracy_snapshot_path(path_text: str, *, manifest_path: Path | None = None) -> Path:
+    raw_path = Path(path_text).expanduser()
+    candidates: list[Path] = []
+    if raw_path.is_absolute():
+        candidates.append(raw_path)
+        candidates.append(HERE / "accuracy_inputs" / raw_path.name)
+    else:
+        if manifest_path is not None:
+            candidates.append(manifest_path.parent / raw_path)
+        candidates.append(HERE / raw_path)
+        candidates.append(HERE / "accuracy_inputs" / raw_path.name)
+
+    seen: set[Path] = set()
+    for candidate in candidates:
+        candidate = candidate.resolve()
+        if candidate in seen:
+            continue
+        seen.add(candidate)
+        if candidate.exists():
+            return candidate
+    return raw_path
+
+
 def import_accelforge() -> tuple[Any, Any] | tuple[None, str]:
     try:
         af = importlib.import_module("accelforge")
@@ -589,6 +612,56 @@ def resolve_total_metric_column(columns: list[str], metric: str) -> str:
     if len(fallback) > 1:
         raise ValueError(f"Ambiguous {metric} columns without explicit total: {fallback}")
     raise ValueError(f"Could not resolve total {metric} column from dataframe columns.")
+
+
+def derive_totals_from_row(row: Any, einsum_names: list[str]) -> tuple[float, float]:
+    energy_total = 0.0
+    latency_per_einsum: dict[str, float] = {}
+    columns = list(getattr(row, "index", row.keys()))
+    for col in columns:
+        parts = col.split("<SEP>")
+        if len(parts) < 3 or parts[0] not in einsum_names:
+            continue
+        try:
+            value = float(row[col])
+        except (TypeError, ValueError):
+            continue
+        metric = parts[1]
+        if metric == "energy":
+            energy_total += value
+        elif metric == "latency":
+            einsum = parts[0]
+            latency_per_einsum[einsum] = max(latency_per_einsum.get(einsum, 0.0), value)
+    latency_total = sum(latency_per_einsum.values())
+    return energy_total, latency_total
+
+
+def select_best_mapping_index(df: Any, einsum_names: list[str]) -> tuple[int, float, float, str, str]:
+    energy_col = None
+    latency_col = None
+    energy_values = None
+    latency_values = None
+    try:
+        energy_col = resolve_total_metric_column(list(df.columns), "energy")
+        energy_values = [float(value) for value in df[energy_col].values]
+    except ValueError:
+        energy_col = "derived_from_breakdown"
+    try:
+        latency_col = resolve_total_metric_column(list(df.columns), "latency")
+        latency_values = [float(value) for value in df[latency_col].values]
+    except ValueError:
+        latency_col = "derived_from_breakdown"
+
+    if energy_values is None or latency_values is None:
+        derived = [derive_totals_from_row(df.iloc[idx], einsum_names) for idx in range(len(df))]
+        if energy_values is None:
+            energy_values = [item[0] for item in derived]
+        if latency_values is None:
+            latency_values = [item[1] for item in derived]
+
+    edp_values = [energy * latency for energy, latency in zip(energy_values, latency_values)]
+    best_idx = int(min(range(len(edp_values)), key=lambda idx: edp_values[idx]))
+    return best_idx, energy_values[best_idx], latency_values[best_idx], energy_col, latency_col
 
 
 def extract_hardware_breakdown(df: Any, best_idx: int, einsum_names: list[str]) -> dict[str, Any]:
@@ -725,14 +798,10 @@ def run_hardware_case(run_spec: dict[str, Any]) -> dict[str, Any]:
             row["error"] = "No valid mappings were returned."
             return row
 
-        energy_col = resolve_total_metric_column(list(df.columns), "energy")
-        latency_col = resolve_total_metric_column(list(df.columns), "latency")
-        best_idx = 0
-        edp_values = (df[energy_col] * df[latency_col]).values
-        best_idx = int(min(range(len(edp_values)), key=lambda idx: edp_values[idx]))
-
-        energy_total = float(df[energy_col].values[best_idx])
-        latency_total = float(df[latency_col].values[best_idx])
+        best_idx, energy_total, latency_total, energy_col, latency_col = select_best_mapping_index(
+            df,
+            list(all_mappings.einsum_names),
+        )
         result = all_mappings[best_idx]
         paths["mapping_path"].write_text(result.mapping().to_yaml())
 
@@ -882,8 +951,8 @@ def matrix_from_payload(payload: Any, key: str) -> list[list[float]]:
     return rows
 
 
-def load_accuracy_snapshot(entry: dict[str, Any]) -> tuple[list[list[float]], list[list[float]], Path]:
-    path = Path(entry["path"]).expanduser()
+def load_accuracy_snapshot(entry: dict[str, Any], *, manifest_path: Path | None = None) -> tuple[list[list[float]], list[list[float]], Path]:
+    path = resolve_accuracy_snapshot_path(entry["path"], manifest_path=manifest_path)
     if not path.exists():
         raise FileNotFoundError(path)
 
@@ -1110,6 +1179,7 @@ def evaluate_accuracy_case(
     sample_n_max: int,
     manifest: dict[str, Any],
     input_mode: str,
+    manifest_path: Path | None,
 ) -> dict[str, Any]:
     config = get_quant_config(run_spec["config_id"])
     if run_spec["config_id"] in SPECIAL_CONFIGS:
@@ -1139,7 +1209,7 @@ def evaluate_accuracy_case(
                 "error": f"No accuracy input manifest entry for workload={run_spec['workload_id']}",
             }
         try:
-            a_rows_all, w_rows_all, snapshot_path = load_accuracy_snapshot(entry)
+            a_rows_all, w_rows_all, snapshot_path = load_accuracy_snapshot(entry, manifest_path=manifest_path)
         except FileNotFoundError as exc:
             return {
                 "suite": run_spec["suite"],
@@ -1278,6 +1348,7 @@ def evaluate_accuracy_case_with_timing(
     sample_n_max: int,
     manifest: dict[str, Any],
     input_mode: str,
+    manifest_path: Path | None,
 ) -> dict[str, Any]:
     started_at = time.time()
     row = evaluate_accuracy_case(
@@ -1286,6 +1357,7 @@ def evaluate_accuracy_case_with_timing(
         sample_n_max=sample_n_max,
         manifest=manifest,
         input_mode=input_mode,
+        manifest_path=manifest_path,
     )
     row["duration_s"] = round(time.time() - started_at, 3)
     return row
@@ -1382,7 +1454,8 @@ def command_run_hardware(args: argparse.Namespace) -> None:
 
 
 def command_run_accuracy(args: argparse.Namespace) -> None:
-    manifest = manifest_or_default(Path(args.manifest))
+    manifest_path = Path(args.manifest)
+    manifest = manifest_or_default(manifest_path)
     runs = manifest_runs(manifest, "proposal")
     unique_runs: dict[tuple[str, str, str], dict[str, Any]] = {}
     for run_spec in runs:
@@ -1399,6 +1472,7 @@ def command_run_accuracy(args: argparse.Namespace) -> None:
                 sample_n_max=args.sample_n_max,
                 manifest=manifest,
                 input_mode=args.input_mode,
+                manifest_path=manifest_path,
             )
         except Exception as exc:
             return {

@@ -44,33 +44,58 @@ class QuantExperimentTests(unittest.TestCase):
         prompt = dump_accuracy_snapshot.build_openvla_prompt("pick up the red block.")
         self.assertEqual(prompt, "In: What action should the robot take to pick up the red block?\nOut:")
 
-    def test_build_two_level_workload_uses_tensor_vs_row_projections(self) -> None:
+    def test_build_two_level_workload_uses_rank1_tensor_scales_and_split_n(self) -> None:
         tensor_workload = run_sweeps.build_two_level_workload(
-            shape={"m": 4, "n": 8, "k": 16},
+            shape={"m": 4, "n": 16, "k": 16},
             block_size=4,
             fine_scale_bits=8,
             coarse_scale_bits=16,
             acc_bits=32,
             coarse_granularity="tensor",
+            split_n=True,
+            rank1_tensor_scales=True,
         )
         row_workload = run_sweeps.build_two_level_workload(
-            shape={"m": 4, "n": 8, "k": 16},
+            shape={"m": 4, "n": 16, "k": 16},
             block_size=4,
             fine_scale_bits=8,
             coarse_scale_bits=16,
             acc_bits=32,
             coarse_granularity="row",
+            split_n=True,
         )
 
         tensor_scale_a = tensor_workload["workload"]["einsums"][0]["tensor_accesses"][1]["projection"]
         row_scale_a = row_workload["workload"]["einsums"][0]["tensor_accesses"][1]["projection"]
         tensor_scale_w = tensor_workload["workload"]["einsums"][4]["tensor_accesses"][1]["projection"]
         row_scale_w = row_workload["workload"]["einsums"][4]["tensor_accesses"][1]["projection"]
+        tensor_iter = tensor_workload["workload"]["iteration_space_shape"]
+        row_iter = row_workload["workload"]["iteration_space_shape"]
 
-        self.assertEqual(tensor_scale_a, [])
-        self.assertEqual(tensor_scale_w, [])
+        self.assertEqual(tensor_scale_a, ["ga"])
+        self.assertEqual(tensor_scale_w, ["gw"])
         self.assertEqual(row_scale_a, ["m"])
-        self.assertEqual(row_scale_w, ["n"])
+        self.assertEqual(row_scale_w, ["nb", "ni"])
+        self.assertIn("ga", tensor_iter)
+        self.assertIn("gw", tensor_iter)
+        self.assertEqual(row_iter["nb"], "0 <= nb < 1")
+        self.assertEqual(row_iter["ni"], "0 <= ni < 16")
+
+    def test_build_one_level_workload_splits_large_n_dimension(self) -> None:
+        workload = run_sweeps.build_one_level_workload(
+            shape={"m": 128, "n": 11008, "k": 4096},
+            block_size=32,
+            scale_bits=8,
+            acc_bits=32,
+        )
+
+        iter_shape = workload["workload"]["iteration_space_shape"]
+        matmul = next(e for e in workload["workload"]["einsums"] if e["name"] == "MatMulBlock")
+
+        self.assertEqual(iter_shape["nb"], "0 <= nb < 688")
+        self.assertEqual(iter_shape["ni"], "0 <= ni < 16")
+        self.assertEqual(matmul["tensor_accesses"][1]["projection"], ["nb", "ni", "kb", "ki"])
+        self.assertEqual(matmul["tensor_accesses"][2]["projection"], ["m", "nb", "ni", "kb"])
 
     def test_two_level_quantization_assigns_different_coarse_scales_for_tensor_vs_row(self) -> None:
         rows = [
@@ -333,6 +358,65 @@ class QuantExperimentTests(unittest.TestCase):
                     analyze_results.PARETO_CSV,
                     analyze_results.ADAPTIVE_CSV,
                     analyze_results.ANALYSIS_STATUS_JSON,
+                ) = original_values
+
+    def test_proposal_completion_status_requires_manifest_row_counts_and_real_inputs(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp = Path(tmp_dir)
+            hardware_csv = tmp / "proposal_hardware.csv"
+            accuracy_csv = tmp / "accuracy.csv"
+
+            write_csv(
+                hardware_csv,
+                [
+                    {
+                        "suite": "proposal",
+                        "run_id": "proposal__llm__decode__c7__baseline",
+                        "status": "ok",
+                        "workload_id": "LLM",
+                        "phase_id": "decode",
+                        "config_id": "C7",
+                        "arch_id": "baseline",
+                        "m": 1,
+                        "n": 11008,
+                        "k": 4096,
+                    }
+                ],
+            )
+            write_csv(
+                accuracy_csv,
+                [
+                    {
+                        "suite": "proposal",
+                        "run_id": "proposal__llm__decode__c7__baseline",
+                        "status": "ok",
+                        "workload_id": "LLM",
+                        "phase_id": "decode",
+                        "config_id": "C7",
+                        "cosine_similarity": 0.99,
+                        "input_source": str(tmp / "missing_snapshot.npz"),
+                    }
+                ],
+            )
+
+            original_values = (
+                analyze_results.PROPOSAL_HARDWARE_CSV,
+                analyze_results.ACCURACY_CSV,
+            )
+            try:
+                analyze_results.PROPOSAL_HARDWARE_CSV = hardware_csv
+                analyze_results.ACCURACY_CSV = accuracy_csv
+                status = analyze_results.proposal_completion_status()
+                self.assertFalse(status["proposal_ready"])
+                self.assertEqual(status["expected_hardware_rows"], 60)
+                self.assertEqual(status["expected_accuracy_rows"], 60)
+                self.assertEqual(status["observed_hardware_rows"], 1)
+                self.assertEqual(status["observed_accuracy_rows"], 1)
+                self.assertTrue(any("row count mismatch" in issue for issue in status["issues"]))
+            finally:
+                (
+                    analyze_results.PROPOSAL_HARDWARE_CSV,
+                    analyze_results.ACCURACY_CSV,
                 ) = original_values
 
 

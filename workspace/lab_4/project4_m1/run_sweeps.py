@@ -276,11 +276,15 @@ def build_weight_only_workload(shape: dict[str, int], block_size: int, scale_bit
 
 def build_one_level_workload(shape: dict[str, int], block_size: int, scale_bits: int, acc_bits: int) -> dict[str, Any]:
     kb = shape["k"] // block_size
+    if shape["n"] % 16 != 0:
+        raise ValueError(f"One-level workload requires n to be divisible by 16, got n={shape['n']}")
+    nb = shape["n"] // 16
     return {
         "workload": {
             "iteration_space_shape": {
                 "m": f"0 <= m < {shape['m']}",
-                "n": f"0 <= n < {shape['n']}",
+                "nb": f"0 <= nb < {nb}",
+                "ni": "0 <= ni < 16",
                 "kb": f"0 <= kb < {kb}",
                 "ki": f"0 <= ki < {block_size}",
             },
@@ -314,40 +318,40 @@ def build_one_level_workload(shape: dict[str, int], block_size: int, scale_bits:
                 {
                     "name": "BlockScaleW",
                     "tensor_accesses": [
-                        {"name": "W", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Sbw", "projection": ["n", "kb"], "output": True},
+                        {"name": "W", "projection": ["nb", "ni", "kb", "ki"], "density": 1.0},
+                        {"name": "Sbw", "projection": ["nb", "ni", "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "BlockQuantW",
                     "tensor_accesses": [
-                        {"name": "W", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Sbw", "projection": ["n", "kb"], "density": 1.0},
-                        {"name": "Wq", "projection": ["n", "kb", "ki"], "output": True},
+                        {"name": "W", "projection": ["nb", "ni", "kb", "ki"], "density": 1.0},
+                        {"name": "Sbw", "projection": ["nb", "ni", "kb"], "density": 1.0},
+                        {"name": "Wq", "projection": ["nb", "ni", "kb", "ki"], "output": True},
                     ],
                 },
                 {
                     "name": "MatMulBlock",
                     "tensor_accesses": [
                         {"name": "Aq", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Wq", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Yraw", "projection": ["m", "n", "kb"], "output": True},
+                        {"name": "Wq", "projection": ["nb", "ni", "kb", "ki"], "density": 1.0},
+                        {"name": "Yraw", "projection": ["m", "nb", "ni", "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "RescaleBlockA",
                     "tensor_accesses": [
-                        {"name": "Yraw", "projection": ["m", "n", "kb"], "density": 1.0},
+                        {"name": "Yraw", "projection": ["m", "nb", "ni", "kb"], "density": 1.0},
                         {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
-                        {"name": "Ytmp", "projection": ["m", "n", "kb"], "output": True},
+                        {"name": "Ytmp", "projection": ["m", "nb", "ni", "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "RescaleBlockW",
                     "tensor_accesses": [
-                        {"name": "Ytmp", "projection": ["m", "n", "kb"], "density": 1.0},
-                        {"name": "Sbw", "projection": ["n", "kb"], "density": 1.0},
-                        {"name": "Y", "projection": ["m", "n"], "output": True},
+                        {"name": "Ytmp", "projection": ["m", "nb", "ni", "kb"], "density": 1.0},
+                        {"name": "Sbw", "projection": ["nb", "ni", "kb"], "density": 1.0},
+                        {"name": "Y", "projection": ["m", "nb", "ni"], "output": True},
                     ],
                 },
             ],
@@ -362,20 +366,44 @@ def build_two_level_workload(
     coarse_scale_bits: int,
     acc_bits: int,
     coarse_granularity: str,
+    *,
+    split_n: bool = False,
+    rank1_tensor_scales: bool = False,
 ) -> dict[str, Any]:
     kb = shape["k"] // block_size
     if coarse_granularity not in {"tensor", "row"}:
         raise ValueError(f"Unsupported coarse granularity: {coarse_granularity}")
-    activation_projection = [] if coarse_granularity == "tensor" else ["m"]
-    weight_projection = [] if coarse_granularity == "tensor" else ["n"]
+    iteration_space_shape = {
+        "m": f"0 <= m < {shape['m']}",
+        "kb": f"0 <= kb < {kb}",
+        "ki": f"0 <= ki < {block_size}",
+    }
+    if split_n:
+        if shape["n"] % 16 != 0:
+            raise ValueError(f"Two-level workload requires n to be divisible by 16 when split_n=True, got n={shape['n']}")
+        nb = shape["n"] // 16
+        iteration_space_shape["nb"] = f"0 <= nb < {nb}"
+        iteration_space_shape["ni"] = "0 <= ni < 16"
+        n_projection = ["nb", "ni"]
+    else:
+        iteration_space_shape["n"] = f"0 <= n < {shape['n']}"
+        n_projection = ["n"]
+
+    if coarse_granularity == "tensor":
+        if rank1_tensor_scales:
+            iteration_space_shape["ga"] = "0 <= ga < 1"
+            iteration_space_shape["gw"] = "0 <= gw < 1"
+            activation_projection = ["ga"]
+            weight_projection = ["gw"]
+        else:
+            activation_projection = []
+            weight_projection = []
+    else:
+        activation_projection = ["m"]
+        weight_projection = list(n_projection)
     return {
         "workload": {
-            "iteration_space_shape": {
-                "m": f"0 <= m < {shape['m']}",
-                "n": f"0 <= n < {shape['n']}",
-                "kb": f"0 <= kb < {kb}",
-                "ki": f"0 <= ki < {block_size}",
-            },
+            "iteration_space_shape": iteration_space_shape,
             "bits_per_value": {
                 "A": 16,
                 "W": 16,
@@ -427,71 +455,71 @@ def build_two_level_workload(
                 {
                     "name": "TensorScaleW",
                     "tensor_accesses": [
-                        {"name": "W", "projection": ["n", "kb", "ki"], "density": 1.0},
+                        {"name": "W", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
                         {"name": "Sgw", "projection": weight_projection, "output": True},
                     ],
                 },
                 {
                     "name": "TensorQuantW",
                     "tensor_accesses": [
-                        {"name": "W", "projection": ["n", "kb", "ki"], "density": 1.0},
+                        {"name": "W", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
                         {"name": "Sgw", "projection": weight_projection, "density": 1.0},
-                        {"name": "Wscl", "projection": ["n", "kb", "ki"], "output": True},
+                        {"name": "Wscl", "projection": [*n_projection, "kb", "ki"], "output": True},
                     ],
                 },
                 {
                     "name": "BlockScaleW",
                     "tensor_accesses": [
-                        {"name": "Wscl", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Sbw", "projection": ["n", "kb"], "output": True},
+                        {"name": "Wscl", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
+                        {"name": "Sbw", "projection": [*n_projection, "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "BlockQuantW",
                     "tensor_accesses": [
-                        {"name": "Wscl", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Sbw", "projection": ["n", "kb"], "density": 1.0},
-                        {"name": "Wq", "projection": ["n", "kb", "ki"], "output": True},
+                        {"name": "Wscl", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
+                        {"name": "Sbw", "projection": [*n_projection, "kb"], "density": 1.0},
+                        {"name": "Wq", "projection": [*n_projection, "kb", "ki"], "output": True},
                     ],
                 },
                 {
                     "name": "MatMulNVFP4",
                     "tensor_accesses": [
                         {"name": "Aq", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Wq", "projection": ["n", "kb", "ki"], "density": 1.0},
-                        {"name": "Yraw", "projection": ["m", "n", "kb"], "output": True},
+                        {"name": "Wq", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
+                        {"name": "Yraw", "projection": ["m", *n_projection, "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "RescaleBlockA",
                     "tensor_accesses": [
-                        {"name": "Yraw", "projection": ["m", "n", "kb"], "density": 1.0},
+                        {"name": "Yraw", "projection": ["m", *n_projection, "kb"], "density": 1.0},
                         {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
-                        {"name": "Ytmp", "projection": ["m", "n", "kb"], "output": True},
+                        {"name": "Ytmp", "projection": ["m", *n_projection, "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "RescaleBlockW",
                     "tensor_accesses": [
-                        {"name": "Ytmp", "projection": ["m", "n", "kb"], "density": 1.0},
-                        {"name": "Sbw", "projection": ["n", "kb"], "density": 1.0},
-                        {"name": "Yblk", "projection": ["m", "n", "kb"], "output": True},
+                        {"name": "Ytmp", "projection": ["m", *n_projection, "kb"], "density": 1.0},
+                        {"name": "Sbw", "projection": [*n_projection, "kb"], "density": 1.0},
+                        {"name": "Yblk", "projection": ["m", *n_projection, "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "RescaleTensorA",
                     "tensor_accesses": [
-                        {"name": "Yblk", "projection": ["m", "n", "kb"], "density": 1.0},
+                        {"name": "Yblk", "projection": ["m", *n_projection, "kb"], "density": 1.0},
                         {"name": "Sga", "projection": activation_projection, "density": 1.0},
-                        {"name": "Ytmp2", "projection": ["m", "n"], "output": True},
+                        {"name": "Ytmp2", "projection": ["m", *n_projection], "output": True},
                     ],
                 },
                 {
                     "name": "RescaleTensorW",
                     "tensor_accesses": [
-                        {"name": "Ytmp2", "projection": ["m", "n"], "density": 1.0},
+                        {"name": "Ytmp2", "projection": ["m", *n_projection], "density": 1.0},
                         {"name": "Sgw", "projection": weight_projection, "density": 1.0},
-                        {"name": "Y", "projection": ["m", "n"], "output": True},
+                        {"name": "Y", "projection": ["m", *n_projection], "output": True},
                     ],
                 },
             ],
@@ -535,6 +563,8 @@ def build_workload(run_spec: dict[str, Any]) -> dict[str, Any]:
             coarse_scale_bits=config.coarse_scale_bits or SCALE_FORMATS[config.coarse_rescale_format]["storage_bits"],
             acc_bits=acc_bits,
             coarse_granularity=config.coarse_granularity or "tensor",
+            split_n=True,
+            rank1_tensor_scales=True,
         )
     raise ValueError(f"Unknown topology: {config.topology}")
 

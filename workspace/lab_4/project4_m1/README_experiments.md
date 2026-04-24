@@ -3,6 +3,9 @@
 This directory now contains a scriptable experiment flow that keeps
 `project4_m1_quantization_workload.ipynb` as the prototype, but moves the
 actual proposal and milestone-3 sweeps into repeatable Python entrypoints.
+The generated CSV/JSON artifacts under `results/` are the source of truth for
+proposal readiness; the notebook should be treated as a thin frontend for
+launching commands and previewing those saved outputs.
 
 ## Files
 
@@ -89,6 +92,11 @@ python3 workspace/lab_4/project4_m1/analyze_results.py
 - The default manifest points `accuracy_inputs` to relative paths under
   `project4_m1/accuracy_inputs/` so the same manifest works on the host and
   inside a containerized workspace mount.
+- Proposal hardware workloads now use mapper-safe encodings: two-level
+  tensor-granular coarse scales are emitted as singleton ranks instead of
+  zero-rank tensors, and proposal one-level/two-level sweeps split the large
+  output-channel dimension into `nb x ni` to avoid AccelForge rank-width
+  overflows on large LLM cases.
 - `C7` is the corrected proposal NVFP4-like reference with tensor-granular
   coarse scaling. `LEGACY_NVFP4_FULL` preserves the historical notebook
   row-wise coarse-scale behavior for validation only.

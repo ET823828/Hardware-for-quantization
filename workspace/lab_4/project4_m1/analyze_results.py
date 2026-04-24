@@ -16,11 +16,14 @@ if str(HERE) not in sys.path:
 from experiment_defs import (
     DEFAULT_ALPHA_BY_WORKLOAD,
     DEFAULT_ACCURACY_FLOOR,
+    DEFAULT_MANIFEST_PATH,
     DEFAULT_SATURATION_TOLERANCE,
     FIGURES_DIR,
     RESULTS_DIR,
     ensure_dir,
     get_quant_config,
+    manifest_or_default,
+    manifest_runs,
 )
 
 
@@ -222,10 +225,14 @@ def choose_best_fixed(workload_rows: list[dict[str, Any]], alpha: float, accurac
 
 
 def proposal_completion_status() -> dict[str, Any]:
+    manifest = manifest_or_default(DEFAULT_MANIFEST_PATH)
+    proposal_runs = manifest_runs(manifest, "proposal")
     hardware_rows = load_csv(PROPOSAL_HARDWARE_CSV)
     accuracy_rows = load_csv(ACCURACY_CSV)
-    expected_hardware = len({row["run_id"] for row in hardware_rows}) if hardware_rows else 0
-    expected_accuracy = len({(row["workload_id"], row["phase_id"], row["config_id"]) for row in accuracy_rows}) if accuracy_rows else 0
+    expected_hardware = len({row["run_id"] for row in proposal_runs})
+    expected_accuracy = len({(row["workload_id"], row["phase_id"], row["config_id"]) for row in proposal_runs})
+    observed_hardware = len({row["run_id"] for row in hardware_rows})
+    observed_accuracy = len({(row["workload_id"], row["phase_id"], row["config_id"]) for row in accuracy_rows})
 
     hardware_status_counts: dict[str, int] = {}
     for row in hardware_rows:
@@ -237,23 +244,32 @@ def proposal_completion_status() -> dict[str, Any]:
         status = row.get("status", "unknown")
         accuracy_status_counts[status] = accuracy_status_counts.get(status, 0) + 1
 
-    hardware_complete = bool(hardware_rows) and all(row.get("status") == "ok" for row in hardware_rows)
+    hardware_complete = (
+        bool(hardware_rows)
+        and observed_hardware == expected_hardware
+        and all(row.get("status") == "ok" for row in hardware_rows)
+    )
     accuracy_complete = bool(accuracy_rows) and all(
         row.get("status") == "ok"
         and bool(row.get("input_source"))
         and not str(row.get("input_source", "")).startswith("debug::")
+        and Path(str(row.get("input_source", ""))).exists()
         for row in accuracy_rows
-    )
+    ) and observed_accuracy == expected_accuracy
     issues: list[str] = []
     if not hardware_rows:
         issues.append("No proposal hardware summary rows were found.")
     elif not hardware_complete:
         issues.append(f"Proposal hardware rows are incomplete: {hardware_status_counts}")
+        if observed_hardware != expected_hardware:
+            issues.append(f"Proposal hardware row count mismatch: expected {expected_hardware}, found {observed_hardware}.")
     if not accuracy_rows:
         issues.append("No proposal accuracy summary rows were found.")
     elif not accuracy_complete:
         issues.append("Proposal accuracy rows are incomplete or still using stale/debug inputs.")
         issues.append(f"Proposal accuracy status counts: {accuracy_status_counts}")
+        if observed_accuracy != expected_accuracy:
+            issues.append(f"Proposal accuracy row count mismatch: expected {expected_accuracy}, found {observed_accuracy}.")
 
     return {
         "proposal_ready": hardware_complete and accuracy_complete,
@@ -261,6 +277,8 @@ def proposal_completion_status() -> dict[str, Any]:
         "accuracy_status_counts": accuracy_status_counts,
         "hardware_row_count": len(hardware_rows),
         "accuracy_row_count": len(accuracy_rows),
+        "observed_hardware_rows": observed_hardware,
+        "observed_accuracy_rows": observed_accuracy,
         "issues": issues,
         "expected_hardware_rows": expected_hardware,
         "expected_accuracy_rows": expected_accuracy,

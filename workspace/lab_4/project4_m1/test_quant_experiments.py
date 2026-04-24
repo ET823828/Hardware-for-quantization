@@ -114,6 +114,18 @@ class QuantExperimentTests(unittest.TestCase):
             self.assertEqual([run["run_id"] for run in filtered], ["retry", "missing"])
             self.assertEqual(run_sweeps.filter_completed_runs(runs, csv_path, rerun_ok=True), runs)
 
+    def test_filter_runs_by_selectors(self) -> None:
+        runs = [
+            {"workload_id": "LLM", "phase_id": "decode", "config_id": "C1", "arch_id": "baseline"},
+            {"workload_id": "LLM", "phase_id": "prefill", "config_id": "C7", "arch_id": "baseline"},
+            {"workload_id": "VLM", "phase_id": "prefill", "config_id": "C7", "arch_id": "baseline"},
+        ]
+        args = Namespace(workload=["LLM"], phase=["prefill"], config=["C7"], arch=None)
+
+        filtered = run_sweeps.filter_runs_by_selectors(runs, args)
+
+        self.assertEqual(filtered, [runs[1]])
+
     def test_two_level_quantization_assigns_different_coarse_scales_for_tensor_vs_row(self) -> None:
         rows = [
             [6.0, 0.0, 0.0, 0.0],

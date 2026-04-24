@@ -62,7 +62,7 @@ python3 workspace/lab_4/project4_m1/dump_accuracy_snapshot.py from-openvla \
   --instruction "pick up the red block" \
   --output workspace/lab_4/project4_m1/accuracy_inputs/vla_action_head.npz
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-accuracy --suite proposal
-python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite proposal --jobs 4
+python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite proposal --jobs 1
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite milestone3 --jobs 4
 python3 workspace/lab_4/project4_m1/run_sweeps.py verify-legacy
 python3 workspace/lab_4/project4_m1/analyze_results.py
@@ -77,11 +77,14 @@ python3 workspace/lab_4/project4_m1/analyze_results.py
   `generated_only` rows in the CSV summaries.
 - Hardware progress is printed per case, and each completed case is appended
   to the CSV summary immediately. `--jobs N` runs independent hardware cases
-  in parallel; start with `--jobs 2` or `--jobs 4` and adjust based on memory
-  pressure in your AccelForge environment.
+  in parallel; use `--jobs 1` in Docker or on memory-constrained machines
+  because AccelForge already parallelizes internally.
 - Hardware runs resume by default: rows already recorded as `ok` in the target
   summary CSV are skipped. Pass `--rerun-ok` when you intentionally want to
   recompute successful cases.
+- Use `run_sweeps.py status --suite proposal` to list missing/error cases. You
+  can rerun slices with selectors such as `--workload LLM --phase prefill
+  --config C7` when one large mapper case needs attention.
 - The accuracy pipeline is dependency-free and uses a deterministic
   pure-Python quantization emulator in `--input-mode debug`. The default
   proposal path (`--input-mode proposal`) requires representative tensor

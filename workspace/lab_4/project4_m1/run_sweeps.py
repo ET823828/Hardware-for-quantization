@@ -6,6 +6,7 @@ import csv
 import importlib
 import json
 import math
+import os
 import random
 import sys
 import time
@@ -630,6 +631,10 @@ def resolve_accuracy_snapshot_path(path_text: str, *, manifest_path: Path | None
 
 
 def import_accelforge() -> tuple[Any, Any] | tuple[None, str]:
+    os.environ.setdefault("LOKY_MAX_CPU_COUNT", "1")
+    os.environ.setdefault("OMP_NUM_THREADS", "1")
+    os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
+    os.environ.setdefault("MKL_NUM_THREADS", "1")
     try:
         af = importlib.import_module("accelforge")
         metrics_mod = importlib.import_module("accelforge.mapper")
@@ -1388,6 +1393,66 @@ def filter_completed_runs(runs: list[dict[str, Any]], csv_path: Path, *, rerun_o
     return [run_spec for run_spec in runs if existing.get(run_spec["run_id"], {}).get("status") != "ok"]
 
 
+def filter_runs_by_selectors(runs: list[dict[str, Any]], args: argparse.Namespace) -> list[dict[str, Any]]:
+    workload_ids = set(getattr(args, "workload", None) or [])
+    phase_ids = set(getattr(args, "phase", None) or [])
+    config_ids = set(getattr(args, "config", None) or [])
+    arch_ids = set(getattr(args, "arch", None) or [])
+    filtered = []
+    for run_spec in runs:
+        if workload_ids and run_spec["workload_id"] not in workload_ids:
+            continue
+        if phase_ids and run_spec["phase_id"] not in phase_ids:
+            continue
+        if config_ids and run_spec["config_id"] not in config_ids:
+            continue
+        if arch_ids and run_spec["arch_id"] not in arch_ids:
+            continue
+        filtered.append(run_spec)
+    return filtered
+
+
+def add_run_selectors(parser: argparse.ArgumentParser, *, include_arch: bool = False) -> None:
+    parser.add_argument("--workload", action="append", help="Only run this workload_id. Can be passed multiple times.")
+    parser.add_argument("--phase", action="append", help="Only run this phase_id. Can be passed multiple times.")
+    parser.add_argument("--config", action="append", help="Only run this config_id. Can be passed multiple times.")
+    if include_arch:
+        parser.add_argument("--arch", action="append", help="Only run this arch_id. Can be passed multiple times.")
+
+
+def command_status(args: argparse.Namespace) -> None:
+    manifest = manifest_or_default(Path(args.manifest))
+    suite = args.suite
+    runs = filter_runs_by_selectors(manifest_runs(manifest, suite), args)
+    csv_path = target_hardware_csv(suite)
+    existing = load_existing_rows_by_run_id(csv_path)
+    counts: dict[str, int] = {}
+    missing: list[str] = []
+    non_ok: list[tuple[str, str]] = []
+    for run_spec in runs:
+        row = existing.get(run_spec["run_id"])
+        status = row.get("status", "missing") if row else "missing"
+        counts[status] = counts.get(status, 0) + 1
+        if status == "missing":
+            missing.append(run_spec["run_id"])
+        elif status != "ok":
+            non_ok.append((run_spec["run_id"], status))
+    print(f"Status for suite={suite} in {csv_path}")
+    print(f"selected={len(runs)} counts={counts}")
+    if missing:
+        print("Missing runs:")
+        for run_id in missing[: args.max_rows]:
+            print(f"  {run_id}")
+        if len(missing) > args.max_rows:
+            print(f"  ... {len(missing) - args.max_rows} more")
+    if non_ok:
+        print("Non-ok runs:")
+        for run_id, status in non_ok[: args.max_rows]:
+            print(f"  {run_id}: {status}")
+        if len(non_ok) > args.max_rows:
+            print(f"  ... {len(non_ok) - args.max_rows} more")
+
+
 def target_hardware_csv(suite: str) -> Path:
     if suite == "proposal":
         return PROPOSAL_HARDWARE_CSV
@@ -1501,7 +1566,7 @@ def command_write_manifest(args: argparse.Namespace) -> None:
 def command_run_hardware(args: argparse.Namespace) -> None:
     manifest = manifest_or_default(Path(args.manifest))
     suite = args.suite
-    runs = manifest_runs(manifest, suite)
+    runs = filter_runs_by_selectors(manifest_runs(manifest, suite), args)
     if args.limit:
         runs = runs[: args.limit]
     csv_path = target_hardware_csv(suite)
@@ -1524,7 +1589,7 @@ def command_run_hardware(args: argparse.Namespace) -> None:
 def command_run_accuracy(args: argparse.Namespace) -> None:
     manifest_path = Path(args.manifest)
     manifest = manifest_or_default(manifest_path)
-    runs = manifest_runs(manifest, args.suite)
+    runs = filter_runs_by_selectors(manifest_runs(manifest, args.suite), args)
     unique_runs: dict[tuple[str, str, str], dict[str, Any]] = {}
     for run_spec in runs:
         key = (run_spec["workload_id"], run_spec["phase_id"], run_spec["config_id"])
@@ -1615,9 +1680,17 @@ def build_parser() -> argparse.ArgumentParser:
     write_manifest.add_argument("--output", default=str(DEFAULT_MANIFEST_PATH))
     write_manifest.set_defaults(func=command_write_manifest)
 
+    status = subparsers.add_parser("status", help="Show missing/non-ok rows for a hardware summary without running new cases.")
+    status.add_argument("--manifest", default=str(DEFAULT_MANIFEST_PATH))
+    status.add_argument("--suite", choices=["proposal", "milestone3", "legacy_validation"], default="proposal")
+    add_run_selectors(status, include_arch=True)
+    status.add_argument("--max-rows", type=int, default=80)
+    status.set_defaults(func=command_status)
+
     run_hardware = subparsers.add_parser("run-hardware", help="Generate workload/arch files and run the hardware sweep if AccelForge is available.")
     run_hardware.add_argument("--manifest", default=str(DEFAULT_MANIFEST_PATH))
     run_hardware.add_argument("--suite", choices=["proposal", "milestone3", "legacy_validation"], default="proposal")
+    add_run_selectors(run_hardware, include_arch=True)
     run_hardware.add_argument("--limit", type=int)
     run_hardware.add_argument("--jobs", type=int, default=1, help="Number of parallel workers to use for independent cases.")
     run_hardware.add_argument("--rerun-ok", action="store_true", help="Recompute runs that already have ok rows in the target CSV.")
@@ -1626,6 +1699,7 @@ def build_parser() -> argparse.ArgumentParser:
     run_accuracy = subparsers.add_parser("run-accuracy", help="Run the pure-Python accuracy emulator for proposal configs.")
     run_accuracy.add_argument("--manifest", default=str(DEFAULT_MANIFEST_PATH))
     run_accuracy.add_argument("--suite", choices=["proposal"], default="proposal", help="Accuracy is currently defined for proposal configs.")
+    add_run_selectors(run_accuracy)
     run_accuracy.add_argument("--limit", type=int)
     run_accuracy.add_argument("--sample-m-max", type=int, default=4)
     run_accuracy.add_argument("--sample-n-max", type=int, default=16)

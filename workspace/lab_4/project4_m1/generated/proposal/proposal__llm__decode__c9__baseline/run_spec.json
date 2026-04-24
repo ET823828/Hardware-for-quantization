@@ -1,0 +1,15 @@
+{
+  "suite": "proposal",
+  "run_id": "proposal__llm__decode__c9__baseline",
+  "workload_id": "LLM",
+  "phase_id": "decode",
+  "config_id": "C9",
+  "arch_id": "baseline",
+  "num_quantmac": 1,
+  "num_rescalemac": 1,
+  "shape": {
+    "m": 1,
+    "n": 11008,
+    "k": 4096
+  }
+}

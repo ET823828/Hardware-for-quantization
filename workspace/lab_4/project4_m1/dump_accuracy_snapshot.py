@@ -114,6 +114,31 @@ def build_openvla_prompt(instruction: str) -> str:
     return f"In: What action should the robot take to {cleaned}?\nOut:"
 
 
+def resolve_vision2seq_auto_model() -> Any:
+    """Return a compatible auto-model class for vision-language seq2seq checkpoints."""
+    import transformers
+
+    model_cls = getattr(transformers, "AutoModelForVision2Seq", None)
+    if model_cls is not None:
+        return model_cls
+    model_cls = getattr(transformers, "AutoModelForImageTextToText", None)
+    if model_cls is not None:
+        return model_cls
+    raise ImportError(
+        "transformers does not expose AutoModelForVision2Seq or AutoModelForImageTextToText."
+    )
+
+
+def load_openvla_custom_model_class(model_path: str) -> Any:
+    """Load OpenVLA custom class from a local checkpoint directory via dynamic modules."""
+    from transformers.dynamic_module_utils import get_class_from_dynamic_module
+
+    return get_class_from_dynamic_module(
+        "modeling_prismatic.OpenVLAForActionPrediction",
+        model_path,
+    )
+
+
 def capture_module_input(target: Any, run_forward: Any) -> Any:
     captured: dict[str, Any] = {}
 
@@ -317,18 +342,28 @@ def resolve_openvla_prompt(args: argparse.Namespace) -> str:
 
 def load_openvla_model(args: argparse.Namespace) -> tuple[Any, Any, str, Any]:
     import torch
-    from transformers import AutoModelForVision2Seq, AutoProcessor
+    from transformers import AutoProcessor
 
     device = resolve_device(args.device)
     torch_dtype = resolve_dtype(args.dtype)
 
     processor = AutoProcessor.from_pretrained(args.model_path, trust_remote_code=True)
-    model = AutoModelForVision2Seq.from_pretrained(
-        args.model_path,
-        torch_dtype=torch_dtype,
-        low_cpu_mem_usage=True,
-        trust_remote_code=True,
-    )
+    try:
+        auto_vision_model = resolve_vision2seq_auto_model()
+        model = auto_vision_model.from_pretrained(
+            args.model_path,
+            torch_dtype=torch_dtype,
+            low_cpu_mem_usage=True,
+            trust_remote_code=True,
+        )
+    except Exception:
+        openvla_cls = load_openvla_custom_model_class(args.model_path)
+        model = openvla_cls.from_pretrained(
+            args.model_path,
+            torch_dtype=torch_dtype,
+            low_cpu_mem_usage=True,
+            trust_remote_code=True,
+        )
     model.to(device)
     model.eval()
     return model, processor, device, torch_dtype
@@ -377,7 +412,7 @@ def command_from_openvla(args: argparse.Namespace) -> None:
 
 
 def load_model_for_inspection(args: argparse.Namespace) -> Any:
-    from transformers import AutoModelForCausalLM, AutoModelForVision2Seq
+    from transformers import AutoModelForCausalLM
 
     torch_dtype = resolve_dtype(args.dtype)
     device = resolve_device(args.device)
@@ -399,12 +434,22 @@ def load_model_for_inspection(args: argparse.Namespace) -> Any:
             trust_remote_code=args.trust_remote_code,
         )
     elif args.model_type == "openvla":
-        model = AutoModelForVision2Seq.from_pretrained(
-            args.model_path,
-            torch_dtype=torch_dtype,
-            low_cpu_mem_usage=True,
-            trust_remote_code=True,
-        )
+        try:
+            auto_vision_model = resolve_vision2seq_auto_model()
+            model = auto_vision_model.from_pretrained(
+                args.model_path,
+                torch_dtype=torch_dtype,
+                low_cpu_mem_usage=True,
+                trust_remote_code=True,
+            )
+        except Exception:
+            openvla_cls = load_openvla_custom_model_class(args.model_path)
+            model = openvla_cls.from_pretrained(
+                args.model_path,
+                torch_dtype=torch_dtype,
+                low_cpu_mem_usage=True,
+                trust_remote_code=True,
+            )
     else:
         raise ValueError(f"Unsupported model type: {args.model_type}")
 

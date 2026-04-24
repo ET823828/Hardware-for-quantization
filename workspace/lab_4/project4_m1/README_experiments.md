@@ -61,7 +61,7 @@ python3 workspace/lab_4/project4_m1/dump_accuracy_snapshot.py from-openvla \
   --image-path /path/to/robot_scene.jpg \
   --instruction "pick up the red block" \
   --output workspace/lab_4/project4_m1/accuracy_inputs/vla_action_head.npz
-python3 workspace/lab_4/project4_m1/run_sweeps.py run-accuracy
+python3 workspace/lab_4/project4_m1/run_sweeps.py run-accuracy --suite proposal
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite proposal --jobs 4
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite milestone3 --jobs 4
 python3 workspace/lab_4/project4_m1/run_sweeps.py verify-legacy
@@ -79,6 +79,9 @@ python3 workspace/lab_4/project4_m1/analyze_results.py
   to the CSV summary immediately. `--jobs N` runs independent hardware cases
   in parallel; start with `--jobs 2` or `--jobs 4` and adjust based on memory
   pressure in your AccelForge environment.
+- Hardware runs resume by default: rows already recorded as `ok` in the target
+  summary CSV are skipped. Pass `--rerun-ok` when you intentionally want to
+  recompute successful cases.
 - The accuracy pipeline is dependency-free and uses a deterministic
   pure-Python quantization emulator in `--input-mode debug`. The default
   proposal path (`--input-mode proposal`) requires representative tensor
@@ -94,8 +97,8 @@ python3 workspace/lab_4/project4_m1/analyze_results.py
   inside a containerized workspace mount.
 - Proposal hardware workloads now use mapper-safe encodings: two-level
   tensor-granular coarse scales are emitted as singleton ranks instead of
-  zero-rank tensors, and proposal one-level/two-level sweeps split the large
-  output-channel dimension into `nb x ni` to avoid AccelForge rank-width
+  zero-rank tensors, and proposal one-level/two-level sweeps split large
+  output-channel dimensions into small ranks to avoid AccelForge rank-width
   overflows on large LLM cases.
 - `C7` is the corrected proposal NVFP4-like reference with tensor-granular
   coarse scaling. `LEGACY_NVFP4_FULL` preserves the historical notebook

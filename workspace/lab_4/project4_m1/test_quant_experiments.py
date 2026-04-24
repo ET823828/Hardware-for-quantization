@@ -81,7 +81,7 @@ class QuantExperimentTests(unittest.TestCase):
         self.assertEqual(row_iter["nb"], "0 <= nb < 1")
         self.assertEqual(row_iter["ni"], "0 <= ni < 16")
 
-    def test_build_one_level_workload_splits_large_n_dimension(self) -> None:
+    def test_build_one_level_workload_splits_large_n_dimension_into_small_ranks(self) -> None:
         workload = run_sweeps.build_one_level_workload(
             shape={"m": 128, "n": 11008, "k": 4096},
             block_size=32,
@@ -92,10 +92,27 @@ class QuantExperimentTests(unittest.TestCase):
         iter_shape = workload["workload"]["iteration_space_shape"]
         matmul = next(e for e in workload["workload"]["einsums"] if e["name"] == "MatMulBlock")
 
-        self.assertEqual(iter_shape["nb"], "0 <= nb < 688")
+        self.assertEqual(iter_shape["nbo"], "0 <= nbo < 43")
+        self.assertEqual(iter_shape["nbi"], "0 <= nbi < 16")
         self.assertEqual(iter_shape["ni"], "0 <= ni < 16")
-        self.assertEqual(matmul["tensor_accesses"][1]["projection"], ["nb", "ni", "kb", "ki"])
-        self.assertEqual(matmul["tensor_accesses"][2]["projection"], ["m", "nb", "ni", "kb"])
+        self.assertEqual(matmul["tensor_accesses"][1]["projection"], ["nbo", "nbi", "ni", "kb", "ki"])
+        self.assertEqual(matmul["tensor_accesses"][2]["projection"], ["m", "nbo", "nbi", "ni", "kb"])
+
+    def test_filter_completed_runs_skips_ok_rows_only(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            csv_path = Path(tmp_dir) / "hardware.csv"
+            write_csv(
+                csv_path,
+                [
+                    {"run_id": "done", "status": "ok"},
+                    {"run_id": "retry", "status": "error"},
+                ],
+            )
+            runs = [{"run_id": "done"}, {"run_id": "retry"}, {"run_id": "missing"}]
+
+            filtered = run_sweeps.filter_completed_runs(runs, csv_path, rerun_ok=False)
+            self.assertEqual([run["run_id"] for run in filtered], ["retry", "missing"])
+            self.assertEqual(run_sweeps.filter_completed_runs(runs, csv_path, rerun_ok=True), runs)
 
     def test_two_level_quantization_assigns_different_coarse_scales_for_tensor_vs_row(self) -> None:
         rows = [
@@ -223,6 +240,7 @@ class QuantExperimentTests(unittest.TestCase):
                 run_sweeps.command_run_accuracy(
                     Namespace(
                         manifest=str(manifest_path),
+                        suite="proposal",
                         limit=None,
                         sample_m_max=4,
                         sample_n_max=16,
@@ -240,6 +258,7 @@ class QuantExperimentTests(unittest.TestCase):
                 run_sweeps.command_run_accuracy(
                     Namespace(
                         manifest=str(manifest_path),
+                        suite="proposal",
                         limit=None,
                         sample_m_max=4,
                         sample_n_max=16,

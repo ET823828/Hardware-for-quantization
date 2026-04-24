@@ -274,17 +274,35 @@ def build_weight_only_workload(shape: dict[str, int], block_size: int, scale_bit
     }
 
 
+def split_n_projection(shape: dict[str, int]) -> tuple[dict[str, str], list[str]]:
+    if shape["n"] % 256 == 0:
+        return (
+            {
+                "nbo": f"0 <= nbo < {shape['n'] // 256}",
+                "nbi": "0 <= nbi < 16",
+                "ni": "0 <= ni < 16",
+            },
+            ["nbo", "nbi", "ni"],
+        )
+    if shape["n"] % 16 == 0:
+        return (
+            {
+                "nb": f"0 <= nb < {shape['n'] // 16}",
+                "ni": "0 <= ni < 16",
+            },
+            ["nb", "ni"],
+        )
+    raise ValueError(f"Workload requires n to be divisible by 16, got n={shape['n']}")
+
+
 def build_one_level_workload(shape: dict[str, int], block_size: int, scale_bits: int, acc_bits: int) -> dict[str, Any]:
     kb = shape["k"] // block_size
-    if shape["n"] % 16 != 0:
-        raise ValueError(f"One-level workload requires n to be divisible by 16, got n={shape['n']}")
-    nb = shape["n"] // 16
+    n_iter_shape, n_projection = split_n_projection(shape)
     return {
         "workload": {
             "iteration_space_shape": {
                 "m": f"0 <= m < {shape['m']}",
-                "nb": f"0 <= nb < {nb}",
-                "ni": "0 <= ni < 16",
+                **n_iter_shape,
                 "kb": f"0 <= kb < {kb}",
                 "ki": f"0 <= ki < {block_size}",
             },
@@ -318,40 +336,40 @@ def build_one_level_workload(shape: dict[str, int], block_size: int, scale_bits:
                 {
                     "name": "BlockScaleW",
                     "tensor_accesses": [
-                        {"name": "W", "projection": ["nb", "ni", "kb", "ki"], "density": 1.0},
-                        {"name": "Sbw", "projection": ["nb", "ni", "kb"], "output": True},
+                        {"name": "W", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
+                        {"name": "Sbw", "projection": [*n_projection, "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "BlockQuantW",
                     "tensor_accesses": [
-                        {"name": "W", "projection": ["nb", "ni", "kb", "ki"], "density": 1.0},
-                        {"name": "Sbw", "projection": ["nb", "ni", "kb"], "density": 1.0},
-                        {"name": "Wq", "projection": ["nb", "ni", "kb", "ki"], "output": True},
+                        {"name": "W", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
+                        {"name": "Sbw", "projection": [*n_projection, "kb"], "density": 1.0},
+                        {"name": "Wq", "projection": [*n_projection, "kb", "ki"], "output": True},
                     ],
                 },
                 {
                     "name": "MatMulBlock",
                     "tensor_accesses": [
                         {"name": "Aq", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Wq", "projection": ["nb", "ni", "kb", "ki"], "density": 1.0},
-                        {"name": "Yraw", "projection": ["m", "nb", "ni", "kb"], "output": True},
+                        {"name": "Wq", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
+                        {"name": "Yraw", "projection": ["m", *n_projection, "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "RescaleBlockA",
                     "tensor_accesses": [
-                        {"name": "Yraw", "projection": ["m", "nb", "ni", "kb"], "density": 1.0},
+                        {"name": "Yraw", "projection": ["m", *n_projection, "kb"], "density": 1.0},
                         {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
-                        {"name": "Ytmp", "projection": ["m", "nb", "ni", "kb"], "output": True},
+                        {"name": "Ytmp", "projection": ["m", *n_projection, "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "RescaleBlockW",
                     "tensor_accesses": [
-                        {"name": "Ytmp", "projection": ["m", "nb", "ni", "kb"], "density": 1.0},
-                        {"name": "Sbw", "projection": ["nb", "ni", "kb"], "density": 1.0},
-                        {"name": "Y", "projection": ["m", "nb", "ni"], "output": True},
+                        {"name": "Ytmp", "projection": ["m", *n_projection, "kb"], "density": 1.0},
+                        {"name": "Sbw", "projection": [*n_projection, "kb"], "density": 1.0},
+                        {"name": "Y", "projection": ["m", *n_projection], "output": True},
                     ],
                 },
             ],
@@ -379,12 +397,8 @@ def build_two_level_workload(
         "ki": f"0 <= ki < {block_size}",
     }
     if split_n:
-        if shape["n"] % 16 != 0:
-            raise ValueError(f"Two-level workload requires n to be divisible by 16 when split_n=True, got n={shape['n']}")
-        nb = shape["n"] // 16
-        iteration_space_shape["nb"] = f"0 <= nb < {nb}"
-        iteration_space_shape["ni"] = "0 <= ni < 16"
-        n_projection = ["nb", "ni"]
+        n_iter_shape, n_projection = split_n_projection(shape)
+        iteration_space_shape.update(n_iter_shape)
     else:
         iteration_space_shape["n"] = f"0 <= n < {shape['n']}"
         n_projection = ["n"]
@@ -833,7 +847,11 @@ def run_hardware_case(run_spec: dict[str, Any]) -> dict[str, Any]:
             list(all_mappings.einsum_names),
         )
         result = all_mappings[best_idx]
-        paths["mapping_path"].write_text(result.mapping().to_yaml())
+        mapping_warning = ""
+        try:
+            paths["mapping_path"].write_text(result.mapping().to_yaml())
+        except Exception as exc:
+            mapping_warning = f"mapping serialization failed: {exc}"
 
         breakdown = extract_hardware_breakdown(df, best_idx, list(all_mappings.einsum_names))
         assert_energy_total_matches_breakdown(
@@ -893,8 +911,9 @@ def run_hardware_case(run_spec: dict[str, Any]) -> dict[str, Any]:
         row["latency_cycles"] = latency_total
         row["area_m2"] = breakdown["area_total"]
         row["bottleneck_component"] = breakdown["bottleneck_component"]
-        if area_warning:
-            row["error"] = area_warning
+        warnings = [warning for warning in (mapping_warning, area_warning) if warning]
+        if warnings:
+            row["error"] = " | ".join(warnings)
         return row
     except Exception as exc:
         row["status"] = "error"
@@ -1355,6 +1374,20 @@ def append_rows(csv_path: Path, rows: list[dict[str, Any]]) -> None:
             writer.writerow(combined[run_id])
 
 
+def load_existing_rows_by_run_id(csv_path: Path) -> dict[str, dict[str, str]]:
+    if not csv_path.exists():
+        return {}
+    with csv_path.open(newline="") as handle:
+        return {row["run_id"]: row for row in csv.DictReader(handle)}
+
+
+def filter_completed_runs(runs: list[dict[str, Any]], csv_path: Path, *, rerun_ok: bool) -> list[dict[str, Any]]:
+    if rerun_ok:
+        return runs
+    existing = load_existing_rows_by_run_id(csv_path)
+    return [run_spec for run_spec in runs if existing.get(run_spec["run_id"], {}).get("status") != "ok"]
+
+
 def target_hardware_csv(suite: str) -> Path:
     if suite == "proposal":
         return PROPOSAL_HARDWARE_CSV
@@ -1472,6 +1505,11 @@ def command_run_hardware(args: argparse.Namespace) -> None:
     if args.limit:
         runs = runs[: args.limit]
     csv_path = target_hardware_csv(suite)
+    requested_count = len(runs)
+    runs = filter_completed_runs(runs, csv_path, rerun_ok=args.rerun_ok)
+    skipped_count = requested_count - len(runs)
+    if skipped_count:
+        print(f"Skipping {skipped_count} existing ok hardware rows. Use --rerun-ok to recompute them.")
     rows = process_runs_with_progress(
         kind=f"hardware:{suite}",
         runs=runs,
@@ -1486,7 +1524,7 @@ def command_run_hardware(args: argparse.Namespace) -> None:
 def command_run_accuracy(args: argparse.Namespace) -> None:
     manifest_path = Path(args.manifest)
     manifest = manifest_or_default(manifest_path)
-    runs = manifest_runs(manifest, "proposal")
+    runs = manifest_runs(manifest, args.suite)
     unique_runs: dict[tuple[str, str, str], dict[str, Any]] = {}
     for run_spec in runs:
         key = (run_spec["workload_id"], run_spec["phase_id"], run_spec["config_id"])
@@ -1532,7 +1570,7 @@ def command_run_accuracy(args: argparse.Namespace) -> None:
         jobs=1,
     )
     ok_count = sum(1 for row in rows if row["status"] == "ok")
-    print(f"Processed {len(rows)} accuracy runs. OK={ok_count}. Summary: {ACCURACY_CSV}")
+    print(f"Processed {len(rows)} accuracy runs for suite={args.suite}. OK={ok_count}. Summary: {ACCURACY_CSV}")
 
 
 def command_verify_legacy(args: argparse.Namespace) -> None:
@@ -1582,10 +1620,12 @@ def build_parser() -> argparse.ArgumentParser:
     run_hardware.add_argument("--suite", choices=["proposal", "milestone3", "legacy_validation"], default="proposal")
     run_hardware.add_argument("--limit", type=int)
     run_hardware.add_argument("--jobs", type=int, default=1, help="Number of parallel workers to use for independent cases.")
+    run_hardware.add_argument("--rerun-ok", action="store_true", help="Recompute runs that already have ok rows in the target CSV.")
     run_hardware.set_defaults(func=command_run_hardware)
 
     run_accuracy = subparsers.add_parser("run-accuracy", help="Run the pure-Python accuracy emulator for proposal configs.")
     run_accuracy.add_argument("--manifest", default=str(DEFAULT_MANIFEST_PATH))
+    run_accuracy.add_argument("--suite", choices=["proposal"], default="proposal", help="Accuracy is currently defined for proposal configs.")
     run_accuracy.add_argument("--limit", type=int)
     run_accuracy.add_argument("--sample-m-max", type=int, default=4)
     run_accuracy.add_argument("--sample-n-max", type=int, default=16)

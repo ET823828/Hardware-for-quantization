@@ -1,0 +1,15 @@
+{
+  "suite": "proposal",
+  "run_id": "proposal__vlm__decode__c4__baseline",
+  "workload_id": "VLM",
+  "phase_id": "decode",
+  "config_id": "C4",
+  "arch_id": "baseline",
+  "num_quantmac": 1,
+  "num_rescalemac": 1,
+  "shape": {
+    "m": 1,
+    "n": 3072,
+    "k": 3072
+  }
+}

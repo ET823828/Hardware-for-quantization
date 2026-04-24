@@ -54,18 +54,18 @@
     "RescaleBlockW": 44032.0
   },
   "latency_memory_per_einsum": {
-    "BlockScaleA": 128.0,
-    "BlockQuantA": 160.0,
+    "BlockScaleA": 136.0,
+    "BlockQuantA": 168.0,
     "BlockScaleW": 1497088.0,
     "BlockQuantW": 1849344.0,
-    "MatMulBlock": 616448.0,
+    "MatMulBlock": 440320.0,
     "RescaleBlockA": 176128.0,
     "RescaleBlockW": 89440.0
   },
   "energy_per_component": {
-    "DRAM": 338381440.0,
-    "GLB": 28291840.0,
+    "DRAM": 310312320.0,
     "QuantMAC": 90185728.0,
+    "GLB": 56360960.0,
     "RF": 0.0,
     "FP4MAC": 9017753.6,
     "RescaleFineMAC": 5636096.0,
@@ -75,8 +75,8 @@
   "latency_per_component": {
     "QuantMAC": 2818048.0,
     "DRAM": 1849344.0,
-    "GLB": 88752.0,
     "FP4MAC": 704512.0,
+    "GLB": 176128.0,
     "RescaleFineMAC": 44032.0,
     "RF": 0.0
   },

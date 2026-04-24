@@ -2,7 +2,8 @@
   "workload": {
     "iteration_space_shape": {
       "m": "0 <= m < 1",
-      "n": "0 <= n < 11008",
+      "nb": "0 <= nb < 688",
+      "ni": "0 <= ni < 16",
       "kb": "0 <= kb < 256",
       "ki": "0 <= ki < 16"
     },
@@ -77,7 +78,8 @@
           {
             "name": "W",
             "projection": [
-              "n",
+              "nb",
+              "ni",
               "kb",
               "ki"
             ],
@@ -86,7 +88,8 @@
           {
             "name": "Sbw",
             "projection": [
-              "n",
+              "nb",
+              "ni",
               "kb"
             ],
             "output": true
@@ -99,7 +102,8 @@
           {
             "name": "W",
             "projection": [
-              "n",
+              "nb",
+              "ni",
               "kb",
               "ki"
             ],
@@ -108,7 +112,8 @@
           {
             "name": "Sbw",
             "projection": [
-              "n",
+              "nb",
+              "ni",
               "kb"
             ],
             "density": 1.0
@@ -116,7 +121,8 @@
           {
             "name": "Wq",
             "projection": [
-              "n",
+              "nb",
+              "ni",
               "kb",
               "ki"
             ],
@@ -139,7 +145,8 @@
           {
             "name": "Wq",
             "projection": [
-              "n",
+              "nb",
+              "ni",
               "kb",
               "ki"
             ],
@@ -149,7 +156,8 @@
             "name": "Yraw",
             "projection": [
               "m",
-              "n",
+              "nb",
+              "ni",
               "kb"
             ],
             "output": true
@@ -163,7 +171,8 @@
             "name": "Yraw",
             "projection": [
               "m",
-              "n",
+              "nb",
+              "ni",
               "kb"
             ],
             "density": 1.0
@@ -180,7 +189,8 @@
             "name": "Ytmp",
             "projection": [
               "m",
-              "n",
+              "nb",
+              "ni",
               "kb"
             ],
             "output": true
@@ -194,7 +204,8 @@
             "name": "Ytmp",
             "projection": [
               "m",
-              "n",
+              "nb",
+              "ni",
               "kb"
             ],
             "density": 1.0
@@ -202,7 +213,8 @@
           {
             "name": "Sbw",
             "projection": [
-              "n",
+              "nb",
+              "ni",
               "kb"
             ],
             "density": 1.0
@@ -211,7 +223,8 @@
             "name": "Y",
             "projection": [
               "m",
-              "n"
+              "nb",
+              "ni"
             ],
             "output": true
           }

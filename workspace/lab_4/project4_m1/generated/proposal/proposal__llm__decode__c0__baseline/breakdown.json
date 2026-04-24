@@ -21,10 +21,10 @@
     "MatMulRaw4": 616448.0
   },
   "energy_per_component": {
+    "RF": 0.0,
     "DRAM": 56305920.0,
     "FP4MAC": 9017753.6,
     "GLB": 0.0,
-    "RF": 0.0,
     "QuantMAC": 0.0,
     "RescaleFineMAC": 0.0,
     "RescaleCoarseMAC": 0.0,
@@ -32,8 +32,8 @@
   },
   "latency_per_component": {
     "FP4MAC": 704512.0,
-    "DRAM": 616448.0,
-    "RF": 0.0
+    "RF": 0.0,
+    "DRAM": 616448.0
   },
   "bottleneck_component": "FP4MAC",
   "energy_total": 65323673.6,

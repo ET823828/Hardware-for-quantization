@@ -2,20 +2,20 @@
   "workload": {
     "iteration_space_shape": {
       "m": "0 <= m < 1",
-      "nb": "0 <= nb < 688",
+      "nb": "0 <= nb < 192",
       "ni": "0 <= ni < 16",
-      "kb": "0 <= kb < 256",
+      "kb": "0 <= kb < 192",
       "ki": "0 <= ki < 16"
     },
     "bits_per_value": {
       "A": 16,
       "W": 16,
-      "Sba": 16,
-      "Sbw": 16,
+      "Sba": 32,
+      "Sbw": 32,
       "Aq": 4,
       "Wq": 4,
-      "Yraw": 16,
-      "Ytmp": 16,
+      "Yraw": 32,
+      "Ytmp": 32,
       "Y": 16
     },
     "einsums": [

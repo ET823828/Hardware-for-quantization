@@ -221,7 +221,10 @@ nodes:
           - rank_variable: kb
             tile_shape: 1
             initial_tile_shape: null
-          - rank_variable: nb
+          - rank_variable: nbi
+            tile_shape: 1
+            initial_tile_shape: null
+          - rank_variable: nbo
             tile_shape: 1
             initial_tile_shape: null
           - rank_variable: ni
@@ -289,7 +292,10 @@ nodes:
           - rank_variable: kb
             tile_shape: 1
             initial_tile_shape: null
-          - rank_variable: nb
+          - rank_variable: nbi
+            tile_shape: 1
+            initial_tile_shape: null
+          - rank_variable: nbo
             tile_shape: 1
             initial_tile_shape: null
           - rank_variable: ni
@@ -446,10 +452,17 @@ nodes:
           - rank_variable: kb
             tile_shape: 64
             initial_tile_shape: null
-          - rank_variable: nb
+          - rank_variable: nbi
+            tile_shape: 8
+            initial_tile_shape: null
+          - rank_variable: nbo
+            tile_shape: 1
+            initial_tile_shape: null
+          - rank_variable: ni
             tile_shape: 8
             initial_tile_shape: null
           - tensors:
+              - Yraw
               - Ytmp
             component: GLB
             component_object:
@@ -538,249 +551,143 @@ nodes:
           - nodes:
               - nodes:
                   - purposes:
-                      - Ytmp
+                      - Yraw
                     resource: GLB
                     persistent: false
-                  - rank_variable: ni
-                    tile_shape: 8
+                  - rank_variable: kb
+                    tile_shape: 1
                     initial_tile_shape: null
-                  - tensors:
-                      - Yraw
-                    component: GLB
+                  - rank_variable: nbi
+                    tile_shape: 1
+                    initial_tile_shape: null
+                  - rank_variable: ni
+                    tile_shape: 4
+                    initial_tile_shape: null
+                  - rank_variable: ki
+                    tile_shape: 2
+                    initial_tile_shape: null
+                    name: Y
+                    component: RF
+                    component_object: {}
+                  - rank_variable: ni
+                    tile_shape: 1
+                    initial_tile_shape: null
+                    name: X
+                    component: RF
+                    component_object: {}
+                  - rank_variable: ki
+                    tile_shape: 1
+                    initial_tile_shape: null
+                    name: X
+                    component: RF
+                    component_object: {}
+                  - einsum: MatMulBlock
+                    component: FP4MAC
                     component_object:
-                        name: GLB
+                        name: FP4MAC
                         spatial: []
                         component_class: null
                         component_model: null
                         component_modeling_log:
-                          - Calculating energy for GLB action read.
-                          - Setting GLB energy to action.energy=5
-                          - Calculating energy for GLB action write.
-                          - Setting GLB energy to action.energy=5
-                          - Calculating energy for GLB action metadata_read.
-                          - Setting GLB energy to action.energy=2
-                          - Calculating energy for GLB action metadata_write.
-                          - Setting GLB energy to action.energy=2
-                          - Calculating latency for GLB action read.
-                          - Setting GLB latency to action.latency=0
-                          - Calculating latency for GLB action write.
-                          - Setting GLB latency to action.latency=0
-                          - Calculating latency for GLB action metadata_read.
-                          - Setting GLB latency to action.latency=0
-                          - Calculating latency for GLB action metadata_write.
-                          - Setting GLB latency to action.latency=0
+                          - Calculating energy for FP4MAC action compute.
+                          - Setting FP4MAC energy to action.energy=0.2
+                          - Calculating latency for FP4MAC action compute.
+                          - Setting FP4MAC latency to action.latency=1
                           - Using predefined leak power value self.leak_power=0
-                          - Calculating energy for GLB action read.
-                          - Setting GLB energy to action.energy=5
-                          - Calculating energy for GLB action write.
-                          - Setting GLB energy to action.energy=5
-                          - Calculating energy for GLB action metadata_read.
-                          - Setting GLB energy to action.energy=2
-                          - Calculating energy for GLB action metadata_write.
-                          - Setting GLB energy to action.energy=2
-                          - Calculating latency for GLB action read.
-                          - Setting GLB latency to action.latency=0
-                          - Calculating latency for GLB action write.
-                          - Setting GLB latency to action.latency=0
-                          - Calculating latency for GLB action metadata_read.
-                          - Setting GLB latency to action.latency=0
-                          - Calculating latency for GLB action metadata_write.
-                          - Setting GLB latency to action.latency=0
+                          - Calculating energy for FP4MAC action compute.
+                          - Setting FP4MAC energy to action.energy=0.2
+                          - Calculating latency for FP4MAC action compute.
+                          - Setting FP4MAC latency to action.latency=1
                           - Using predefined leak power value self.leak_power=0
                         actions:
-                          - name: read
-                            energy: 5
+                          - name: compute
+                            energy: 0.2
                             energy_scale: 1
-                            latency: 0
+                            latency: 1
                             latency_scale: 1
                             extra_attributes_for_component_model: {}
-                            bits_per_action: 32
-                          - name: write
-                            energy: 5
-                            energy_scale: 1
-                            latency: 0
-                            latency_scale: 1
-                            extra_attributes_for_component_model: {}
-                            bits_per_action: 32
-                          - name: metadata_read
-                            energy: 2
-                            energy_scale: 1
-                            latency: 0
-                            latency_scale: 1
-                            extra_attributes_for_component_model: {}
-                            bits_per_action: 16
-                          - name: metadata_write
-                            energy: 2
-                            energy_scale: 1
-                            latency: 0
-                            latency_scale: 1
-                            extra_attributes_for_component_model: {}
-                            bits_per_action: 16
                         enabled: true
-                        area: 3.8797312e-07
+                        area: 6e-11
                         total_area: null
                         area_scale: 1
                         leak_power: 0
                         total_leak_power: 0
                         leak_power_scale: 1
                         energy_scale: 1
-                        total_latency: ceil(max(total_read_actions / 32, 
-                            total_write_actions / 32))
+                        total_latency: sum(*action2latency.values())
                         latency_scale: 1
                         n_parallel_instances: 1
                         extra_attributes_for_component_model: {}
+                        compute_optimization: []
+              - nodes:
+                  - purposes:
+                      - Yraw
+                      - Ytmp
+                    resource: GLB
                     persistent: false
-                  - nodes:
-                      - nodes:
-                          - purposes:
-                              - Yraw
-                            resource: GLB
-                            persistent: false
-                          - rank_variable: kb
-                            tile_shape: 1
-                            initial_tile_shape: null
-                          - rank_variable: nb
-                            tile_shape: 1
-                            initial_tile_shape: null
-                          - rank_variable: ni
-                            tile_shape: 4
-                            initial_tile_shape: null
-                          - rank_variable: ki
-                            tile_shape: 2
-                            initial_tile_shape: null
-                            name: Y
-                            component: RF
-                            component_object: {}
-                          - rank_variable: ni
-                            tile_shape: 1
-                            initial_tile_shape: null
-                            name: X
-                            component: RF
-                            component_object: {}
-                          - rank_variable: ki
-                            tile_shape: 1
-                            initial_tile_shape: null
-                            name: X
-                            component: RF
-                            component_object: {}
-                          - einsum: MatMulBlock
-                            component: FP4MAC
-                            component_object:
-                                name: FP4MAC
-                                spatial: []
-                                component_class: null
-                                component_model: null
-                                component_modeling_log:
-                                  - Calculating energy for FP4MAC action 
-                                    compute.
-                                  - Setting FP4MAC energy to action.energy=0.2
-                                  - Calculating latency for FP4MAC action 
-                                    compute.
-                                  - Setting FP4MAC latency to action.latency=1
-                                  - Using predefined leak power value 
-                                    self.leak_power=0
-                                  - Calculating energy for FP4MAC action 
-                                    compute.
-                                  - Setting FP4MAC energy to action.energy=0.2
-                                  - Calculating latency for FP4MAC action 
-                                    compute.
-                                  - Setting FP4MAC latency to action.latency=1
-                                  - Using predefined leak power value 
-                                    self.leak_power=0
-                                actions:
-                                  - name: compute
-                                    energy: 0.2
-                                    energy_scale: 1
-                                    latency: 1
-                                    latency_scale: 1
-                                    extra_attributes_for_component_model: {}
-                                enabled: true
-                                area: 6e-11
-                                total_area: null
-                                area_scale: 1
-                                leak_power: 0
-                                total_leak_power: 0
-                                leak_power_scale: 1
-                                energy_scale: 1
-                                total_latency: sum(*action2latency.values())
-                                latency_scale: 1
-                                n_parallel_instances: 1
-                                extra_attributes_for_component_model: {}
-                                compute_optimization: []
-                      - nodes:
-                          - purposes:
-                              - Yraw
-                            resource: GLB
-                            persistent: false
-                          - rank_variable: kb
-                            tile_shape: 1
-                            initial_tile_shape: null
-                          - rank_variable: nb
-                            tile_shape: 1
-                            initial_tile_shape: null
-                            name: Y
-                            component: RF
-                            component_object: {}
-                          - rank_variable: ni
-                            tile_shape: 1
-                            initial_tile_shape: null
-                            name: X
-                            component: RF
-                            component_object: {}
-                          - einsum: RescaleBlockA
-                            component: RescaleFineMAC
-                            component_object:
-                                name: RescaleFineMAC
-                                spatial: []
-                                component_class: null
-                                component_model: null
-                                component_modeling_log:
-                                  - Calculating energy for RescaleFineMAC action
-                                    compute.
-                                  - Setting RescaleFineMAC energy to 
-                                    action.energy=0.03
-                                  - Calculating latency for RescaleFineMAC 
-                                    action compute.
-                                  - Setting RescaleFineMAC latency to 
-                                    action.latency=1
-                                  - Using predefined leak power value 
-                                    self.leak_power=0
-                                  - Calculating energy for RescaleFineMAC action
-                                    compute.
-                                  - Setting RescaleFineMAC energy to 
-                                    action.energy=0.03
-                                  - Calculating latency for RescaleFineMAC 
-                                    action compute.
-                                  - Setting RescaleFineMAC latency to 
-                                    action.latency=1
-                                  - Using predefined leak power value 
-                                    self.leak_power=0
-                                actions:
-                                  - name: compute
-                                    energy: 0.03
-                                    energy_scale: 1
-                                    latency: 1
-                                    latency_scale: 1
-                                    extra_attributes_for_component_model: {}
-                                enabled: true
-                                area: 1e-11
-                                total_area: null
-                                area_scale: 1
-                                leak_power: 0
-                                total_leak_power: 0
-                                leak_power_scale: 1
-                                energy_scale: 1
-                                total_latency: ceil(compute_latency / 1)
-                                latency_scale: 1
-                                n_parallel_instances: 1
-                                extra_attributes_for_component_model: {}
-                                compute_optimization: []
+                  - rank_variable: kb
+                    tile_shape: 1
+                    initial_tile_shape: null
+                  - rank_variable: nbi
+                    tile_shape: 1
+                    initial_tile_shape: null
+                    name: Y
+                    component: RF
+                    component_object: {}
+                  - rank_variable: ni
+                    tile_shape: 1
+                    initial_tile_shape: null
+                    name: X
+                    component: RF
+                    component_object: {}
+                  - einsum: RescaleBlockA
+                    component: RescaleFineMAC
+                    component_object:
+                        name: RescaleFineMAC
+                        spatial: []
+                        component_class: null
+                        component_model: null
+                        component_modeling_log:
+                          - Calculating energy for RescaleFineMAC action 
+                            compute.
+                          - Setting RescaleFineMAC energy to action.energy=0.03
+                          - Calculating latency for RescaleFineMAC action 
+                            compute.
+                          - Setting RescaleFineMAC latency to action.latency=1
+                          - Using predefined leak power value self.leak_power=0
+                          - Calculating energy for RescaleFineMAC action 
+                            compute.
+                          - Setting RescaleFineMAC energy to action.energy=0.03
+                          - Calculating latency for RescaleFineMAC action 
+                            compute.
+                          - Setting RescaleFineMAC latency to action.latency=1
+                          - Using predefined leak power value self.leak_power=0
+                        actions:
+                          - name: compute
+                            energy: 0.03
+                            energy_scale: 1
+                            latency: 1
+                            latency_scale: 1
+                            extra_attributes_for_component_model: {}
+                        enabled: true
+                        area: 1e-11
+                        total_area: null
+                        area_scale: 1
+                        leak_power: 0
+                        total_leak_power: 0
+                        leak_power_scale: 1
+                        energy_scale: 1
+                        total_latency: ceil(compute_latency / 1)
+                        latency_scale: 1
+                        n_parallel_instances: 1
+                        extra_attributes_for_component_model: {}
+                        compute_optimization: []
               - nodes:
                   - purposes:
                       - Ytmp
                     resource: GLB
                     persistent: false
-                  - rank_variable: nb
+                  - rank_variable: nbi
                     tile_shape: 1
                     initial_tile_shape: null
                   - rank_variable: ni

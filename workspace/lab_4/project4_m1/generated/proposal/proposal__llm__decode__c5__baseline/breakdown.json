@@ -105,8 +105,8 @@
     "RescaleTensorW": 1032.0
   },
   "energy_per_component": {
-    "GLB": 456258830.0,
     "DRAM": 271838085.0,
+    "GLB": 456258830.0,
     "QuantMAC": 180371456.0,
     "RF": 0.0,
     "FP4MAC": 9017753.6,
@@ -116,8 +116,8 @@
   },
   "latency_per_component": {
     "QuantMAC": 2818048.0,
-    "GLB": 880640.0,
     "DRAM": 1409024.0,
+    "GLB": 880640.0,
     "FP4MAC": 704512.0,
     "RescaleFineMAC": 2818048.0,
     "RescaleCoarseMAC": 44032.0,

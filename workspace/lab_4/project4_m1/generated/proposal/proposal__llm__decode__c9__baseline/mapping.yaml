@@ -641,7 +641,10 @@ nodes:
           - rank_variable: ki
             tile_shape: 1
             initial_tile_shape: null
-          - rank_variable: nb
+          - rank_variable: nbi
+            tile_shape: 1
+            initial_tile_shape: null
+          - rank_variable: nbo
             tile_shape: 1
             initial_tile_shape: null
           - rank_variable: ni
@@ -713,11 +716,14 @@ nodes:
           - rank_variable: kb
             tile_shape: 1
             initial_tile_shape: null
-          - rank_variable: nb
+          - rank_variable: nbi
+            tile_shape: 8
+            initial_tile_shape: null
+          - rank_variable: nbo
             tile_shape: 1
             initial_tile_shape: null
           - rank_variable: ni
-            tile_shape: 8
+            tile_shape: 1
             initial_tile_shape: null
           - nodes:
               - nodes:
@@ -734,7 +740,7 @@ nodes:
                     name: Y
                     component: RF
                     component_object: {}
-                  - rank_variable: ni
+                  - rank_variable: nbi
                     tile_shape: 1
                     initial_tile_shape: null
                     name: X
@@ -783,7 +789,7 @@ nodes:
                       - Wscl
                     resource: GLB
                     persistent: false
-                  - rank_variable: ni
+                  - rank_variable: nbi
                     tile_shape: 1
                     initial_tile_shape: null
                   - rank_variable: ki
@@ -852,8 +858,11 @@ nodes:
           - rank_variable: kb
             tile_shape: 1
             initial_tile_shape: null
-          - rank_variable: ni
+          - rank_variable: nbi
             tile_shape: 8
+            initial_tile_shape: null
+          - rank_variable: nbo
+            tile_shape: 1
             initial_tile_shape: null
           - tensors:
               - Wq
@@ -947,14 +956,14 @@ nodes:
                       - Wq
                     resource: GLB
                     persistent: false
-                  - rank_variable: nb
+                  - rank_variable: ni
                     tile_shape: 1
                     initial_tile_shape: null
                   - purposes:
                       - Wscl
                     resource: GLB
                     persistent: false
-                  - rank_variable: ni
+                  - rank_variable: nbi
                     tile_shape: 1
                     initial_tile_shape: null
                   - rank_variable: ki
@@ -1012,7 +1021,7 @@ nodes:
                       - Wq
                     resource: GLB
                     persistent: false
-                  - rank_variable: nb
+                  - rank_variable: ni
                     tile_shape: 8
                     initial_tile_shape: null
                   - tensors:
@@ -1107,7 +1116,7 @@ nodes:
                               - Yraw
                             resource: GLB
                             persistent: false
-                          - rank_variable: nb
+                          - rank_variable: nbi
                             tile_shape: 1
                             initial_tile_shape: null
                           - rank_variable: ni
@@ -1180,7 +1189,7 @@ nodes:
                               - Yraw
                             resource: GLB
                             persistent: false
-                          - rank_variable: nb
+                          - rank_variable: nbi
                             tile_shape: 1
                             initial_tile_shape: null
                             name: Y
@@ -1252,7 +1261,10 @@ nodes:
               - Sga
             resource: DRAM
             persistent: false
-          - rank_variable: nb
+          - rank_variable: kb
+            tile_shape: 64
+            initial_tile_shape: null
+          - rank_variable: nbo
             tile_shape: 1
             initial_tile_shape: null
           - tensors:
@@ -1350,6 +1362,9 @@ nodes:
                   - rank_variable: kb
                     tile_shape: 1
                     initial_tile_shape: null
+                  - rank_variable: nbi
+                    tile_shape: 1
+                    initial_tile_shape: null
                   - rank_variable: ni
                     tile_shape: 1
                     initial_tile_shape: null
@@ -1400,8 +1415,8 @@ nodes:
                       - Yblk
                     resource: GLB
                     persistent: false
-                  - rank_variable: kb
-                    tile_shape: 64
+                  - rank_variable: nbi
+                    tile_shape: 1
                     initial_tile_shape: null
                   - rank_variable: ni
                     tile_shape: 1
@@ -1556,13 +1571,16 @@ nodes:
               - Sgw
             resource: GLB
             persistent: false
-          - rank_variable: nb
+          - rank_variable: nbi
             tile_shape: 8
+            initial_tile_shape: null
+          - rank_variable: nbo
+            tile_shape: 1
             initial_tile_shape: null
           - rank_variable: ni
             tile_shape: 8
             initial_tile_shape: null
-          - rank_variable: nb
+          - rank_variable: nbi
             tile_shape: 1
             initial_tile_shape: null
             name: Y

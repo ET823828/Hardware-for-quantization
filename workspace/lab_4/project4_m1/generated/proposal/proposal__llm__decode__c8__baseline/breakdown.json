@@ -55,16 +55,16 @@
   },
   "latency_memory_per_einsum": {
     "BlockScaleA": 136.0,
-    "BlockQuantA": 136.0,
+    "BlockQuantA": 168.0,
     "BlockScaleW": 1409024.0,
     "BlockQuantW": 1761280.0,
-    "MatMulBlock": 352256.0,
+    "MatMulBlock": 440320.0,
     "RescaleBlockA": 88064.0,
     "RescaleBlockW": 88064.0
   },
   "energy_per_component": {
-    "GLB": 56363520.0,
-    "DRAM": 282129280.0,
+    "GLB": 49315840.0,
+    "DRAM": 289176960.0,
     "QuantMAC": 90185728.0,
     "RF": 0.0,
     "FP4MAC": 9017753.6,

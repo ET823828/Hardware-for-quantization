@@ -53,4 +53,125 @@ joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process m
 
 The exit codes of the workers are {SIGKILL(-9)}
 Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-",528.48
+",539.574
+proposal,proposal__llm__prefill__c6__baseline,error,LLM,prefill,C6,baseline,128,11008,4096,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/breakdown.json,"A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
+
+The exit codes of the workers are {SIGKILL(-9)}
+Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
+Traceback (most recent call last):
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 843, in run_hardware_case
+    all_mappings = spec.map_workload_to_arch()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
+    return map_workload_to_arch(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
+    pmappings = make_pmappings(
+                ^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
+    result = _make_pmappings(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
+    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
+    for (
+  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
+    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
+    self._raise_error_fast()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
+    raise self._result
+joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
+
+The exit codes of the workers are {SIGKILL(-9)}
+Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
+",540.94
+proposal,proposal__llm__prefill__c7__baseline,error,LLM,prefill,C7,baseline,128,11008,4096,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/breakdown.json,"A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
+
+The exit codes of the workers are {SIGKILL(-9)}
+Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
+Traceback (most recent call last):
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 843, in run_hardware_case
+    all_mappings = spec.map_workload_to_arch()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
+    return map_workload_to_arch(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
+    pmappings = make_pmappings(
+                ^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
+    result = _make_pmappings(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
+    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
+    for (
+  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
+    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
+    self._raise_error_fast()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
+    raise self._result
+joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
+
+The exit codes of the workers are {SIGKILL(-9)}
+Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
+",549.846
+proposal,proposal__llm__prefill__c8__baseline,ok,LLM,prefill,C8,baseline,128,11008,4096,1,1,7817333964.8,7817333964.8,5548.048837209302,383321088.0,3.8959712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/breakdown.json,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,807.185
+proposal,proposal__llm__prefill__c9__baseline,error,LLM,prefill,C9,baseline,128,11008,4096,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/breakdown.json,"A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
+
+The exit codes of the workers are {SIGKILL(-9)}
+Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
+Traceback (most recent call last):
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 843, in run_hardware_case
+    all_mappings = spec.map_workload_to_arch()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
+    return map_workload_to_arch(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
+    pmappings = make_pmappings(
+                ^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
+    result = _make_pmappings(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
+    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
+    for (
+  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
+    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
+    self._raise_error_fast()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
+    raise self._result
+joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
+
+The exit codes of the workers are {SIGKILL(-9)}
+Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
+",338.63

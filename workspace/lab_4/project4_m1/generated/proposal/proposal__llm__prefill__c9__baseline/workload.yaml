@@ -15,8 +15,6 @@
       "W": 16,
       "Sga": 16,
       "Sgw": 16,
-      "Ascl": 16,
-      "Wscl": 16,
       "Sba": 8,
       "Sbw": 8,
       "Aq": 4,
@@ -29,61 +27,10 @@
     },
     "einsums": [
       {
-        "name": "TensorScaleA",
-        "tensor_accesses": [
-          {
-            "name": "A",
-            "projection": [
-              "m",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sga",
-            "projection": [
-              "ga"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
-        "name": "TensorQuantA",
-        "tensor_accesses": [
-          {
-            "name": "A",
-            "projection": [
-              "m",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sga",
-            "projection": [
-              "ga"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Ascl",
-            "projection": [
-              "m",
-              "kb",
-              "ki"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
         "name": "BlockScaleA",
         "tensor_accesses": [
           {
-            "name": "Ascl",
+            "name": "A",
             "projection": [
               "m",
               "kb",
@@ -105,7 +52,7 @@
         "name": "BlockQuantA",
         "tensor_accesses": [
           {
-            "name": "Ascl",
+            "name": "A",
             "projection": [
               "m",
               "kb",
@@ -133,67 +80,10 @@
         ]
       },
       {
-        "name": "TensorScaleW",
-        "tensor_accesses": [
-          {
-            "name": "W",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sgw",
-            "projection": [
-              "gw"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
-        "name": "TensorQuantW",
-        "tensor_accesses": [
-          {
-            "name": "W",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sgw",
-            "projection": [
-              "gw"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Wscl",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb",
-              "ki"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
         "name": "BlockScaleW",
         "tensor_accesses": [
           {
-            "name": "Wscl",
+            "name": "W",
             "projection": [
               "nbo",
               "nbi",
@@ -219,7 +109,7 @@
         "name": "BlockQuantW",
         "tensor_accesses": [
           {
-            "name": "Wscl",
+            "name": "W",
             "projection": [
               "nbo",
               "nbi",

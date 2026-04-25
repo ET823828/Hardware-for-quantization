@@ -98,6 +98,27 @@ class QuantExperimentTests(unittest.TestCase):
         self.assertEqual(matmul["tensor_accesses"][1]["projection"], ["nbo", "nbi", "ni", "kb", "ki"])
         self.assertEqual(matmul["tensor_accesses"][2]["projection"], ["m", "nbo", "nbi", "ni", "kb"])
 
+    def test_llm_prefill_two_level_uses_compact_mapper_workload(self) -> None:
+        run_spec = next(
+            row
+            for row in experiment_defs.default_manifest()["proposal_runs"]
+            if row["workload_id"] == "LLM" and row["phase_id"] == "prefill" and row["config_id"] == "C5"
+        )
+
+        workload = run_sweeps.build_workload(run_spec)
+        names = [einsum["name"] for einsum in workload["workload"]["einsums"]]
+        iter_shape = workload["workload"]["iteration_space_shape"]
+        tensor_rescale_w = workload["workload"]["einsums"][-1]
+
+        self.assertTrue(run_sweeps.uses_compact_two_level_workload(run_spec))
+        self.assertEqual(len(names), 9)
+        self.assertNotIn("TensorScaleA", names)
+        self.assertNotIn("TensorQuantW", names)
+        self.assertIn("RescaleTensorA", names)
+        self.assertIn("RescaleTensorW", names)
+        self.assertEqual(iter_shape["nbo"], "0 <= nbo < 43")
+        self.assertEqual(tensor_rescale_w["tensor_accesses"][1]["projection"], ["gw"])
+
     def test_filter_completed_runs_skips_ok_rows_only(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             csv_path = Path(tmp_dir) / "hardware.csv"

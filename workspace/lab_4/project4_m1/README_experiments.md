@@ -72,6 +72,9 @@ python3 workspace/lab_4/project4_m1/analyze_results.py
 
 - The hardware runner generates concrete `arch.yaml` and `workload.yaml`
   files under `generated/<suite>/<run_id>/`.
+- Proposal hardware CSVs generated before the inference-time prequantized
+  workload update are stale. Rerun proposal hardware with `--rerun-ok` before
+  using `proposal_hardware_summary.csv` for figures or final claims.
 - The hardware sweep requires an environment with `accelforge` installed.
   If it is missing, the runner still generates inputs and records
   `generated_only` rows in the CSV summaries.
@@ -98,11 +101,11 @@ python3 workspace/lab_4/project4_m1/analyze_results.py
 - The default manifest points `accuracy_inputs` to relative paths under
   `project4_m1/accuracy_inputs/` so the same manifest works on the host and
   inside a containerized workspace mount.
-- Proposal hardware workloads now use mapper-safe encodings: two-level
-  tensor-granular coarse scales are emitted as singleton ranks instead of
-  zero-rank tensors, and proposal one-level/two-level sweeps split large
-  output-channel dimensions into small ranks to avoid AccelForge rank-width
-  overflows on large LLM cases.
+- Proposal hardware workloads model inference-time execution with weights
+  quantized offline. The runner treats `Wq`, `Sbw`, and `Sgw` as inputs, keeps
+  activation quantization and output rescale stages in the graph, emits
+  tensor-granular coarse scales as singleton ranks, and only splits large
+  output-channel dimensions enough to keep AccelForge mapping tractable.
 - `C7` is the corrected proposal NVFP4-like reference with tensor-granular
   coarse scaling. `LEGACY_NVFP4_FULL` preserves the historical notebook
   row-wise coarse-scale behavior for validation only.

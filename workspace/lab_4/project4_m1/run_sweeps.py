@@ -236,6 +236,32 @@ def build_zero_level_workload(shape: dict[str, int], acc_bits: int) -> dict[str,
     }
 
 
+def build_zero_level_blocked_workload(shape: dict[str, int], block_size: int, acc_bits: int) -> dict[str, Any]:
+    kb = shape["k"] // block_size
+    n_iter_shape, n_projection = split_n_projection(shape)
+    return {
+        "workload": {
+            "iteration_space_shape": {
+                "m": f"0 <= m < {shape['m']}",
+                **n_iter_shape,
+                "kb": f"0 <= kb < {kb}",
+                "ki": f"0 <= ki < {block_size}",
+            },
+            "bits_per_value": {"Aq": 4, "Wq": 4, "Y": acc_bits},
+            "einsums": [
+                {
+                    "name": "MatMulRaw4",
+                    "tensor_accesses": [
+                        {"name": "Aq", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "Wq", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
+                        {"name": "Y", "projection": ["m", *n_projection], "output": True},
+                    ],
+                }
+            ],
+        }
+    }
+
+
 def build_weight_only_workload(shape: dict[str, int], block_size: int, scale_bits: int, output_bits: int) -> dict[str, Any]:
     kb = shape["k"] // block_size
     return {
@@ -276,24 +302,40 @@ def build_weight_only_workload(shape: dict[str, int], block_size: int, scale_bit
 
 
 def split_n_projection(shape: dict[str, int]) -> tuple[dict[str, str], list[str]]:
-    if shape["n"] % 256 == 0:
+    n = shape["n"]
+    if n <= 256:
         return (
             {
-                "nbo": f"0 <= nbo < {shape['n'] // 256}",
+                "n": f"0 <= n < {n}",
+            },
+            ["n"],
+        )
+    if n <= 4096 and n % 16 == 0:
+        return (
+            {
+                "nb": f"0 <= nb < {n // 16}",
+                "ni": "0 <= ni < 16",
+            },
+            ["nb", "ni"],
+        )
+    if n % 256 == 0:
+        return (
+            {
+                "nbo": f"0 <= nbo < {n // 256}",
                 "nbi": "0 <= nbi < 16",
                 "ni": "0 <= ni < 16",
             },
             ["nbo", "nbi", "ni"],
         )
-    if shape["n"] % 16 == 0:
+    if n % 16 == 0:
         return (
             {
-                "nb": f"0 <= nb < {shape['n'] // 16}",
+                "nb": f"0 <= nb < {n // 16}",
                 "ni": "0 <= ni < 16",
             },
             ["nb", "ni"],
         )
-    raise ValueError(f"Workload requires n to be divisible by 16, got n={shape['n']}")
+    raise ValueError(f"Workload requires n to be divisible by 16, got n={n}")
 
 
 def build_one_level_workload(shape: dict[str, int], block_size: int, scale_bits: int, acc_bits: int) -> dict[str, Any]:
@@ -347,6 +389,79 @@ def build_one_level_workload(shape: dict[str, int], block_size: int, scale_bits:
                         {"name": "W", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
                         {"name": "Sbw", "projection": [*n_projection, "kb"], "density": 1.0},
                         {"name": "Wq", "projection": [*n_projection, "kb", "ki"], "output": True},
+                    ],
+                },
+                {
+                    "name": "MatMulBlock",
+                    "tensor_accesses": [
+                        {"name": "Aq", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "Wq", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
+                        {"name": "Yraw", "projection": ["m", *n_projection, "kb"], "output": True},
+                    ],
+                },
+                {
+                    "name": "RescaleBlockA",
+                    "tensor_accesses": [
+                        {"name": "Yraw", "projection": ["m", *n_projection, "kb"], "density": 1.0},
+                        {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
+                        {"name": "Ytmp", "projection": ["m", *n_projection, "kb"], "output": True},
+                    ],
+                },
+                {
+                    "name": "RescaleBlockW",
+                    "tensor_accesses": [
+                        {"name": "Ytmp", "projection": ["m", *n_projection, "kb"], "density": 1.0},
+                        {"name": "Sbw", "projection": [*n_projection, "kb"], "density": 1.0},
+                        {"name": "Y", "projection": ["m", *n_projection], "output": True},
+                    ],
+                },
+            ],
+        }
+    }
+
+
+def build_one_level_inference_workload(
+    shape: dict[str, int],
+    block_size: int,
+    scale_bits: int,
+    acc_bits: int,
+) -> dict[str, Any]:
+    """Inference graph with offline-quantized weights and runtime activation quantization."""
+
+    kb = shape["k"] // block_size
+    n_iter_shape, n_projection = split_n_projection(shape)
+    return {
+        "workload": {
+            "iteration_space_shape": {
+                "m": f"0 <= m < {shape['m']}",
+                **n_iter_shape,
+                "kb": f"0 <= kb < {kb}",
+                "ki": f"0 <= ki < {block_size}",
+            },
+            "bits_per_value": {
+                "A": 16,
+                "Sba": scale_bits,
+                "Sbw": scale_bits,
+                "Aq": 4,
+                "Wq": 4,
+                "Yraw": acc_bits,
+                "Ytmp": acc_bits,
+                "Y": 16,
+            },
+            "einsums": [
+                {
+                    "name": "BlockScaleA",
+                    "tensor_accesses": [
+                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "Sba", "projection": ["m", "kb"], "output": True},
+                    ],
+                },
+                {
+                    "name": "BlockQuantA",
+                    "tensor_accesses": [
+                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
+                        {"name": "Aq", "projection": ["m", "kb", "ki"], "output": True},
                     ],
                 },
                 {
@@ -495,6 +610,136 @@ def build_two_level_workload(
                         {"name": "Wscl", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
                         {"name": "Sbw", "projection": [*n_projection, "kb"], "density": 1.0},
                         {"name": "Wq", "projection": [*n_projection, "kb", "ki"], "output": True},
+                    ],
+                },
+                {
+                    "name": "MatMulNVFP4",
+                    "tensor_accesses": [
+                        {"name": "Aq", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "Wq", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
+                        {"name": "Yraw", "projection": ["m", *n_projection, "kb"], "output": True},
+                    ],
+                },
+                {
+                    "name": "RescaleBlockA",
+                    "tensor_accesses": [
+                        {"name": "Yraw", "projection": ["m", *n_projection, "kb"], "density": 1.0},
+                        {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
+                        {"name": "Ytmp", "projection": ["m", *n_projection, "kb"], "output": True},
+                    ],
+                },
+                {
+                    "name": "RescaleBlockW",
+                    "tensor_accesses": [
+                        {"name": "Ytmp", "projection": ["m", *n_projection, "kb"], "density": 1.0},
+                        {"name": "Sbw", "projection": [*n_projection, "kb"], "density": 1.0},
+                        {"name": "Yblk", "projection": ["m", *n_projection, "kb"], "output": True},
+                    ],
+                },
+                {
+                    "name": "RescaleTensorA",
+                    "tensor_accesses": [
+                        {"name": "Yblk", "projection": ["m", *n_projection, "kb"], "density": 1.0},
+                        {"name": "Sga", "projection": activation_projection, "density": 1.0},
+                        {"name": "Ytmp2", "projection": ["m", *n_projection], "output": True},
+                    ],
+                },
+                {
+                    "name": "RescaleTensorW",
+                    "tensor_accesses": [
+                        {"name": "Ytmp2", "projection": ["m", *n_projection], "density": 1.0},
+                        {"name": "Sgw", "projection": weight_projection, "density": 1.0},
+                        {"name": "Y", "projection": ["m", *n_projection], "output": True},
+                    ],
+                },
+            ],
+        }
+    }
+
+
+def build_two_level_inference_workload(
+    shape: dict[str, int],
+    block_size: int,
+    fine_scale_bits: int,
+    coarse_scale_bits: int,
+    acc_bits: int,
+    coarse_granularity: str,
+    *,
+    rank1_tensor_scales: bool = False,
+) -> dict[str, Any]:
+    """Compact inference graph with offline-quantized two-level weights."""
+
+    kb = shape["k"] // block_size
+    if coarse_granularity not in {"tensor", "row"}:
+        raise ValueError(f"Unsupported coarse granularity: {coarse_granularity}")
+    n_iter_shape, n_projection = split_n_projection(shape)
+    iteration_space_shape = {
+        "m": f"0 <= m < {shape['m']}",
+        **n_iter_shape,
+        "kb": f"0 <= kb < {kb}",
+        "ki": f"0 <= ki < {block_size}",
+    }
+
+    if coarse_granularity == "tensor":
+        if rank1_tensor_scales:
+            iteration_space_shape["ga"] = "0 <= ga < 1"
+            iteration_space_shape["gw"] = "0 <= gw < 1"
+            activation_projection = ["ga"]
+            weight_projection = ["gw"]
+        else:
+            activation_projection = []
+            weight_projection = []
+    else:
+        activation_projection = ["m"]
+        weight_projection = list(n_projection)
+
+    return {
+        "workload": {
+            "iteration_space_shape": iteration_space_shape,
+            "bits_per_value": {
+                "A": 16,
+                "Sga": coarse_scale_bits,
+                "Sgw": coarse_scale_bits,
+                "Ascl": 16,
+                "Sba": fine_scale_bits,
+                "Sbw": fine_scale_bits,
+                "Aq": 4,
+                "Wq": 4,
+                "Yraw": acc_bits,
+                "Ytmp": acc_bits,
+                "Yblk": acc_bits,
+                "Ytmp2": acc_bits,
+                "Y": 16,
+            },
+            "einsums": [
+                {
+                    "name": "TensorScaleA",
+                    "tensor_accesses": [
+                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "Sga", "projection": activation_projection, "output": True},
+                    ],
+                },
+                {
+                    "name": "TensorQuantA",
+                    "tensor_accesses": [
+                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "Sga", "projection": activation_projection, "density": 1.0},
+                        {"name": "Ascl", "projection": ["m", "kb", "ki"], "output": True},
+                    ],
+                },
+                {
+                    "name": "BlockScaleA",
+                    "tensor_accesses": [
+                        {"name": "Ascl", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "Sba", "projection": ["m", "kb"], "output": True},
+                    ],
+                },
+                {
+                    "name": "BlockQuantA",
+                    "tensor_accesses": [
+                        {"name": "Ascl", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
+                        {"name": "Aq", "projection": ["m", "kb", "ki"], "output": True},
                     ],
                 },
                 {
@@ -692,11 +937,19 @@ def uses_compact_two_level_workload(run_spec: dict[str, Any]) -> bool:
         return False
     return (
         run_spec.get("suite") == "proposal"
-        and run_spec.get("workload_id") == "LLM"
-        and run_spec.get("phase_id") == "prefill"
         and config.topology == "two_level"
         and (config.coarse_granularity or "tensor") == "tensor"
     )
+
+
+def hardware_model_label(run_spec: dict[str, Any]) -> str:
+    config = get_quant_config(run_spec["config_id"])
+    if run_spec.get("suite") == "proposal" and not isinstance(config, dict):
+        if config.topology == "two_level" and uses_compact_two_level_workload(run_spec):
+            return "compact_two_level_inference"
+        if config.topology in {"zero_level", "one_level"}:
+            return "inference_prequantized"
+    return "full_accelforge_graph"
 
 
 def build_workload(run_spec: dict[str, Any]) -> dict[str, Any]:
@@ -719,9 +972,9 @@ def build_workload(run_spec: dict[str, Any]) -> dict[str, Any]:
         raise ValueError(f"Unsupported special config: {run_spec['config_id']}")
     acc_bits = ACCUMULATOR_BITS[config.accumulator_format]
     if config.topology == "zero_level":
-        return build_zero_level_workload(shape, acc_bits=acc_bits)
+        return build_zero_level_blocked_workload(shape, block_size=16, acc_bits=acc_bits)
     if config.topology == "one_level":
-        return build_one_level_workload(
+        return build_one_level_inference_workload(
             shape,
             block_size=config.block_size or 16,
             scale_bits=config.fine_scale_bits or SCALE_FORMATS[config.fine_rescale_format]["storage_bits"],
@@ -729,14 +982,13 @@ def build_workload(run_spec: dict[str, Any]) -> dict[str, Any]:
         )
     if config.topology == "two_level":
         if uses_compact_two_level_workload(run_spec):
-            return build_compact_two_level_workload(
+            return build_two_level_inference_workload(
                 shape,
                 block_size=config.block_size or 16,
                 fine_scale_bits=config.fine_scale_bits or SCALE_FORMATS[config.fine_rescale_format]["storage_bits"],
                 coarse_scale_bits=config.coarse_scale_bits or SCALE_FORMATS[config.coarse_rescale_format]["storage_bits"],
                 acc_bits=acc_bits,
                 coarse_granularity=config.coarse_granularity or "tensor",
-                split_n=True,
                 rank1_tensor_scales=True,
             )
         return build_two_level_workload(
@@ -973,7 +1225,7 @@ def assert_energy_total_matches_breakdown(
 
 def run_hardware_case(run_spec: dict[str, Any]) -> dict[str, Any]:
     paths = write_run_inputs(run_spec)
-    hardware_model = "compact_two_level_prefill" if uses_compact_two_level_workload(run_spec) else "full_accelforge_graph"
+    hardware_model = hardware_model_label(run_spec)
     row = {
         "suite": run_spec["suite"],
         "run_id": run_spec["run_id"],

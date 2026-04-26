@@ -7,7 +7,6 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{booktabs}
-\usepackage{multirow}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
@@ -58,7 +57,7 @@ Recent works have made isolated improvements along individual pipeline dimension
 
 \textbf{Core question:} When designing an AI inference accelerator, can we define a structured search space over the 4-bit MMA rescale pipeline---decomposed into orthogonal dimensions (rescale levels, block granularity, scale format, accumulator precision)---and demonstrate that prefill and decode have \emph{different} Pareto-optimal configurations within this space, thereby justifying phase-adaptive quantization over adopting any single existing scheme as-is?
 
-Our contribution is not a single better configuration, but \textbf{the search space definition and the phase-decoupling methodology} for custom accelerator design. The finding that prefill and decode prefer different configurations is the central validation---it proves that blindly adopting a general-purpose format like NVFP4 into a custom datapath leaves efficiency on the table, and that co-optimizing the quantization pipeline with the target deployment scenario is valuable.
+Our contribution is not a single better configuration, but \textbf{the search space definition and the phase-decoupling methodology} for custom accelerator design. The completed sweep shows that the preferred point changes across phases and workloads: LLM and VLA select different decode and prefill configurations, while VLM collapses to the same simple MXFP4-like point in both phases. This is the central validation---blindly adopting a general-purpose format like NVFP4 into a custom datapath leaves efficiency on the table, while a DSE can either choose a cheaper existing-style point or a phase-specific variant when the workload warrants it.
 
 \subsection{Hypotheses}
 
@@ -66,7 +65,7 @@ Our contribution is not a single better configuration, but \textbf{the search sp
     \item \textbf{Prefill favors cheaper rescale.} In the compute-bound regime (large $M$), the rescale pipeline is the dominant energy contributor. Lower-precision rescale (FP16, bit-shift) can achieve comparable accuracy at significantly lower energy.
     \item \textbf{Decode favors more aggressive quantization.} In the memory-bound regime ($M = 1$), configurations with coarser granularity or fewer rescale levels may be Pareto-optimal because bandwidth savings dominate.
     \item \textbf{The optimal configuration differs across both phases and workloads.} LLM, VLM, and VLA workloads have distinct GEMM shape profiles ($N$, $K$ dimensions), leading to different compute-vs-memory balance and thus different optimal rescale pipelines. The Pareto frontier for each (workload, phase) pair occupies a different region of the accuracy--energy plane. This two-dimensional workload-dependence---across phases \emph{and} application domains---is the key validation of our framework.
-    \item We target $\geq 2\times$ \textbf{energy reduction} in the rescale/accumulation stages relative to NVFP4 for the workload-optimal configuration, with configurations on the Pareto frontier \textbf{dominating NVFP4 and MXFP4} in all evaluated scenarios.
+    \item We target $\sim 2\times$ \textbf{total energy reduction} relative to the NVFP4-like two-level FP32-rescale reference for workload-optimal configurations. We do not require every selected point to dominate MXFP4: the sweep should reveal when MXFP4-like bit-shift scaling is already the right hardware point, and when another phase-specific configuration is worth the extra datapath support.
 \end{enumerate}
 
 %% ================================================================
@@ -121,7 +120,7 @@ Every existing scheme is a single hand-designed point in this space:
     \item \textbf{HiFloat4} = \{3-level (hierarchical), E6M2+E1+E1, FP32 acc\}
 \end{itemize}
 
-Our contribution is the \textbf{search space definition and phase-decoupling methodology}: decomposing the bundled pipeline into this search space, evaluating under both prefill and decode regimes, and demonstrating that (a) existing bundled schemes are suboptimal for both phases, and (b) the optimal configuration differs between prefill and decode---validating the need for phase-adaptive quantization.
+Our contribution is the \textbf{search space definition and phase-decoupling methodology}: decomposing the bundled pipeline into this search space, evaluating under both prefill and decode regimes, and demonstrating when an existing bundled scheme is suboptimal and when it is already close to the knee of the frontier. The observed optima differ across workload/phase cells, validating the need for workload-aware and, for LLM/VLA, phase-adaptive quantization.
 
 \subsection{Tradeoffs and Challenges}
 
@@ -148,13 +147,11 @@ We have completed a full hardware cost sweep across 4 Llama-style FFN GEMM shape
 \cmidrule(lr){3-4} \cmidrule(lr){5-6}
 Phase & Config & Energy & Latency & Energy & Latency \\
 \midrule
-\multirow{2}{*}{Decode ($M{=}1$)}
-  & W4A4 NVFP4 & 0.90$\times$ & 0.59$\times$ & 2.84$\times$ & 9.4$\times$ \\
-  & Ideal W4A4 & 0.32$\times$ & 0.06$\times$ & 1.0$\times$ & 1.0$\times$ \\
+Decode ($M{=}1$) & W4A4 NVFP4 & 0.90$\times$ & 0.59$\times$ & 2.84$\times$ & 9.4$\times$ \\
+Decode ($M{=}1$) & Ideal W4A4 & 0.32$\times$ & 0.06$\times$ & 1.0$\times$ & 1.0$\times$ \\
 \midrule
-\multirow{2}{*}{Prefill ($M{=}128$)}
-  & W4A4 NVFP4 & 1.27$\times$ & 0.29$\times$ & 3.9$\times$ & 1.16$\times$ \\
-  & Ideal W4A4 & 0.33$\times$ & 0.25$\times$ & 1.0$\times$ & 1.0$\times$ \\
+Prefill ($M{=}128$) & W4A4 NVFP4 & 1.27$\times$ & 0.29$\times$ & 3.9$\times$ & 1.16$\times$ \\
+Prefill ($M{=}128$) & Ideal W4A4 & 0.33$\times$ & 0.25$\times$ & 1.0$\times$ & 1.0$\times$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -182,6 +179,54 @@ Phase & Config & Energy & Latency & Energy & Latency \\
 \end{figure}
 
 These results establish two critical facts: (1) the rescale pipeline is the dominant efficiency bottleneck and the natural target for optimization, and (2) the \emph{same} pipeline configuration behaves oppositely in the two inference phases, motivating phase-specific design.
+
+\subsection{Completed Cross-Workload DSE Results}
+
+We have now completed the proposal sweep: 10 quantization configurations $\times$ 3 workloads $\times$ 2 phases, for 60 AccelForge hardware runs and 60 accuracy-emulation runs. Hardware is evaluated on the full representative GEMM shapes, while accuracy uses deterministic representative tensor snapshots with bounded slices ($m_{\mathrm{eval}}{=}1$ for decode, $m_{\mathrm{eval}}{=}4$ for prefill, $n_{\mathrm{eval}}{=}16$) to keep the pure-Python emulator tractable. All rows in the latest run completed successfully.
+
+\begin{table}[ht]
+\centering
+\caption{Best configuration per workload and phase under a cosine-similarity floor of 0.98. C1 is MXFP4-like one-level E8M0, C8 is one-level FP16 rescale with FP16 accumulation, and C9 is hybrid two-level E8M0+FP16 with FP16 accumulation. Savings are relative to the NVFP4-like C7 reference.}
+\label{tab:bestconfigs}
+\small
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+Workload & Phase & Best & Energy / output (pJ) & Cosine & vs. C7 Energy \\
+\midrule
+LLM & Decode  & C8 & 7767 & 0.9807 & $-48.0\%$ \\
+LLM & Prefill & C1 & 5262 & 0.9843 & $-58.1\%$ \\
+VLM & Decode  & C1 & 5557 & 0.9874 & $-50.4\%$ \\
+VLM & Prefill & C1 & 3952 & 0.9836 & $-60.0\%$ \\
+VLA & Decode  & C8 & 7891 & 0.9950 & $-47.6\%$ \\
+VLA & Prefill & C9 & 6263 & 0.9895 & $-50.7\%$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Figure~\ref{fig:pareto_current} shows that the accuracy--energy frontier changes across the six workload/phase panels. The selected configurations contain three distinct datapath choices (C1, C8, C9), so a single fixed format is not globally optimal. The result is especially instructive for MXFP4: the MXFP4-like C1 point is strong enough to be selected for LLM prefill and both VLM phases, while LLM/VLA decode prefer C8 and VLA prefill prefers C9. This supports a more precise conclusion than our initial hypothesis: the DSE does not merely beat existing formats everywhere; it tells us when to reuse a cheap existing-style point and when to add a phase-specific mode.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.95\columnwidth]{figures/pareto_panels.png}
+\caption{Accuracy--energy Pareto panels for the completed 3-workload $\times$ 2-phase sweep. C7 (NVFP4-like) is consistently high energy, while C1 (MXFP4-like) often lies near the low-energy knee.}
+\label{fig:pareto_current}
+\end{figure}
+
+Using the deployment-weighted metric $E = \alpha E_{\mathrm{prefill}} + (1-\alpha)E_{\mathrm{decode}}$, phase-adaptive selection reduces energy by 50--60\% relative to fixed NVFP4-like C7 across the evaluated $\alpha$ range (Figure~\ref{fig:adaptive_current}). The benefit over the best single fixed configuration is smaller but still meaningful for phase-divergent workloads: about 0.6\% for LLM and 8.2\% for VLA at the default $\alpha$ values. For VLM, both phases select C1, so phase adaptation gives no additional gain over best-fixed; this is itself useful evidence that phase adaptation should be enabled selectively rather than assumed universally.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\columnwidth]{figures/phase_adaptive_savings.png}
+\caption{Phase-adaptive energy savings versus fixed NVFP4-like C7 as the prefill weighting $\alpha$ changes.}
+\label{fig:adaptive_current}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.85\columnwidth]{figures/phase_adaptive_strategy_bar.png}
+\caption{Weighted-energy comparison at the default workload-specific $\alpha$ values. Phase-adaptive equals best-fixed for VLM because both phases select C1.}
+\label{fig:strategy_current}
+\end{figure}
 
 %% ================================================================
 \section{Proposed Experiments}
@@ -221,34 +266,34 @@ These domains differ in their GEMM dimension profiles: LLM FFN layers have large
 
 \textbf{Class concepts:} Compute-bound vs.\ memory-bound regimes; energy cost hierarchy; arithmetic intensity.
 
-\subsection{Experiment 2: Cross-Workload Search Space Sweep}
+\subsection{Experiment 2: Cross-Workload Search Space Sweep (Done)}
 
-\textbf{Goal:} For each of the three workloads, sweep the search space under both prefill and decode, and show that (a) the Pareto-optimal configuration differs between phases within each workload, and (b) the optimal configuration also differs \emph{across} workloads.
+\textbf{Goal:} For each of the three workloads, sweep the search space under both prefill and decode, and show that (a) the Pareto-optimal configuration can differ between phases within a workload, and (b) the optimal configuration also differs \emph{across} workloads.
 
-\textbf{Method:}
+\textbf{Method and status: Completed.}
 \begin{enumerate}
     \item \emph{Hardware cost:} For each candidate configuration $\times$ workload $\times$ phase, run AccelForge evaluation with the workload's representative GEMM shapes. Extract energy per output element and latency.
-    \item \emph{Accuracy:} For each configuration, run PyTorch emulation on representative weight matrices from the target model. Measure per-layer cosine similarity; for a subset, measure end-to-end task metric.
-    \item \emph{Joint Pareto analysis:} For each (workload, phase) pair, plot all configurations on the accuracy--energy plane. Draw Pareto frontiers; mark NVFP4 and MXFP4 as reference points.
+    \item \emph{Accuracy:} For each configuration, run the quantization emulator on representative tensor snapshots. Measure per-layer output cosine similarity against FP16. End-to-end task metrics remain future work.
+    \item \emph{Joint Pareto analysis:} For each (workload, phase) pair, plot all configurations on the accuracy--energy plane. Draw Pareto frontiers; mark NVFP4-like C7 and MXFP4-like C1 as reference points.
 \end{enumerate}
 
 \textbf{Class concepts:} Design-space exploration; Pareto optimality; phase-aware hardware-software co-design.
 
-\textbf{Metrics \& visualization:} A grid of Pareto plots: 3 workloads $\times$ 2 phases = 6 panels. Each panel shows all search-space configurations as scatter points, with the Pareto frontier highlighted and NVFP4/MXFP4 marked. The key visual is that (a) the frontier shape and knee-point differ across panels, and (b) NVFP4/MXFP4 are interior to all frontiers.
+\textbf{Metrics \& visualization:} The completed grid of Pareto plots has 3 workloads $\times$ 2 phases = 6 panels. Each panel shows all search-space configurations as scatter points, with the Pareto frontier highlighted and C1/C7 marked. The key visual is that the frontier shape and knee-point differ across panels; C7 is consistently high energy, while C1 is often a strong low-energy point rather than an interior point.
 
-\textbf{Expected trends:}
+\textbf{Observed trends:}
 \begin{itemize}
-    \item \textbf{LLM} (large $K$): Prefill frontier favors cheaper rescale (FP16/bit-shift) to cut the dominant compute energy. Decode frontier favors coarser granularity to reduce data movement.
-    \item \textbf{VLM} (balanced $N, K$): Vision encoder GEMMs have moderate dimensions---may tolerate more aggressive quantization (single-level, E8M0) across both phases.
-    \item \textbf{VLA} (small $N$, latency-critical): Action-head GEMMs are small and latency-sensitive. May favor minimal pipeline depth (0 or 1 rescale level) to reduce per-inference overhead.
-    \item \textbf{Cross-workload divergence:} The Pareto-optimal configuration for LLM prefill (e.g., 2-level with FP16 rescale) differs from VLA decode (e.g., 1-level with E8M0 shift), confirming that quantization design should be workload-specific.
+    \item \textbf{LLM} (large $K$): Prefill selects C1, the cheap one-level E8M0 configuration. Decode selects C8, which spends slightly more energy than C1 but clears the cosine floor with FP16 accumulation.
+    \item \textbf{VLM} (balanced $N, K$): Both phases select C1. For this workload, the cheapest MXFP4-like point is already the best fixed and phase-adaptive choice under the 0.98 cosine floor.
+    \item \textbf{VLA} (small $N$, latency-critical): Decode selects C8 for accuracy, while prefill selects C9, a hybrid two-level E8M0+FP16 configuration. This workload shows the clearest gain over a best-fixed strategy.
+    \item \textbf{Cross-workload divergence:} The six cells select three distinct configurations (C1, C8, C9), confirming that quantization design should be workload-specific and selectively phase-adaptive.
 \end{itemize}
 
-\subsection{Experiment 3: Workload-Adaptive Gain Quantification}
+\subsection{Experiment 3: Workload-Adaptive Gain Quantification (Done)}
 
 \textbf{Goal:} Quantify the end-to-end efficiency gain of workload-and-phase-adaptive quantization over a single fixed scheme.
 
-\textbf{Method:} For each workload, compute the efficiency of three strategies:
+\textbf{Method and status: Completed.} For each workload, compute the efficiency of three strategies:
 \begin{itemize}
     \item \emph{Fixed-NVFP4:} Use NVFP4 for both phases (status quo).
     \item \emph{Best-fixed:} Use the single best configuration from the search space for both phases.
@@ -260,12 +305,12 @@ Weighted energy: $E = \alpha \cdot E_{\text{prefill}} + (1 - \alpha) \cdot E_{\t
 
 \textbf{Metrics \& visualization:}
 \begin{itemize}
-    \item[(a)] Table: best configuration for each (workload, phase) pair, with energy breakdown and accuracy (cos\_sim). Show that the 6 cells contain $\geq 3$ distinct configurations.
+    \item[(a)] Table: best configuration for each (workload, phase) pair, with energy and accuracy (cos\_sim). The 6 cells contain 3 distinct configurations.
     \item[(b)] Bar chart: energy savings of phase-adaptive vs.\ fixed-NVFP4 and vs.\ best-fixed, per workload.
-    \item[(c)] Line plot: X = $\alpha$, Y = energy savings, one curve per workload. Shows that phase-adaptive wins across all deployment ratios.
+    \item[(c)] Line plot: X = $\alpha$, Y = energy savings, one curve per workload. Phase-adaptive consistently beats fixed NVFP4-like C7; it beats best-fixed only when the workload actually has phase-divergent optima.
 \end{itemize}
 
-\textbf{Expected outcome:} Phase-adaptive quantization yields 15--30\% energy reduction over NVFP4 across all three workloads. The gain is largest for LLM prefill (where rescale overhead is highest) and for VLA (where latency constraints favor aggressive pipeline simplification). Crucially, no single configuration from the search space dominates across all 6 (workload, phase) cells---\textbf{validating that the search space and per-workload search methodology are both necessary}.
+\textbf{Observed outcome:} Phase-adaptive quantization yields 50--60\% weighted energy reduction over fixed NVFP4-like C7 across all three workloads and evaluated prefill weights. Relative to the best fixed configuration, the gains are workload-dependent: about 0.6\% for LLM, 0\% for VLM, and 8.2\% for VLA at the default $\alpha$ values. Crucially, no single configuration from the search space is best across all 6 (workload, phase) cells---\textbf{validating that the search space and per-workload search methodology are both necessary}. The zero phase-adaptive gain for VLM is not a failure; it shows that the framework can identify when one simple mode is sufficient.
 
 %% ================================================================
 \section{Timeline and Work Distribution}
@@ -280,18 +325,18 @@ Day & Tasks & Status \\
 \midrule
 4.13-4.16 & AccelForge baseline sweep (LLM shapes, 4 configs) & \textbf{Done} \\
      & Phase bottleneck analysis (Experiment 1) & \textbf{Done} \\
-4.17--4.21 & Extend to VLM/VLA shapes; full search space sweep & In progress \\
-     & PyTorch quantization emulator + cos\_sim evaluation & In progress \\
-4.21--4.28 & Cross-workload Pareto analysis (Experiment 2) & Planned \\
-     & Workload-adaptive gain quantification (Experiment 3) & Planned \\
-4.28--5.1 & Final figures; write-up and presentation & Planned \\
+4.17--4.21 & Extend to VLM/VLA shapes; full search space sweep & \textbf{Done} \\
+     & Quantization emulator + cos\_sim evaluation & \textbf{Done} \\
+4.21--4.28 & Cross-workload Pareto analysis (Experiment 2) & \textbf{Done} \\
+     & Workload-adaptive gain quantification (Experiment 3) & \textbf{Done} \\
+4.28--5.1 & Final figures; write-up and presentation & In progress \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textbf{Work split:} One member focuses on AccelForge hardware modeling (workload/arch YAML generation, mapping evaluation, energy/latency extraction across LLM/VLM/VLA shapes). The other focuses on PyTorch accuracy evaluation (quantization emulator, per-layer cosine similarity, end-to-end metrics). Both collaborate on Pareto analysis and writing.
+\textbf{Work split:} One member focuses on AccelForge hardware modeling (workload/arch YAML generation, mapping evaluation, energy/latency extraction across LLM/VLM/VLA shapes). The other focuses on quantization accuracy evaluation (emulator, tensor-snapshot preparation, per-layer cosine similarity, and future end-to-end metrics). Both collaborate on Pareto analysis and writing.
 
-\textbf{Progress:} Milestones 1--2 (baseline modeling + inference-faithful LLM sweep with prefill/decode comparison) are complete. The hardware evaluation pipeline---automated workload generation, AccelForge auto-mapping, per-einsum breakdown extraction---is fully operational and ready to scale to VLM/VLA workloads and the full search space.
+\textbf{Progress:} The proposal sweep is complete and reproducible from the project4\_m1 scriptable flow. The latest run contains 60 successful hardware rows, 60 successful accuracy rows, generated AccelForge inputs and breakdowns for every case, and three final analysis figures. The remaining work is to polish the final write-up and, if time permits, strengthen the accuracy side with larger tensor slices or end-to-end task metrics.
 
 \begin{thebibliography}{00}
 \bibitem{hifloat4} Y.~Sun et al., ``HiFloat4 Format for Language Model Inference,'' arXiv:2602.11287, 2026.

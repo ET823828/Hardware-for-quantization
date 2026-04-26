@@ -98,6 +98,12 @@ class QuantExperimentTests(unittest.TestCase):
         self.assertEqual(matmul["tensor_accesses"][1]["projection"], ["nbo", "nbi", "ni", "kb", "ki"])
         self.assertEqual(matmul["tensor_accesses"][2]["projection"], ["m", "nbo", "nbi", "ni", "kb"])
 
+    def test_split_n_projection_splits_256_into_two_small_ranks(self) -> None:
+        iter_shape, projection = run_sweeps.split_n_projection({"m": 128, "n": 256, "k": 4096})
+
+        self.assertEqual(iter_shape, {"nb": "0 <= nb < 16", "ni": "0 <= ni < 16"})
+        self.assertEqual(projection, ["nb", "ni"])
+
     def test_llm_prefill_two_level_uses_compact_mapper_workload(self) -> None:
         run_spec = next(
             row
@@ -111,13 +117,36 @@ class QuantExperimentTests(unittest.TestCase):
         tensor_rescale_w = workload["workload"]["einsums"][-1]
 
         self.assertTrue(run_sweeps.uses_compact_two_level_workload(run_spec))
-        self.assertEqual(len(names), 9)
+        self.assertEqual(len(names), 7)
         self.assertNotIn("TensorScaleA", names)
+        self.assertNotIn("BlockScaleW", names)
         self.assertNotIn("TensorQuantW", names)
         self.assertIn("RescaleTensorA", names)
         self.assertIn("RescaleTensorW", names)
         self.assertEqual(iter_shape["nbo"], "0 <= nbo < 43")
         self.assertEqual(tensor_rescale_w["tensor_accesses"][1]["projection"], ["gw"])
+
+    def test_vla_prefill_two_level_compact_workload_splits_n_256(self) -> None:
+        run_spec = next(
+            row
+            for row in experiment_defs.default_manifest()["proposal_runs"]
+            if row["workload_id"] == "VLA" and row["phase_id"] == "prefill" and row["config_id"] == "C5"
+        )
+
+        workload = run_sweeps.build_workload(run_spec)
+        iter_shape = workload["workload"]["iteration_space_shape"]
+        projections = [
+            access["projection"]
+            for einsum in workload["workload"]["einsums"]
+            for access in einsum["tensor_accesses"]
+        ]
+
+        self.assertTrue(run_sweeps.uses_compact_two_level_workload(run_spec))
+        self.assertNotIn("n", iter_shape)
+        self.assertEqual(iter_shape["nb"], "0 <= nb < 16")
+        self.assertEqual(iter_shape["ni"], "0 <= ni < 16")
+        self.assertTrue(any(projection == ["m", "nb", "ni", "kb"] for projection in projections))
+        self.assertFalse(any("n" in projection for projection in projections))
 
     def test_filter_completed_runs_skips_ok_rows_only(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:

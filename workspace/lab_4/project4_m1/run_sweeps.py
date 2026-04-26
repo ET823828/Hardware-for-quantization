@@ -303,13 +303,6 @@ def build_weight_only_workload(shape: dict[str, int], block_size: int, scale_bit
 
 def split_n_projection(shape: dict[str, int]) -> tuple[dict[str, str], list[str]]:
     n = shape["n"]
-    if n <= 256:
-        return (
-            {
-                "n": f"0 <= n < {n}",
-            },
-            ["n"],
-        )
     if n <= 4096 and n % 16 == 0:
         return (
             {
@@ -317,6 +310,13 @@ def split_n_projection(shape: dict[str, int]) -> tuple[dict[str, str], list[str]
                 "ni": "0 <= ni < 16",
             },
             ["nb", "ni"],
+        )
+    if n < 256:
+        return (
+            {
+                "n": f"0 <= n < {n}",
+            },
+            ["n"],
         )
     if n % 256 == 0:
         return (

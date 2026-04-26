@@ -315,6 +315,7 @@ def analyze_proposal(accuracy_floor: float) -> tuple[list[dict[str, Any]], list[
     write_csv(BEST_CONFIGS_CSV, best_rows)
 
     adaptive_rows: list[dict[str, Any]] = []
+    alpha_grid = sorted({0.2, 0.5, 0.8, *DEFAULT_ALPHA_BY_WORKLOAD.values()})
     for workload_id in sorted({row["workload_id"] for row in rows}):
         workload_rows = [row for row in rows if row["workload_id"] == workload_id]
         prefill_best = next(row for row in best_rows if row["workload_id"] == workload_id and row["phase_id"] == "prefill")
@@ -324,7 +325,7 @@ def analyze_proposal(accuracy_floor: float) -> tuple[list[dict[str, Any]], list[
 
         nvfp4_decode = next(row for row in workload_rows if row["config_id"] == "C7" and row["phase_id"] == "decode")
         nvfp4_prefill = next(row for row in workload_rows if row["config_id"] == "C7" and row["phase_id"] == "prefill")
-        for alpha in (0.2, 0.5, 0.8):
+        for alpha in alpha_grid:
             adaptive_energy = alpha * prefill_energy + (1.0 - alpha) * decode_energy
             fixed_nvfp4_energy = alpha * float(nvfp4_prefill["energy_total_pj"]) + (1.0 - alpha) * float(nvfp4_decode["energy_total_pj"])
             best_fixed = choose_best_fixed(workload_rows, alpha, accuracy_floor)
@@ -487,15 +488,36 @@ def maybe_plot_pareto(rows: list[dict[str, Any]], adaptive_rows: list[dict[str, 
     best_fixed_values = []
     for workload_id in workloads:
         target_alpha = DEFAULT_ALPHA_BY_WORKLOAD[workload_id]
-        match = next(row for row in adaptive_rows if row["workload_id"] == workload_id and float(row["alpha_prefill"]) == target_alpha)
+        candidates = [
+            row
+            for row in adaptive_rows
+            if row["workload_id"] == workload_id and math.isclose(float(row["alpha_prefill"]), target_alpha, rel_tol=1e-12, abs_tol=1e-12)
+        ]
+        if not candidates:
+            continue
+        match = candidates[0]
         adaptive_values.append(float(match["adaptive_energy_pj"]))
         fixed_values.append(float(match["fixed_nvfp4_energy_pj"]))
-        best_fixed_values.append(float(match["best_fixed_energy_pj"]))
+        best_fixed_energy = to_float(match.get("best_fixed_energy_pj"))
+        best_fixed_values.append(best_fixed_energy if best_fixed_energy is not None else math.nan)
+    if not adaptive_values:
+        plt.close(fig)
+        return
+    x_positions = list(range(len(adaptive_values)))
     ax.bar([x - width for x in x_positions], adaptive_values, width=width, label="Phase-adaptive")
     ax.bar(x_positions, fixed_values, width=width, label="Fixed NVFP4")
     ax.bar([x + width for x in x_positions], best_fixed_values, width=width, label="Best fixed")
     ax.set_xticks(x_positions)
-    ax.set_xticklabels(workloads)
+    plotted_workloads = [
+        workload_id
+        for workload_id in workloads
+        if any(
+            row["workload_id"] == workload_id
+            and math.isclose(float(row["alpha_prefill"]), DEFAULT_ALPHA_BY_WORKLOAD[workload_id], rel_tol=1e-12, abs_tol=1e-12)
+            for row in adaptive_rows
+        )
+    ]
+    ax.set_xticklabels(plotted_workloads)
     ax.set_ylabel("Weighted total energy (pJ)")
     ax.set_title("Default-alpha Strategy Comparison")
     ax.legend()

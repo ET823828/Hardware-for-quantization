@@ -1,0 +1,15 @@
+{
+  "suite": "legacy_validation",
+  "run_id": "legacy_validation__baseline_fp16",
+  "workload_id": "LEGACY_4096",
+  "phase_id": "legacy",
+  "config_id": "BASELINE_FP16",
+  "arch_id": "baseline",
+  "num_quantmac": 1,
+  "num_rescalemac": 1,
+  "shape": {
+    "m": 4096,
+    "n": 4096,
+    "k": 4096
+  }
+}

@@ -1,17 +1,16 @@
 {
-  "proposal_ready": false,
-  "issues": [
-    "Proposal hardware rows are incomplete: {'ok': 55, 'generated_only': 4, 'error': 1}",
-    "Proposal accuracy rows are incomplete or still using stale/debug inputs.",
-    "Proposal accuracy status counts: {'missing_inputs': 60}"
-  ],
+  "proposal_ready": true,
+  "issues": [],
   "hardware_status_counts": {
-    "ok": 55,
-    "generated_only": 4,
-    "error": 1
+    "ok": 60
   },
   "accuracy_status_counts": {
-    "missing_inputs": 60
+    "ok": 60
   },
-  "generated_artifacts": []
+  "generated_artifacts": [
+    "/home/workspace/workspace/lab_4/project4_m1/results/proposal_combined_summary.csv",
+    "/home/workspace/workspace/lab_4/project4_m1/results/proposal_best_configs.csv",
+    "/home/workspace/workspace/lab_4/project4_m1/results/proposal_pareto_frontier.csv",
+    "/home/workspace/workspace/lab_4/project4_m1/results/phase_adaptive_savings.csv"
+  ]
 }

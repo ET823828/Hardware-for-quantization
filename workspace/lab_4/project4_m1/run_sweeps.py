@@ -667,7 +667,13 @@ def build_two_level_inference_workload(
     *,
     rank1_tensor_scales: bool = False,
 ) -> dict[str, Any]:
-    """Compact inference graph with offline-quantized two-level weights."""
+    """Compact inference graph with offline-quantized two-level weights.
+
+    Coarse scales are modeled as supplied metadata. Mapping their extraction as
+    global reductions creates a large AccelForge join space on prefill cases,
+    while the hardware comparison mainly needs the block quantization, matmul,
+    and output rescale pipeline costs.
+    """
 
     kb = shape["k"] // block_size
     if coarse_granularity not in {"tensor", "row"}:
@@ -700,7 +706,6 @@ def build_two_level_inference_workload(
                 "A": 16,
                 "Sga": coarse_scale_bits,
                 "Sgw": coarse_scale_bits,
-                "Ascl": 16,
                 "Sba": fine_scale_bits,
                 "Sbw": fine_scale_bits,
                 "Aq": 4,
@@ -713,31 +718,16 @@ def build_two_level_inference_workload(
             },
             "einsums": [
                 {
-                    "name": "TensorScaleA",
-                    "tensor_accesses": [
-                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Sga", "projection": activation_projection, "output": True},
-                    ],
-                },
-                {
-                    "name": "TensorQuantA",
-                    "tensor_accesses": [
-                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Sga", "projection": activation_projection, "density": 1.0},
-                        {"name": "Ascl", "projection": ["m", "kb", "ki"], "output": True},
-                    ],
-                },
-                {
                     "name": "BlockScaleA",
                     "tensor_accesses": [
-                        {"name": "Ascl", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
                         {"name": "Sba", "projection": ["m", "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "BlockQuantA",
                     "tensor_accesses": [
-                        {"name": "Ascl", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
                         {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
                         {"name": "Aq", "projection": ["m", "kb", "ki"], "output": True},
                     ],

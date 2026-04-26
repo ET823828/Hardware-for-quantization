@@ -1,0 +1,48 @@
+{
+  "workload": {
+    "iteration_space_shape": {
+      "m": "0 <= m < 1",
+      "n": "0 <= n < 256",
+      "kb": "0 <= kb < 256",
+      "ki": "0 <= ki < 16"
+    },
+    "bits_per_value": {
+      "Aq": 4,
+      "Wq": 4,
+      "Y": 32
+    },
+    "einsums": [
+      {
+        "name": "MatMulRaw4",
+        "tensor_accesses": [
+          {
+            "name": "Aq",
+            "projection": [
+              "m",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Wq",
+            "projection": [
+              "n",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Y",
+            "projection": [
+              "m",
+              "n"
+            ],
+            "output": true
+          }
+        ]
+      }
+    ]
+  }
+}

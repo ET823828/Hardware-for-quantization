@@ -1,0 +1,78 @@
+{
+  "einsum_names": [
+    "BlockScaleA",
+    "BlockQuantA",
+    "MatMulBlock",
+    "RescaleBlockA",
+    "RescaleBlockW"
+  ],
+  "energy_per_einsum": {
+    "BlockScaleA": 1855488.0,
+    "BlockQuantA": 2183168.0,
+    "MatMulBlock": 173644185.6,
+    "RescaleBlockA": 42150789.120000005,
+    "RescaleBlockW": 23636869.12
+  },
+  "latency_per_einsum": {
+    "BlockScaleA": 16640.0,
+    "BlockQuantA": 16640.0,
+    "MatMulBlock": 2097152.0,
+    "RescaleBlockA": 262144.0,
+    "RescaleBlockW": 131072.0
+  },
+  "energy_compute_per_einsum": {
+    "BlockScaleA": 524288.0,
+    "BlockQuantA": 524288.0,
+    "MatMulBlock": 26843545.6,
+    "RescaleBlockA": 125829.12,
+    "RescaleBlockW": 125829.12
+  },
+  "energy_memory_per_einsum": {
+    "BlockScaleA": 1331200.0,
+    "BlockQuantA": 1658880.0,
+    "MatMulBlock": 146800640.0,
+    "RescaleBlockA": 42024960.0,
+    "RescaleBlockW": 23511040.0
+  },
+  "latency_compute_per_einsum": {
+    "BlockScaleA": 16384.0,
+    "BlockQuantA": 16384.0,
+    "MatMulBlock": 2097152.0,
+    "RescaleBlockA": 65536.0,
+    "RescaleBlockW": 65536.0
+  },
+  "latency_memory_per_einsum": {
+    "BlockScaleA": 16640.0,
+    "BlockQuantA": 16640.0,
+    "MatMulBlock": 1048576.0,
+    "RescaleBlockA": 262144.0,
+    "RescaleBlockW": 131072.0
+  },
+  "energy_per_component": {
+    "GLB": 126156800.0,
+    "DRAM": 89169920.0,
+    "QuantMAC": 1048576.0,
+    "RF": 0.0,
+    "FP4MAC": 26843545.6,
+    "RescaleFineMAC": 251658.24,
+    "RescaleCoarseMAC": 0.0,
+    "FP16MAC": 0.0
+  },
+  "latency_per_component": {
+    "QuantMAC": 16384.0,
+    "GLB": 393216.0,
+    "DRAM": 1048576.0,
+    "FP4MAC": 2097152.0,
+    "RescaleFineMAC": 65536.0,
+    "RF": 0.0
+  },
+  "bottleneck_component": "FP4MAC",
+  "energy_total": 243470499.84,
+  "latency_total": 2523648.0,
+  "energy_total_column": "derived_from_breakdown",
+  "latency_total_column": "derived_from_breakdown",
+  "hardware_model": "inference_prequantized",
+  "output_elements": 32768,
+  "energy_pj_per_output": 7430.13,
+  "area_total": 3.8925712e-07
+}

@@ -1,0 +1,78 @@
+{
+  "einsum_names": [
+    "BlockScaleA",
+    "BlockQuantA",
+    "MatMulBlock",
+    "RescaleBlockA",
+    "RescaleBlockW"
+  ],
+  "energy_per_einsum": {
+    "BlockScaleA": 1998848.0,
+    "BlockQuantA": 2326528.0,
+    "MatMulBlock": 152672665.6,
+    "RescaleBlockA": 115579289.6,
+    "RescaleBlockW": 83384729.6
+  },
+  "latency_per_einsum": {
+    "BlockScaleA": 32768.0,
+    "BlockQuantA": 32768.0,
+    "MatMulBlock": 2097152.0,
+    "RescaleBlockA": 524288.0,
+    "RescaleBlockW": 262144.0
+  },
+  "energy_compute_per_einsum": {
+    "BlockScaleA": 524288.0,
+    "BlockQuantA": 524288.0,
+    "MatMulBlock": 26843545.6,
+    "RescaleBlockA": 31037849.6,
+    "RescaleBlockW": 31037849.6
+  },
+  "energy_memory_per_einsum": {
+    "BlockScaleA": 1474560.0,
+    "BlockQuantA": 1802240.0,
+    "MatMulBlock": 125829120.0,
+    "RescaleBlockA": 84541440.0,
+    "RescaleBlockW": 52346880.0
+  },
+  "latency_compute_per_einsum": {
+    "BlockScaleA": 32768.0,
+    "BlockQuantA": 32768.0,
+    "MatMulBlock": 2097152.0,
+    "RescaleBlockA": 262144.0,
+    "RescaleBlockW": 262144.0
+  },
+  "latency_memory_per_einsum": {
+    "BlockScaleA": 18432.0,
+    "BlockQuantA": 18432.0,
+    "MatMulBlock": 524288.0,
+    "RescaleBlockA": 524288.0,
+    "RescaleBlockW": 262144.0
+  },
+  "energy_per_component": {
+    "DRAM": 55951360.0,
+    "QuantMAC": 1048576.0,
+    "GLB": 210042880.0,
+    "RF": 0.0,
+    "FP4MAC": 26843545.6,
+    "RescaleFineMAC": 62075699.2,
+    "RescaleCoarseMAC": 0.0,
+    "FP16MAC": 0.0
+  },
+  "latency_per_component": {
+    "QuantMAC": 32768.0,
+    "DRAM": 524288.0,
+    "GLB": 524288.0,
+    "FP4MAC": 2097152.0,
+    "RescaleFineMAC": 262144.0,
+    "RF": 0.0
+  },
+  "bottleneck_component": "FP4MAC",
+  "energy_total": 355962060.8,
+  "latency_total": 2949120.0,
+  "energy_total_column": "derived_from_breakdown",
+  "latency_total_column": "derived_from_breakdown",
+  "hardware_model": "inference_prequantized",
+  "output_elements": 32768,
+  "energy_pj_per_output": 10863.1,
+  "area_total": 3.9067712000000004e-07
+}

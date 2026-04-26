@@ -1,35 +1,321 @@
-suite,run_id,status,workload_id,phase_id,config_id,arch_id,m,n,k,num_quantmac,num_rescalemac,energy_pj,energy_total_pj,energy_pj_per_output,latency_cycles,area_m2,bottleneck_component,workload_file,arch_file,mapping_file,breakdown_file,error,duration_s,hardware_model
-proposal,proposal__llm__decode__c0__baseline,ok,LLM,decode,C0,baseline,1,11008,4096,1,1,65323673.6,65323673.6,5934.2,704512.0,3.9067712000000004e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c0__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,30.923,
-proposal,proposal__llm__decode__c1__baseline,ok,LLM,decode,C1,baseline,1,11008,4096,1,1,428780823.0400001,428780823.0400001,38951.746279069775,4018180.0,3.8925712e-07,DRAM,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c1__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,466.491,
-proposal,proposal__llm__decode__c2__baseline,ok,LLM,decode,C2,baseline,1,11008,4096,1,1,455422484.48,455422484.48,41371.95534883721,6605312.0,3.8925712e-07,QuantMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c2__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c2__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c2__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c2__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,448.141,
-proposal,proposal__llm__decode__c3__baseline,ok,LLM,decode,C3,baseline,1,11008,4096,1,1,471512857.6,471512857.6,42833.653488372096,6606688.0,3.8959712e-07,QuantMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c3__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c3__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c3__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c3__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,458.254,
-proposal,proposal__llm__decode__c4__baseline,ok,LLM,decode,C4,baseline,1,11008,4096,1,1,507977036.8000001,507977036.8000001,46146.16976744187,6693376.0,3.9067712000000004e-07,QuantMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c4__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c4__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c4__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c4__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,454.694,
-proposal,proposal__llm__decode__c5__baseline,ok,LLM,decode,C5,baseline,1,11008,4096,1,1,920484263.4800001,920484263.4800001,83619.57335392442,12242698.0,3.8942712e-07,QuantMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c5__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c5__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c5__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c5__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,2156.561,
-proposal,proposal__llm__decode__c6__baseline,ok,LLM,decode,C6,baseline,1,11008,4096,1,1,936574636.6,936574636.6,85081.27149345931,12242698.0,3.8959712e-07,QuantMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c6__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c6__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c6__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c6__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,2148.851,
-proposal,proposal__llm__decode__c7__baseline,ok,LLM,decode,C7,baseline,1,11008,4096,1,1,954202022.0000001,954202022.0000001,86682.5964752907,15060746.0,3.9067712000000004e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c7__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,2458.798,
-proposal,proposal__llm__decode__c8__baseline,ok,LLM,decode,C8,baseline,1,11008,4096,1,1,443332377.6,443332377.6,40273.653488372096,6517248.0,3.8959712e-07,QuantMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c8__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c8__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c8__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c8__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,486.965,
-proposal,proposal__llm__decode__c9__baseline,ok,LLM,decode,C9,baseline,1,11008,4096,1,1,877993383.4800001,877993383.4800001,79759.57335392442,12110258.0,3.8942712e-07,QuantMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c9__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c9__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c9__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c9__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,2562.158,
-proposal,proposal__llm__prefill__c0__baseline,ok,LLM,prefill,C0,baseline,128,11008,4096,1,1,8361430220.8,8361430220.8,5934.2,90177536.0,3.9067712000000004e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c0__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,24.009,
-proposal,proposal__llm__prefill__c1__baseline,ok,LLM,prefill,C1,baseline,128,11008,4096,1,1,7762824069.12,7762824069.12,5509.3625581395345,380517376.0,3.8925712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c1__baseline/breakdown.json,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,868.532,
-proposal,proposal__llm__prefill__c2__baseline,ok,LLM,prefill,C2,baseline,128,11008,4096,1,1,10597599805.439999,10597599805.439999,7521.23441860465,400228352.0,3.8925712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c2__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c2__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c2__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c2__baseline/breakdown.json,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,841.385,
-proposal,proposal__llm__prefill__c3__baseline,ok,LLM,prefill,C3,baseline,128,11008,4096,1,1,11424435404.8,11424435404.8,8108.048837209301,400229376.0,3.8959712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c3__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c3__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c3__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c3__baseline/breakdown.json,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,770.06,
-proposal,proposal__llm__prefill__c4__baseline,ok,LLM,prefill,C4,baseline,128,11008,4096,1,1,13513500262.4,13513500262.4,9590.681395348836,400230400.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c4__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c4__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c4__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c4__baseline/breakdown.json,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,768.788,
-proposal,proposal__llm__prefill__c5__baseline,ok,LLM,prefill,C5,baseline,128,11008,4096,1,1,14425973058.44,14425973058.44,10238.273484653208,445537281.0,3.8942712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c5__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c5__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c5__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c5__baseline/breakdown.json,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1325.527,compact_two_level_prefill
-proposal,proposal__llm__prefill__c6__baseline,ok,LLM,prefill,C6,baseline,128,11008,4096,1,1,15146968017.8,15146968017.8,10749.97162418809,445625345.0,3.8959712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/breakdown.json,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1292.217,compact_two_level_prefill
-proposal,proposal__llm__prefill__c7__baseline,ok,LLM,prefill,C7,baseline,128,11008,4096,1,1,18065452554.0,18065452554.0,12821.252550701762,445537281.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/breakdown.json,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1368.177,compact_two_level_prefill
-proposal,proposal__llm__prefill__c8__baseline,ok,LLM,prefill,C8,baseline,128,11008,4096,1,1,7817333964.8,7817333964.8,5548.048837209302,383321088.0,3.8959712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/breakdown.json,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,807.185,
-proposal,proposal__llm__prefill__c9__baseline,ok,LLM,prefill,C9,baseline,128,11008,4096,1,1,8987140418.44,8987140418.44,6378.273484653208,406040577.0,3.8942712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/breakdown.json,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1398.095,compact_two_level_prefill
-proposal,proposal__vlm__decode__c0__baseline,ok,VLM,decode,C0,baseline,1,3072,3072,1,1,13668556.8,13668556.8,4449.400000000001,147456.0,3.9067712000000004e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c0__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,34.029,full_accelforge_graph
-proposal,proposal__vlm__decode__c1__baseline,ok,VLM,decode,C1,baseline,1,3072,3072,1,1,89767643.52,89767643.52,29221.238125,841156.0,3.8925712e-07,DRAM,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c1__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1013.522,full_accelforge_graph
-proposal,proposal__vlm__decode__c2__baseline,ok,VLM,decode,C2,baseline,1,3072,3072,1,1,95336298.24,95336298.24,31033.95125,1382784.0,3.8925712e-07,QuantMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c2__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c2__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c2__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c2__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,901.832,full_accelforge_graph
-proposal,proposal__vlm__decode__c3__baseline,ok,VLM,decode,C3,baseline,1,3072,3072,1,1,98704396.8,98704396.8,32130.337499999998,1383072.0,3.8959712e-07,QuantMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c3__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c3__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c3__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c3__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,825.463,full_accelforge_graph
-proposal,proposal__vlm__decode__c4__baseline,ok,VLM,decode,C4,baseline,1,3072,3072,1,1,106337126.39999999,106337126.39999999,34614.95,1401216.0,3.9067712000000004e-07,QuantMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c4__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c4__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c4__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c4__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,823.909,full_accelforge_graph
-proposal,proposal__vlm__decode__c5__baseline,error,VLM,decode,C5,baseline,1,3072,3072,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c5__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c5__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c5__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c5__baseline/breakdown.json,"A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
+suite,run_id,status,workload_id,phase_id,config_id,arch_id,m,n,k,num_quantmac,num_rescalemac,energy_pj,energy_total_pj,energy_pj_per_output,latency_cycles,area_m2,bottleneck_component,workload_file,arch_file,mapping_file,breakdown_file,hardware_model,error,duration_s
+proposal,proposal__llm__decode__c0__baseline,ok,LLM,decode,C0,baseline,1,11008,4096,1,1,49827481.6,49827481.6,4526.479069767442,2818048.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c0__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,51.352
+proposal,proposal__llm__decode__c1__baseline,ok,LLM,decode,C1,baseline,1,11008,4096,1,1,81456407.03999999,81456407.03999999,7399.746279069766,836864.0,3.8925712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c1__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,352.474
+proposal,proposal__llm__decode__c2__baseline,ok,LLM,decode,C2,baseline,1,11008,4096,1,1,104575508.47999999,104575508.47999999,9499.955348837208,969216.0,3.8925712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c2__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c2__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c2__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c2__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,458.711
+proposal,proposal__llm__decode__c3__baseline,ok,LLM,decode,C3,baseline,1,11008,4096,1,1,113675801.6,113675801.6,10326.653488372092,970076.0,3.8959712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c3__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c3__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c3__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c3__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,430.933
+proposal,proposal__llm__decode__c4__baseline,ok,LLM,decode,C4,baseline,1,11008,4096,1,1,136049740.79999998,136049740.79999998,12359.16976744186,1057624.0,3.9067712000000004e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c4__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c4__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c4__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c4__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,448.339
+proposal,proposal__llm__decode__c5__baseline,ok,LLM,decode,C5,baseline,1,11008,4096,1,1,135970759.48,135970759.48,12351.994865552324,3788297.0,3.8942712e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c5__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c5__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c5__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c5__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,797.719
+proposal,proposal__llm__decode__c6__baseline,ok,LLM,decode,C6,baseline,1,11008,4096,1,1,145016012.6,145016012.6,13173.693005087209,3788297.0,3.8959712e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c6__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c6__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c6__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c6__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,774.146
+proposal,proposal__llm__decode__c7__baseline,ok,LLM,decode,C7,baseline,1,11008,4096,1,1,164404197.99999997,164404197.99999997,14934.974382267439,6606345.0,3.9067712000000004e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c7__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,808.365
+proposal,proposal__llm__decode__c8__baseline,ok,LLM,decode,C8,baseline,1,11008,4096,1,1,85495321.6,85495321.6,7766.653488372092,881496.0,3.8959712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c8__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c8__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c8__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c8__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,459.74
+proposal,proposal__llm__decode__c9__baseline,ok,LLM,decode,C9,baseline,1,11008,4096,1,1,93479879.47999999,93479879.47999999,8491.994865552324,3655857.0,3.8942712e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c9__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c9__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c9__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__decode__c9__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,805.324
+proposal,proposal__llm__prefill__c0__baseline,ok,LLM,prefill,C0,baseline,128,11008,4096,1,1,5476142284.8,5476142284.8,3886.479069767442,360710144.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c0__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,156.203
+proposal,proposal__llm__prefill__c1__baseline,ok,LLM,prefill,C1,baseline,128,11008,4096,1,1,7414320005.12,7414320005.12,5262.025348837209,377651200.0,3.8925712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c1__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,897.624
+proposal,proposal__llm__prefill__c2__baseline,ok,LLM,prefill,C2,baseline,128,11008,4096,1,1,10246752829.439999,10246752829.439999,7272.23441860465,394592256.0,3.8925712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c2__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c2__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c2__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c2__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,864.868
+proposal,proposal__llm__prefill__c3__baseline,ok,LLM,prefill,C3,baseline,128,11008,4096,1,1,11066543308.8,11066543308.8,7854.048837209301,394593280.0,3.8959712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c3__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c3__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c3__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c3__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,857.337
+proposal,proposal__llm__prefill__c4__baseline,ok,LLM,prefill,C4,baseline,128,11008,4096,1,1,13141517926.4,13141517926.4,9326.681395348836,394594304.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c4__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c4__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c4__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c4__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,866.705
+proposal,proposal__llm__prefill__c5__baseline,ok,LLM,prefill,C5,baseline,128,11008,4096,1,1,14075126082.44,14075126082.44,9989.273484653208,439901185.0,3.8942712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c5__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c5__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c5__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c5__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1582.422
+proposal,proposal__llm__prefill__c6__baseline,ok,LLM,prefill,C6,baseline,128,11008,4096,1,1,14789075921.8,14789075921.8,10495.97162418809,439989249.0,3.8959712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c6__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1527.698
+proposal,proposal__llm__prefill__c7__baseline,ok,LLM,prefill,C7,baseline,128,11008,4096,1,1,17714605578.0,17714605578.0,12572.252550701762,439901185.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c7__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1612.713
+proposal,proposal__llm__prefill__c8__baseline,ok,LLM,prefill,C8,baseline,128,11008,4096,1,1,7459441868.8,7459441868.8,5294.048837209302,377684992.0,3.8959712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c8__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,891.987
+proposal,proposal__llm__prefill__c9__baseline,ok,LLM,prefill,C9,baseline,128,11008,4096,1,1,8636293442.44,8636293442.44,6129.273484653208,400404481.0,3.8942712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__llm__prefill__c9__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1679.511
+proposal,proposal__vla__decode__c0__baseline,ok,VLA,decode,C0,baseline,1,256,4096,1,1,1519155.2,1519155.2,5934.2,16384.0,3.9067712000000004e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c0__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,99.36
+proposal,proposal__vla__decode__c1__baseline,ok,VLA,decode,C1,baseline,1,256,4096,1,1,1925153.28,1925153.28,7520.13,19712.0,3.8925712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c1__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,286.699
+proposal,proposal__vla__decode__c2__baseline,ok,VLA,decode,C2,baseline,1,256,4096,1,1,2463119.3600000003,2463119.3600000003,9621.560000000001,23040.0,3.8925712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c2__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c2__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c2__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c2__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,273.903
+proposal,proposal__vla__decode__c3__baseline,ok,VLA,decode,C3,baseline,1,256,4096,1,1,2675379.2,2675379.2,10450.7,23060.0,3.8959712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c3__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c3__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c3__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c3__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,268.162
+proposal,proposal__vla__decode__c4__baseline,ok,VLA,decode,C4,baseline,1,256,4096,1,1,3196953.6,3196953.6,12488.1,25096.0,3.9067712000000004e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c4__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c4__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c4__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c4__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,241.449
+proposal,proposal__vla__decode__c5__baseline,ok,VLA,decode,C5,baseline,1,256,4096,1,1,3193241.3600000003,3193241.3600000003,12473.599062500001,88601.0,3.8942712e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c5__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c5__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c5__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c5__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,394.917
+proposal,proposal__vla__decode__c6__baseline,ok,VLA,decode,C6,baseline,1,256,4096,1,1,3404221.2,3404221.2,13297.7390625,88601.0,3.8959712e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c6__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c6__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c6__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c6__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,358.914
+proposal,proposal__vla__decode__c7__baseline,ok,VLA,decode,C7,baseline,1,256,4096,1,1,3854484.0000000005,3854484.0000000005,15056.578125000002,154137.0,3.9067712000000004e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c7__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,386.876
+proposal,proposal__vla__decode__c8__baseline,ok,VLA,decode,C8,baseline,1,256,4096,1,1,2020019.2,2020019.2,7890.7,21000.0,3.8959712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c8__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c8__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c8__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c8__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,281.574
+proposal,proposal__vla__decode__c9__baseline,ok,VLA,decode,C9,baseline,1,256,4096,1,1,2205081.3600000003,2205081.3600000003,8613.599062500001,85521.0,3.8942712e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c9__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c9__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c9__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__decode__c9__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,405.734
+proposal,proposal__vla__prefill__c0__baseline,ok,VLA,prefill,C0,baseline,128,256,4096,1,1,194451865.6,194451865.6,5934.2,2097152.0,3.9067712000000004e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c0__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,80.987
+proposal,proposal__vla__prefill__c1__baseline,ok,VLA,prefill,C1,baseline,128,256,4096,1,1,243470499.84,243470499.84,7430.13,2523648.0,3.8925712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c1__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,463.141
+proposal,proposal__vla__prefill__c2__baseline,ok,VLA,prefill,C2,baseline,128,256,4096,1,1,288409518.08,288409518.08,8801.56,2949120.0,3.8925712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c2__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c2__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c2__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c2__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,447.446
+proposal,proposal__vla__prefill__c3__baseline,ok,VLA,prefill,C3,baseline,128,256,4096,1,1,307550617.6,307550617.6,9385.7,2949120.0,3.8959712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c3__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c3__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c3__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c3__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,425.567
+proposal,proposal__vla__prefill__c4__baseline,ok,VLA,prefill,C4,baseline,128,256,4096,1,1,355962060.8,355962060.8,10863.1,2949120.0,3.9067712000000004e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c4__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c4__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c4__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c4__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,437.082
+proposal,proposal__vla__prefill__c5__baseline,error,VLA,prefill,C5,baseline,128,256,4096,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c5__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c5__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c5__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c5__baseline/breakdown.json,compact_two_level_inference,"Python integer 256 out of bounds for uint8
+joblib.externals.loky.process_executor._RemoteTraceback: 
+""""""
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 490, in _process_worker
+    r = call_item()
+        ^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 291, in __call__
+    return self.fn(*self.args, **self.kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 607, in __call__
+    return [func(*args, **kwargs) for func, args, kwargs in self.items]
+            ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_pmappings_from_templates.py"", line 230, in make_pmappings_from_templates
+    result, tensor2mapping = make_tile_shapes(job)
+                             ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 2051, in make_tile_shapes
+    return _make_tile_shapes(job)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1995, in _make_tile_shapes
+    _calculate_iterations_and_rank_columns(pmapping.nodes, job, df, shape)
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1735, in _calculate_iterations_and_rank_columns
+    (outer_initial - rank_var_initial) / rank_var_stride + 1
+     ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+OverflowError: Python integer 256 out of bounds for uint8
+Einsum RescaleTensorA compatibility Compatibility(n_loops=2, tensors={Reservation('Yblk', (), 'DRAM'), Reservation('Ytmp2', (Loop('M', , False), Loop('N', , False)), 'GLB')}), splits={}
+""""""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1255, in run_hardware_case
+    all_mappings = spec.map_workload_to_arch()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
+    return map_workload_to_arch(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
+    pmappings = make_pmappings(
+                ^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
+    result = _make_pmappings(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
+    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
+    for (
+  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
+    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
+    self._raise_error_fast()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
+    raise self._result
+OverflowError: Python integer 256 out of bounds for uint8
+Einsum RescaleTensorA compatibility Compatibility(n_loops=2, tensors={Reservation('Yblk', (), 'DRAM'), Reservation('Ytmp2', (Loop('M', , False), Loop('N', , False)), 'GLB')}), splits={}
+",59.471
+proposal,proposal__vla__prefill__c6__baseline,error,VLA,prefill,C6,baseline,128,256,4096,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c6__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c6__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c6__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c6__baseline/breakdown.json,compact_two_level_inference,"Python integer 256 out of bounds for uint8
+joblib.externals.loky.process_executor._RemoteTraceback: 
+""""""
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 490, in _process_worker
+    r = call_item()
+        ^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 291, in __call__
+    return self.fn(*self.args, **self.kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 607, in __call__
+    return [func(*args, **kwargs) for func, args, kwargs in self.items]
+            ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_pmappings_from_templates.py"", line 230, in make_pmappings_from_templates
+    result, tensor2mapping = make_tile_shapes(job)
+                             ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 2051, in make_tile_shapes
+    return _make_tile_shapes(job)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1995, in _make_tile_shapes
+    _calculate_iterations_and_rank_columns(pmapping.nodes, job, df, shape)
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1735, in _calculate_iterations_and_rank_columns
+    (outer_initial - rank_var_initial) / rank_var_stride + 1
+     ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+OverflowError: Python integer 256 out of bounds for uint8
+Einsum RescaleTensorA compatibility Compatibility(n_loops=2, tensors={Reservation('Yblk', (), 'DRAM'), Reservation('Ytmp2', (Loop('M', , False), Loop('N', , False)), 'GLB')}), splits={}
+""""""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1255, in run_hardware_case
+    all_mappings = spec.map_workload_to_arch()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
+    return map_workload_to_arch(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
+    pmappings = make_pmappings(
+                ^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
+    result = _make_pmappings(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
+    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
+    for (
+  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
+    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
+    self._raise_error_fast()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
+    raise self._result
+OverflowError: Python integer 256 out of bounds for uint8
+Einsum RescaleTensorA compatibility Compatibility(n_loops=2, tensors={Reservation('Yblk', (), 'DRAM'), Reservation('Ytmp2', (Loop('M', , False), Loop('N', , False)), 'GLB')}), splits={}
+",67.778
+proposal,proposal__vla__prefill__c7__baseline,error,VLA,prefill,C7,baseline,128,256,4096,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c7__baseline/breakdown.json,compact_two_level_inference,"Python integer 256 out of bounds for uint8
+joblib.externals.loky.process_executor._RemoteTraceback: 
+""""""
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 490, in _process_worker
+    r = call_item()
+        ^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 291, in __call__
+    return self.fn(*self.args, **self.kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 607, in __call__
+    return [func(*args, **kwargs) for func, args, kwargs in self.items]
+            ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_pmappings_from_templates.py"", line 230, in make_pmappings_from_templates
+    result, tensor2mapping = make_tile_shapes(job)
+                             ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 2051, in make_tile_shapes
+    return _make_tile_shapes(job)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1995, in _make_tile_shapes
+    _calculate_iterations_and_rank_columns(pmapping.nodes, job, df, shape)
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1735, in _calculate_iterations_and_rank_columns
+    (outer_initial - rank_var_initial) / rank_var_stride + 1
+     ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+OverflowError: Python integer 256 out of bounds for uint8
+Einsum RescaleTensorA compatibility Compatibility(n_loops=2, tensors={Reservation('Yblk', (), 'DRAM'), Reservation('Ytmp2', (Loop('M', , False), Loop('N', , False)), 'GLB')}), splits={}
+""""""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1255, in run_hardware_case
+    all_mappings = spec.map_workload_to_arch()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
+    return map_workload_to_arch(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
+    pmappings = make_pmappings(
+                ^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
+    result = _make_pmappings(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
+    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
+    for (
+  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
+    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
+    self._raise_error_fast()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
+    raise self._result
+OverflowError: Python integer 256 out of bounds for uint8
+Einsum RescaleTensorA compatibility Compatibility(n_loops=2, tensors={Reservation('Yblk', (), 'DRAM'), Reservation('Ytmp2', (Loop('M', , False), Loop('N', , False)), 'GLB')}), splits={}
+",69.996
+proposal,proposal__vla__prefill__c8__baseline,ok,VLA,prefill,C8,baseline,128,256,4096,1,1,223664537.6,223664537.6,6825.7,2555904.0,3.8959712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c8__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c8__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c8__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c8__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,468.378
+proposal,proposal__vla__prefill__c9__baseline,error,VLA,prefill,C9,baseline,128,256,4096,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c9__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c9__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c9__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vla__prefill__c9__baseline/breakdown.json,compact_two_level_inference,"Python integer 256 out of bounds for uint8
+joblib.externals.loky.process_executor._RemoteTraceback: 
+""""""
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 490, in _process_worker
+    r = call_item()
+        ^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 291, in __call__
+    return self.fn(*self.args, **self.kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 607, in __call__
+    return [func(*args, **kwargs) for func, args, kwargs in self.items]
+            ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_pmappings_from_templates.py"", line 230, in make_pmappings_from_templates
+    result, tensor2mapping = make_tile_shapes(job)
+                             ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 2051, in make_tile_shapes
+    return _make_tile_shapes(job)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1995, in _make_tile_shapes
+    _calculate_iterations_and_rank_columns(pmapping.nodes, job, df, shape)
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1735, in _calculate_iterations_and_rank_columns
+    (outer_initial - rank_var_initial) / rank_var_stride + 1
+     ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+OverflowError: Python integer 256 out of bounds for uint8
+Einsum RescaleTensorA compatibility Compatibility(n_loops=2, tensors={Reservation('Yblk', (), 'DRAM'), Reservation('Ytmp2', (Loop('M', , False), Loop('N', , False)), 'GLB')}), splits={}
+""""""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1255, in run_hardware_case
+    all_mappings = spec.map_workload_to_arch()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
+    return map_workload_to_arch(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
+    pmappings = make_pmappings(
+                ^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
+    result = _make_pmappings(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
+    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
+    for (
+  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
+    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
+    self._raise_error_fast()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
+    raise self._result
+OverflowError: Python integer 256 out of bounds for uint8
+Einsum RescaleTensorA compatibility Compatibility(n_loops=2, tensors={Reservation('Yblk', (), 'DRAM'), Reservation('Ytmp2', (Loop('M', , False), Loop('N', , False)), 'GLB')}), splits={}
+",60.834
+proposal,proposal__vlm__decode__c0__baseline,ok,VLM,decode,C0,baseline,1,3072,3072,1,1,10426828.8,10426828.8,3394.15,589824.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c0__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,77.641
+proposal,proposal__vlm__decode__c1__baseline,ok,VLM,decode,C1,baseline,1,3072,3072,1,1,17071835.52,17071835.52,5557.238125,175296.0,3.8925712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c1__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,392.195
+proposal,proposal__vlm__decode__c2__baseline,ok,VLM,decode,C2,baseline,1,3072,3072,1,1,21903210.24,21903210.24,7129.951249999999,203136.0,3.8925712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c2__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c2__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c2__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c2__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,388.209
+proposal,proposal__vlm__decode__c3__baseline,ok,VLM,decode,C3,baseline,1,3072,3072,1,1,23796748.8,23796748.8,7746.337500000001,203424.0,3.8959712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c3__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c3__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c3__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c3__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,384.412
+proposal,proposal__vlm__decode__c4__baseline,ok,VLM,decode,C4,baseline,1,3072,3072,1,1,28495718.400000002,28495718.400000002,9275.95,221664.0,3.9067712000000004e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c4__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c4__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c4__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c4__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,328.908
+proposal,proposal__vlm__decode__c5__baseline,ok,VLM,decode,C5,baseline,1,3072,3072,1,1,28478951.24,28478951.24,9270.491940104166,793249.0,3.8942712e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c5__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c5__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c5__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c5__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,563.92
+proposal,proposal__vlm__decode__c6__baseline,ok,VLM,decode,C6,baseline,1,3072,3072,1,1,30372489.8,30372489.8,9886.878190104168,793249.0,3.8959712e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c6__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c6__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c6__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c6__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,584.569
+proposal,proposal__vlm__decode__c7__baseline,ok,VLM,decode,C7,baseline,1,3072,3072,1,1,34432243.6,34432243.6,11208.412630208333,1383073.0,3.9067712000000004e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c7__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,582.413
+proposal,proposal__vlm__decode__c8__baseline,ok,VLM,decode,C8,baseline,1,3072,3072,1,1,17913868.8,17913868.8,5831.337500000001,184800.0,3.8959712e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c8__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c8__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c8__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c8__baseline/breakdown.json,inference_prequantized,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,394.55
+proposal,proposal__vlm__decode__c9__baseline,ok,VLM,decode,C9,baseline,1,3072,3072,1,1,19585511.240000002,19585511.240000002,6375.491940104167,765505.0,3.8942712e-07,RescaleFineMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c9__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c9__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c9__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c9__baseline/breakdown.json,compact_two_level_inference,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,634.38
+proposal,proposal__vlm__prefill__c0__baseline,ok,VLM,prefill,C0,baseline,128,3072,3072,1,1,1145890406.4,1145890406.4,2914.15,75497472.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c0__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,445.535
+proposal,proposal__vlm__prefill__c1__baseline,ok,VLM,prefill,C1,baseline,128,3072,3072,1,1,1553984962.56,1553984962.56,3951.988125,79060992.0,3.8925712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c1__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,979.383
+proposal,proposal__vlm__prefill__c2__baseline,ok,VLM,prefill,C2,baseline,128,3072,3072,1,1,2146841886.7200003,2146841886.7200003,5459.701250000001,82624512.0,3.8925712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c2__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c2__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c2__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c2__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,937.434
+proposal,proposal__vlm__prefill__c3__baseline,ok,VLM,prefill,C3,baseline,128,3072,3072,1,1,2318435942.4,2318435942.4,5896.087500000001,82624512.0,3.8959712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c3__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c3__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c3__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c3__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,928.927
+proposal,proposal__vlm__prefill__c4__baseline,ok,VLM,prefill,C4,baseline,128,3072,3072,1,1,2753033011.2000003,2753033011.2000003,7001.325000000001,82626048.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c4__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c4__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c4__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c4__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,933.054
+proposal,proposal__vlm__prefill__c5__baseline,ok,VLM,prefill,C5,baseline,128,3072,3072,1,1,3065274659.7200003,3065274659.7200003,7795.396575215658,87380353.0,3.8942712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c5__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c5__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c5__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c5__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1765.007
+proposal,proposal__vlm__prefill__c6__baseline,ok,VLM,prefill,C6,baseline,128,3072,3072,1,1,3216286315.4,3216286315.4,8179.439075215658,87380737.0,3.8959712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c6__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c6__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c6__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c6__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1744.934
+proposal,proposal__vlm__prefill__c7__baseline,ok,VLM,prefill,C7,baseline,128,3072,3072,1,1,3888243926.8,3888243926.8,9888.315650431316,87380353.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c7__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1779.552
+proposal,proposal__vlm__prefill__c8__baseline,ok,VLM,prefill,C8,baseline,128,3072,3072,1,1,1563461222.4,1563461222.4,3976.0875,79085568.0,3.8959712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c8__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c8__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c8__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c8__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,995.401
+proposal,proposal__vlm__prefill__c9__baseline,error,VLM,prefill,C9,baseline,128,3072,3072,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c9__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c9__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c9__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c9__baseline/breakdown.json,compact_two_level_inference,"A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
 
 The exit codes of the workers are {SIGKILL(-9)}
 Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
 Traceback (most recent call last):
-  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1013, in run_hardware_case
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1255, in run_hardware_case
     all_mappings = spec.map_workload_to_arch()
                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
@@ -63,247 +349,4 @@ joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process m
 
 The exit codes of the workers are {SIGKILL(-9)}
 Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-",893.15,full_accelforge_graph
-proposal,proposal__vlm__decode__c6__baseline,error,VLM,decode,C6,baseline,1,3072,3072,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c6__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c6__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c6__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c6__baseline/breakdown.json,"A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-Traceback (most recent call last):
-  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1013, in run_hardware_case
-    all_mappings = spec.map_workload_to_arch()
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
-    return map_workload_to_arch(
-           ^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
-    pmappings = make_pmappings(
-                ^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
-    result = _make_pmappings(**kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
-    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
-                                                     ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
-    for (
-  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
-    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
-    yield from self._retrieve()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
-    self._raise_error_fast()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
-    error_job.get_result(self.timeout)
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
-    return self._return_or_raise()
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
-    raise self._result
-joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-",884.12,full_accelforge_graph
-proposal,proposal__vlm__decode__c7__baseline,error,VLM,decode,C7,baseline,1,3072,3072,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c7__baseline/breakdown.json,"A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-Traceback (most recent call last):
-  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1013, in run_hardware_case
-    all_mappings = spec.map_workload_to_arch()
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
-    return map_workload_to_arch(
-           ^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
-    pmappings = make_pmappings(
-                ^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
-    result = _make_pmappings(**kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
-    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
-                                                     ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
-    for (
-  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
-    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
-    yield from self._retrieve()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
-    self._raise_error_fast()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
-    error_job.get_result(self.timeout)
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
-    return self._return_or_raise()
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
-    raise self._result
-joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-",891.661,full_accelforge_graph
-proposal,proposal__vlm__decode__c8__baseline,ok,VLM,decode,C8,baseline,1,3072,3072,1,1,92806156.8,92806156.8,30210.337499999998,1364352.0,3.8959712e-07,QuantMAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c8__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c8__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c8__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c8__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1003.631,full_accelforge_graph
-proposal,proposal__vlm__decode__c9__baseline,error,VLM,decode,C9,baseline,1,3072,3072,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c9__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c9__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c9__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__decode__c9__baseline/breakdown.json,"A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-Traceback (most recent call last):
-  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1013, in run_hardware_case
-    all_mappings = spec.map_workload_to_arch()
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
-    return map_workload_to_arch(
-           ^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
-    pmappings = make_pmappings(
-                ^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
-    result = _make_pmappings(**kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
-    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
-                                                     ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
-    for (
-  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
-    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
-    yield from self._retrieve()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
-    self._raise_error_fast()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
-    error_job.get_result(self.timeout)
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
-    return self._return_or_raise()
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
-    raise self._result
-joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-",807.467,full_accelforge_graph
-proposal,proposal__vlm__prefill__c0__baseline,ok,VLM,prefill,C0,baseline,128,3072,3072,1,1,1749575270.4,1749575270.4,4449.400000000001,18874368.0,3.9067712000000004e-07,FP4MAC,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c0__baseline/breakdown.json,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,226.606,full_accelforge_graph
-proposal,proposal__vlm__prefill__c1__baseline,error,VLM,prefill,C1,baseline,128,3072,3072,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c1__baseline/breakdown.json,"A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-Traceback (most recent call last):
-  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1013, in run_hardware_case
-    all_mappings = spec.map_workload_to_arch()
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
-    return map_workload_to_arch(
-           ^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
-    pmappings = make_pmappings(
-                ^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
-    result = _make_pmappings(**kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
-    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
-                                                     ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
-    for (
-  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
-    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
-    yield from self._retrieve()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
-    self._raise_error_fast()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
-    error_job.get_result(self.timeout)
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
-    return self._return_or_raise()
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
-    raise self._result
-joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-",782.583,full_accelforge_graph
-proposal,proposal__vlm__prefill__c2__baseline,ok,VLM,prefill,C2,baseline,128,3072,3072,1,1,2220274974.7200003,2220274974.7200003,5646.451250000001,83804160.0,3.8925712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c2__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c2__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c2__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c2__baseline/breakdown.json,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,2762.487,full_accelforge_graph
-proposal,proposal__vlm__prefill__c3__baseline,error,VLM,prefill,C3,baseline,128,3072,3072,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c3__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c3__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c3__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c3__baseline/breakdown.json,"A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-Traceback (most recent call last):
-  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1013, in run_hardware_case
-    all_mappings = spec.map_workload_to_arch()
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
-    return map_workload_to_arch(
-           ^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
-    pmappings = make_pmappings(
-                ^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
-    result = _make_pmappings(**kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
-    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
-                                                     ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
-    for (
-  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
-    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
-    yield from self._retrieve()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
-    self._raise_error_fast()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
-    error_job.get_result(self.timeout)
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
-    return self._return_or_raise()
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
-    raise self._result
-joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-",728.5,full_accelforge_graph
-proposal,proposal__vlm__prefill__c4__baseline,error,VLM,prefill,C4,baseline,128,3072,3072,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c4__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c4__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c4__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/proposal/proposal__vlm__prefill__c4__baseline/breakdown.json,"A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-Traceback (most recent call last):
-  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1013, in run_hardware_case
-    all_mappings = spec.map_workload_to_arch()
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
-    return map_workload_to_arch(
-           ^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
-    pmappings = make_pmappings(
-                ^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
-    result = _make_pmappings(**kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
-    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
-                                                     ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
-    for (
-  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
-    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
-    yield from self._retrieve()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
-    self._raise_error_fast()
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
-    error_job.get_result(self.timeout)
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
-    return self._return_or_raise()
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
-    raise self._result
-joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
-
-The exit codes of the workers are {SIGKILL(-9)}
-Detailed tracebacks of the workers should have been printed to stderr in the executor process if faulthandler was not disabled.
-",960.993,full_accelforge_graph
+",1057.736

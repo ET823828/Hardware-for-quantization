@@ -1,13 +1,7 @@
 {
   "einsum_names": [
-    "TensorScaleA",
-    "TensorQuantA",
     "BlockScaleA",
     "BlockQuantA",
-    "TensorScaleW",
-    "TensorQuantW",
-    "BlockScaleW",
-    "BlockQuantW",
     "MatMulNVFP4",
     "RescaleBlockA",
     "RescaleBlockW",
@@ -15,44 +9,26 @@
     "RescaleTensorW"
   ],
   "energy_per_einsum": {
-    "TensorScaleA": 14658.5,
-    "TensorQuantA": 24741.0,
     "BlockScaleA": 14656.0,
     "BlockQuantA": 17216.0,
-    "TensorScaleW": 161333245.5,
-    "TensorQuantW": 272293888.0,
-    "BlockScaleW": 161333248.0,
-    "BlockQuantW": 189513728.0,
     "MatMulNVFP4": 58333593.6,
     "RescaleBlockA": 28320061.44,
     "RescaleBlockW": 31787581.44,
     "RescaleTensorA": 17403648.0,
-    "RescaleTensorW": 93998.0
+    "RescaleTensorW": 94003.0
   },
   "latency_per_einsum": {
-    "TensorScaleA": 129.0,
-    "TensorQuantA": 129.0,
     "BlockScaleA": 256.0,
     "BlockQuantA": 256.0,
-    "TensorScaleW": 1409024.0,
-    "TensorQuantW": 1409024.0,
-    "BlockScaleW": 2818048.0,
-    "BlockQuantW": 2818048.0,
     "MatMulNVFP4": 704512.0,
     "RescaleBlockA": 176128.0,
     "RescaleBlockW": 2818048.0,
     "RescaleTensorA": 88064.0,
-    "RescaleTensorW": 1032.0
+    "RescaleTensorW": 1033.0
   },
   "energy_compute_per_einsum": {
-    "TensorScaleA": 4096.0,
-    "TensorQuantA": 4096.0,
     "BlockScaleA": 4096.0,
     "BlockQuantA": 4096.0,
-    "TensorScaleW": 45088768.0,
-    "TensorQuantW": 45088768.0,
-    "BlockScaleW": 45088768.0,
-    "BlockQuantW": 45088768.0,
     "MatMulNVFP4": 9017753.6,
     "RescaleBlockA": 84541.44,
     "RescaleBlockW": 84541.44,
@@ -60,29 +36,17 @@
     "RescaleTensorW": 11008.0
   },
   "energy_memory_per_einsum": {
-    "TensorScaleA": 10562.5,
-    "TensorQuantA": 20645.0,
     "BlockScaleA": 10560.0,
     "BlockQuantA": 13120.0,
-    "TensorScaleW": 116244477.5,
-    "TensorQuantW": 227205120.0,
-    "BlockScaleW": 116244480.0,
-    "BlockQuantW": 144424960.0,
     "MatMulNVFP4": 49315840.0,
     "RescaleBlockA": 28235520.0,
     "RescaleBlockW": 31703040.0,
     "RescaleTensorA": 14585600.0,
-    "RescaleTensorW": 82990.0
+    "RescaleTensorW": 82995.0
   },
   "latency_compute_per_einsum": {
-    "TensorScaleA": 64.0,
-    "TensorQuantA": 64.0,
     "BlockScaleA": 256.0,
     "BlockQuantA": 256.0,
-    "TensorScaleW": 704512.0,
-    "TensorQuantW": 704512.0,
-    "BlockScaleW": 2818048.0,
-    "BlockQuantW": 2818048.0,
     "MatMulNVFP4": 704512.0,
     "RescaleBlockA": 44032.0,
     "RescaleBlockW": 2818048.0,
@@ -90,24 +54,18 @@
     "RescaleTensorW": 172.0
   },
   "latency_memory_per_einsum": {
-    "TensorScaleA": 129.0,
-    "TensorQuantA": 129.0,
-    "BlockScaleA": 66.0,
-    "BlockQuantA": 66.0,
-    "TensorScaleW": 1409024.0,
-    "TensorQuantW": 1409024.0,
-    "BlockScaleW": 704512.0,
-    "BlockQuantW": 880640.0,
-    "MatMulNVFP4": 264192.0,
+    "BlockScaleA": 128.0,
+    "BlockQuantA": 128.0,
+    "MatMulNVFP4": 352256.0,
     "RescaleBlockA": 176128.0,
     "RescaleBlockW": 220160.0,
     "RescaleTensorA": 88064.0,
-    "RescaleTensorW": 1032.0
+    "RescaleTensorW": 1033.0
   },
   "energy_per_component": {
-    "DRAM": 271838085.0,
-    "GLB": 456258830.0,
-    "QuantMAC": 180371456.0,
+    "GLB": 63464752.5,
+    "DRAM": 60481922.5,
+    "QuantMAC": 8192.0,
     "RF": 0.0,
     "FP4MAC": 9017753.6,
     "RescaleFineMAC": 169082.88,
@@ -115,20 +73,21 @@
     "FP16MAC": 0.0
   },
   "latency_per_component": {
-    "QuantMAC": 2818048.0,
-    "DRAM": 1409024.0,
-    "GLB": 880640.0,
+    "QuantMAC": 256.0,
+    "GLB": 132096.0,
+    "DRAM": 352256.0,
     "FP4MAC": 704512.0,
     "RescaleFineMAC": 2818048.0,
     "RescaleCoarseMAC": 44032.0,
     "RF": 0.0
   },
-  "bottleneck_component": "QuantMAC",
-  "energy_total": 920484263.4800001,
-  "latency_total": 12242698.0,
+  "bottleneck_component": "RescaleFineMAC",
+  "energy_total": 135970759.48,
+  "latency_total": 3788297.0,
   "energy_total_column": "derived_from_breakdown",
   "latency_total_column": "derived_from_breakdown",
+  "hardware_model": "compact_two_level_inference",
   "output_elements": 11008,
-  "energy_pj_per_output": 83619.57335392442,
+  "energy_pj_per_output": 12351.994865552324,
   "area_total": 3.8942712e-07
 }

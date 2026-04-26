@@ -2,21 +2,17 @@
   "workload": {
     "iteration_space_shape": {
       "m": "0 <= m < 1",
+      "nb": "0 <= nb < 192",
+      "ni": "0 <= ni < 16",
       "kb": "0 <= kb < 192",
       "ki": "0 <= ki < 16",
-      "nbo": "0 <= nbo < 12",
-      "nbi": "0 <= nbi < 16",
-      "ni": "0 <= ni < 16",
       "ga": "0 <= ga < 1",
       "gw": "0 <= gw < 1"
     },
     "bits_per_value": {
       "A": 16,
-      "W": 16,
       "Sga": 16,
       "Sgw": 16,
-      "Ascl": 16,
-      "Wscl": 16,
       "Sba": 16,
       "Sbw": 16,
       "Aq": 4,
@@ -29,61 +25,10 @@
     },
     "einsums": [
       {
-        "name": "TensorScaleA",
-        "tensor_accesses": [
-          {
-            "name": "A",
-            "projection": [
-              "m",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sga",
-            "projection": [
-              "ga"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
-        "name": "TensorQuantA",
-        "tensor_accesses": [
-          {
-            "name": "A",
-            "projection": [
-              "m",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sga",
-            "projection": [
-              "ga"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Ascl",
-            "projection": [
-              "m",
-              "kb",
-              "ki"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
         "name": "BlockScaleA",
         "tensor_accesses": [
           {
-            "name": "Ascl",
+            "name": "A",
             "projection": [
               "m",
               "kb",
@@ -105,7 +50,7 @@
         "name": "BlockQuantA",
         "tensor_accesses": [
           {
-            "name": "Ascl",
+            "name": "A",
             "projection": [
               "m",
               "kb",
@@ -125,126 +70,6 @@
             "name": "Aq",
             "projection": [
               "m",
-              "kb",
-              "ki"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
-        "name": "TensorScaleW",
-        "tensor_accesses": [
-          {
-            "name": "W",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sgw",
-            "projection": [
-              "gw"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
-        "name": "TensorQuantW",
-        "tensor_accesses": [
-          {
-            "name": "W",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sgw",
-            "projection": [
-              "gw"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Wscl",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb",
-              "ki"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
-        "name": "BlockScaleW",
-        "tensor_accesses": [
-          {
-            "name": "Wscl",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sbw",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
-        "name": "BlockQuantW",
-        "tensor_accesses": [
-          {
-            "name": "Wscl",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sbw",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Wq",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
               "kb",
               "ki"
             ],
@@ -267,8 +92,7 @@
           {
             "name": "Wq",
             "projection": [
-              "nbo",
-              "nbi",
+              "nb",
               "ni",
               "kb",
               "ki"
@@ -279,8 +103,7 @@
             "name": "Yraw",
             "projection": [
               "m",
-              "nbo",
-              "nbi",
+              "nb",
               "ni",
               "kb"
             ],
@@ -295,8 +118,7 @@
             "name": "Yraw",
             "projection": [
               "m",
-              "nbo",
-              "nbi",
+              "nb",
               "ni",
               "kb"
             ],
@@ -314,8 +136,7 @@
             "name": "Ytmp",
             "projection": [
               "m",
-              "nbo",
-              "nbi",
+              "nb",
               "ni",
               "kb"
             ],
@@ -330,8 +151,7 @@
             "name": "Ytmp",
             "projection": [
               "m",
-              "nbo",
-              "nbi",
+              "nb",
               "ni",
               "kb"
             ],
@@ -340,8 +160,7 @@
           {
             "name": "Sbw",
             "projection": [
-              "nbo",
-              "nbi",
+              "nb",
               "ni",
               "kb"
             ],
@@ -351,8 +170,7 @@
             "name": "Yblk",
             "projection": [
               "m",
-              "nbo",
-              "nbi",
+              "nb",
               "ni",
               "kb"
             ],
@@ -367,8 +185,7 @@
             "name": "Yblk",
             "projection": [
               "m",
-              "nbo",
-              "nbi",
+              "nb",
               "ni",
               "kb"
             ],
@@ -385,8 +202,7 @@
             "name": "Ytmp2",
             "projection": [
               "m",
-              "nbo",
-              "nbi",
+              "nb",
               "ni"
             ],
             "output": true
@@ -400,8 +216,7 @@
             "name": "Ytmp2",
             "projection": [
               "m",
-              "nbo",
-              "nbi",
+              "nb",
               "ni"
             ],
             "density": 1.0
@@ -417,8 +232,7 @@
             "name": "Y",
             "projection": [
               "m",
-              "nbo",
-              "nbi",
+              "nb",
               "ni"
             ],
             "output": true

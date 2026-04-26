@@ -1,0 +1,93 @@
+{
+  "einsum_names": [
+    "BlockScaleA",
+    "BlockQuantA",
+    "MatMulNVFP4",
+    "RescaleBlockA",
+    "RescaleBlockW",
+    "RescaleTensorA",
+    "RescaleTensorW"
+  ],
+  "energy_per_einsum": {
+    "BlockScaleA": 10992.0,
+    "BlockQuantA": 12912.0,
+    "MatMulNVFP4": 10734796.8,
+    "RescaleBlockA": 2978334.72,
+    "RescaleBlockW": 3704094.72,
+    "RescaleTensorA": 2125824.0,
+    "RescaleTensorW": 18557.0
+  },
+  "latency_per_einsum": {
+    "BlockScaleA": 192.0,
+    "BlockQuantA": 192.0,
+    "MatMulNVFP4": 147456.0,
+    "RescaleBlockA": 18432.0,
+    "RescaleBlockW": 589824.0,
+    "RescaleTensorA": 9216.0,
+    "RescaleTensorW": 193.0
+  },
+  "energy_compute_per_einsum": {
+    "BlockScaleA": 3072.0,
+    "BlockQuantA": 3072.0,
+    "MatMulNVFP4": 1887436.8,
+    "RescaleBlockA": 17694.72,
+    "RescaleBlockW": 17694.72,
+    "RescaleTensorA": 589824.0,
+    "RescaleTensorW": 3072.0
+  },
+  "energy_memory_per_einsum": {
+    "BlockScaleA": 7920.0,
+    "BlockQuantA": 9840.0,
+    "MatMulNVFP4": 8847360.0,
+    "RescaleBlockA": 2960640.0,
+    "RescaleBlockW": 3686400.0,
+    "RescaleTensorA": 1536000.0,
+    "RescaleTensorW": 15485.0
+  },
+  "latency_compute_per_einsum": {
+    "BlockScaleA": 192.0,
+    "BlockQuantA": 192.0,
+    "MatMulNVFP4": 147456.0,
+    "RescaleBlockA": 9216.0,
+    "RescaleBlockW": 589824.0,
+    "RescaleTensorA": 9216.0,
+    "RescaleTensorW": 48.0
+  },
+  "latency_memory_per_einsum": {
+    "BlockScaleA": 99.0,
+    "BlockQuantA": 123.0,
+    "MatMulNVFP4": 92160.0,
+    "RescaleBlockA": 18432.0,
+    "RescaleBlockW": 18432.0,
+    "RescaleTensorA": 9216.0,
+    "RescaleTensorW": 193.0
+  },
+  "energy_per_component": {
+    "DRAM": 8216162.5,
+    "QuantMAC": 6144.0,
+    "GLB": 8847482.5,
+    "RF": 0.0,
+    "FP4MAC": 1887436.8,
+    "RescaleFineMAC": 35389.44,
+    "RescaleCoarseMAC": 592896.0,
+    "FP16MAC": 0.0
+  },
+  "latency_per_component": {
+    "QuantMAC": 192.0,
+    "DRAM": 92160.0,
+    "FP4MAC": 147456.0,
+    "GLB": 18432.0,
+    "RescaleFineMAC": 589824.0,
+    "RescaleCoarseMAC": 9216.0,
+    "RF": 0.0
+  },
+  "bottleneck_component": "RescaleFineMAC",
+  "energy_total": 19585511.240000002,
+  "latency_total": 765505.0,
+  "energy_total_column": "derived_from_breakdown",
+  "latency_total_column": "derived_from_breakdown",
+  "hardware_model": "compact_two_level_inference",
+  "output_elements": 3072,
+  "energy_pj_per_output": 6375.491940104167,
+  "area_total": 3.8942712e-07
+}

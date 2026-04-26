@@ -10,7 +10,6 @@
     },
     "bits_per_value": {
       "A": 16,
-      "W": 16,
       "Sba": 16,
       "Sbw": 16,
       "Aq": 4,
@@ -66,69 +65,6 @@
             "name": "Aq",
             "projection": [
               "m",
-              "kb",
-              "ki"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
-        "name": "BlockScaleW",
-        "tensor_accesses": [
-          {
-            "name": "W",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sbw",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb"
-            ],
-            "output": true
-          }
-        ]
-      },
-      {
-        "name": "BlockQuantW",
-        "tensor_accesses": [
-          {
-            "name": "W",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb",
-              "ki"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Sbw",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
-              "kb"
-            ],
-            "density": 1.0
-          },
-          {
-            "name": "Wq",
-            "projection": [
-              "nbo",
-              "nbi",
-              "ni",
               "kb",
               "ki"
             ],

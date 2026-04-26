@@ -1,0 +1,15 @@
+{
+  "suite": "proposal",
+  "run_id": "proposal__vla__prefill__c6__baseline",
+  "workload_id": "VLA",
+  "phase_id": "prefill",
+  "config_id": "C6",
+  "arch_id": "baseline",
+  "num_quantmac": 1,
+  "num_rescalemac": 1,
+  "shape": {
+    "m": 128,
+    "n": 256,
+    "k": 4096
+  }
+}

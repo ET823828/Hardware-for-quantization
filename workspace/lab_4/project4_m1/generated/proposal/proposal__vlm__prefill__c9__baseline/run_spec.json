@@ -1,0 +1,15 @@
+{
+  "suite": "proposal",
+  "run_id": "proposal__vlm__prefill__c9__baseline",
+  "workload_id": "VLM",
+  "phase_id": "prefill",
+  "config_id": "C9",
+  "arch_id": "baseline",
+  "num_quantmac": 1,
+  "num_rescalemac": 1,
+  "shape": {
+    "m": 128,
+    "n": 3072,
+    "k": 3072
+  }
+}

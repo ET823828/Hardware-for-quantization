@@ -1,0 +1,15 @@
+{
+  "suite": "proposal",
+  "run_id": "proposal__vla__decode__c2__baseline",
+  "workload_id": "VLA",
+  "phase_id": "decode",
+  "config_id": "C2",
+  "arch_id": "baseline",
+  "num_quantmac": 1,
+  "num_rescalemac": 1,
+  "shape": {
+    "m": 1,
+    "n": 256,
+    "k": 4096
+  }
+}

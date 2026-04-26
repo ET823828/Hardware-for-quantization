@@ -1,0 +1,44 @@
+\relax 
+\citation{hifloat4}
+\citation{axe}
+\citation{mixpe}
+\citation{isfiner}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Project Overview}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-A}}Problem and Motivation}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-B}}Key Questions}{1}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces NVFP4 W4A4 energy breakdown for Llama-style FFN GEMMs. Rescale operations dominate in both phases: 74\% of energy during prefill ($M{=}128$), 64.5\% during decode ($M{=}1$). The core FP4 MatMul accounts for only 26--35\%.}}{2}{}\protected@file@percent }
+\newlabel{fig:energy}{{1}{2}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-C}}Hypotheses}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Technical Contributions}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Current Solutions and Related Work}{2}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Existing 4-bit schemes as fixed pipeline configurations.}}{2}{}\protected@file@percent }
+\newlabel{tab:existing}{{I}{2}{}{}{}}
+\citation{m2xfp}
+\citation{mxplus}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Our Approach: Phase-Adaptive Quantization via Search Space Decomposition}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-B}1}Locating existing schemes}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Tradeoffs and Challenges}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Preliminary Results}{3}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {II}{\ignorespaces Hardware cost comparison: NVFP4 W4A4 vs.\ FP16 baseline on Llama FFN GEMMs. ``Ideal W4A4'' shows the theoretical lower bound (FP4 MatMul only, zero rescale overhead).}}{4}{}\protected@file@percent }
+\newlabel{tab:sweep}{{II}{4}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Energy and latency normalized to FP16 baseline across 4 FFN GEMM shapes. W4A4 NVFP4 improves decode metrics but increases prefill energy by 27\%.}}{4}{}\protected@file@percent }
+\newlabel{fig:sweep}{{2}{4}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Realized NVFP4 cost relative to ideal (zero-overhead) W4A4. The 2.8--3.9$\times $ energy gap is the optimization headroom targeted by our rescale pipeline DSE.}}{4}{}\protected@file@percent }
+\newlabel{fig:overhead}{{3}{4}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Proposed Experiments}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Baselines, Workloads, and Fair Comparison}{5}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {III}{\ignorespaces Target workloads spanning three application domains. Each has distinct GEMM shapes and deployment constraints.}}{5}{}\protected@file@percent }
+\newlabel{tab:workloads}{{III}{5}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Experiment 1: Phase-Dependent Energy Bottleneck Analysis (Done)}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Experiment 2: Cross-Workload Search Space Sweep}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-D}}Experiment 3: Workload-Adaptive Gain Quantification}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-E}}Experiment 4: Fixed-Area Memory Hierarchy Co-Design}{6}{}\protected@file@percent }
+\bibcite{hifloat4}{1}
+\bibcite{axe}{2}
+\bibcite{mixpe}{3}
+\bibcite{isfiner}{4}
+\bibcite{m2xfp}{5}
+\bibcite{mxplus}{6}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Timeline and Work Distribution}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{7}{}\protected@file@percent }
+\gdef \@abspage@last{7}

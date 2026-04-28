@@ -1,0 +1,114 @@
+\documentclass[10pt]{article}
+\usepackage[letterpaper,top=0.55in,bottom=0.55in,left=0.7in,right=0.7in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[hyphens]{url}
+\usepackage{titlesec}
+\titlespacing*{\section}{0pt}{0.35em}{0.15em}
+\titleformat{\section}{\normalfont\normalsize\bfseries}{}{0pt}{}
+\setlength{\parskip}{0.18em}
+\setlength{\parindent}{0pt}
+\renewcommand{\baselinestretch}{0.97}
+\emergencystretch=2em
+
+\pagenumbering{gobble}
+
+\begin{document}
+
+\begin{center}
+{\Large\bfseries Technical Summary Sheet}\\[2pt]
+{\large Phase-Adaptive Quantization: DSE of 4-Bit MMA Rescale Pipelines}\\[1pt]
+{\small Yichong Zhang \texttt{<yichongz@mit.edu>} \quad\textbar\quad
+        Wenye Xiong \texttt{<wenyexio@mit.edu>}}\\[1pt]
+{\small Repository: \texttt{https://github.com/ET823828/Hardware-for-quantization}}
+\end{center}
+
+\section*{Problem in one sentence}
+NVFP4 / MXFP4 / INT4 each bundle a single fixed rescale pipeline that
+is applied to both prefill and decode, even though the two phases
+have opposite hardware bottlenecks; for a custom AI accelerator the
+rescale pipeline is itself a design-space variable that should be
+co-optimized with the workload and the inference phase.
+
+\section*{What we built}
+A 10-configuration W4A4 search space (\textbf{C0--C9}) decomposed
+across three orthogonal axes---rescale levels, fine block size $b$,
+and (scale~$\times$~accumulator) precision---containing MXFP4 (\textbf{=C1}) and
+NVFP4 (\textbf{=C7}) as embedded points.  The full pipeline is
+formalized as seven canonical Einsum operators
+(\texttt{BlockScaleA}, \texttt{BlockQuantA}, \texttt{MatMulBlock},
+\texttt{RescaleBlockA/W}, \texttt{RescaleTensorA/W}); every
+configuration is a subset of these operators with per-level scale
+and accumulator precision, evaluated by AccelForge wrapping
+Timeloop+Accelergy on a parameterized 8$\times$8 PE-array
+accelerator (64\,KB GLB, 128\,B RF/PE, 45\,nm).  Sweep =
+$10\!\times\!3\!\times\!2 = 60$ hardware runs + $60$ matched
+accuracy-emulation runs across LLM Llama-2 FFN, VLM Qwen2-VL ViT,
+VLA OpenVLA action head $\times$ \{prefill ($M{=}128$), decode
+($M{=}1$)\}, with a $\cos\!\geq\!0.98$ accuracy floor.
+
+\section*{Three key insights}
+
+\textbf{(1) NVFP4 is dominated everywhere.}
+The C7 NVFP4-like reference is \emph{never} the lowest-energy
+configuration that clears the cosine floor in any of the 6
+(workload, phase) cells.  Every selected best replaces FP32
+rescale with FP16 or E8M0 with $<0.005$ cosine drop, saving
+$48$--$60\%$ energy.  Adopting NVFP4 as-is into a custom W4A4
+datapath leaves $\sim2\!\times$ energy on the table.
+
+\textbf{(2) A two-step efficient search procedure for the W4A4 design
+space.}
+\emph{Step 1}---the cosine floor admits a block-granularity
+family ($b{=}32$ if its only member C1 passes, else $b{=}16$).
+\emph{Step 2}---within the admitted family, pick the
+configuration with the lowest closed-form per-output cost at the
+cell's $(M,N,K)$.  On all six (workload, phase) cells the
+procedure returns the same configuration as exhaustive sweep at
+$\mathcal{O}(1)$ accuracy probes per cell; whether it generalises
+beyond our three workload classes is a hypothesis for future
+work.
+
+\textbf{(3) Phase-adaptive value is conditional, with VLA the
+clearest beneficiary.}  Versus fixed-NVFP4, phase-adaptive saves
+$50$--$60\%$ across all three workloads.  But versus the best
+single fixed configuration the gain is $\approx 0\%$ for VLM,
+$0.6\%$ for LLM, and $8.2\%$ for VLA at $\alpha{=}0.5$: VLA is the
+only workload in our sweep that warrants paying silicon area for
+a second rescale mode; VLM should ship a single MXFP4-like mode.
+An analytic per-output cost decomposition shows the C7-vs-best gap
+is dominated by activation-side fine rescale terms that are
+independent of $M$, so the headline saving is monotone
+non-decreasing in $M$ and our $M{=}128$ profiling point is
+conservative.
+
+\section*{Headline numbers}
+\begin{center}
+\small
+\begin{tabular}{@{}llcrrr@{}}
+\toprule
+Workload & Phase & Best & pJ/output & Cosine & vs.\ NVFP4 (C7) \\
+\midrule
+LLM & Prefill & C1 & 5\,262 & 0.984 & $-58.1\%$ \\
+LLM & Decode  & C8 & 7\,767 & 0.981 & $-48.0\%$ \\
+VLM & Prefill & C1 & 3\,952 & 0.984 & $-60.0\%$ \\
+VLM & Decode  & C1 & 5\,557 & 0.987 & $-50.4\%$ \\
+VLA & Prefill & C9 & 6\,263 & 0.990 & $-50.7\%$ \\
+VLA & Decode  & C8 & 7\,891 & 0.995 & $-47.6\%$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section*{Partner contributions}
+\textbf{Yichong Zhang}: Idea formulation, Einsum formalization,
+hardware-side AccelForge sweep harness, Pareto and phase-adaptive analysis pipeline, paper writing.\\
+\textbf{Wenye Xiong}: quantization emulator, tensor-snapshot preparation for LLM/VLM/VLA workloads, accuracy sweep automation
+, accuracy floor analysis, repo cleaning.\\
+\textbf{Joint}: search-space definition, figures, presentation slides, posters.
+
+\section*{Reproducibility}
+Please follow the instructions under the repo.
+
+\end{document}

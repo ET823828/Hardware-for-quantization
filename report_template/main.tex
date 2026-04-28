@@ -1,0 +1,77 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Your Cool Project Title}
+
+\author{
+\IEEEauthorblockN{Name Surname}
+\IEEEauthorblockA{email address}
+\and
+\IEEEauthorblockN{Name Surname}
+\IEEEauthorblockA{email address}
+}
+
+\maketitle
+
+NOTE: You have a 4-page limit, not including references and ``LLM Usage" section. (5-page if you are taking the graduate version of the class).
+
+\section{Introduction}
+Briefly introduce your project.
+\begin{itemize}
+    \item Start by setting the context of your problem and the problem statement.
+    \item Explain your contributions towards solving the problem.
+    \item Summarize three key insights/innovations.
+\end{itemize}
+
+
+\section{Related Works (Graduate Only)}
+
+
+\section{Your Cool Project}
+Describe in some detail how you are solving the problem you have introduced.
+
+
+\section{Experiment Setup}
+Describe in some detail how you set up the experiments to test the validity of your claims.
+
+\section{Results and Discussion}
+Present your results, analysis, and exploration. This is a big portion of your grade, so here are some tips on organization, what to include, and the expected depth of analysis:
+\begin{itemize}
+    \item Start by summarizing your results, observations, and conclusions at a high-level.
+    \item If it makes sense, organize results into subsections.
+    \item For each result (usually in the form of plots or tables):
+    \begin{itemize}
+        \item introduce the results (\emph{e.g.}, ``Fig. 1 shows the energy consumption of our design over a range of sparsity values.");
+        \item point out important features for the readers to observe (\emph{e.g.}, ``note that energy consumption decreases as sparsity increases; however, the decrease flattens becomes less pronounced for higher sparsity.");
+        \item analyze the results (\emph{e.g.}, ``as sparsity increases, the energy savings from gating and skipping increases; however, the design of the accelerator, specifically this and that, prevents it from leveraging sparsity higher than 0.99. This fact is evident in Fig. 2, which shows the energy breakdown per-component for sparsity value 0.9 and 0.99. Note that ...");
+        \item summarize your insights (\emph{e.g.}, ``this result shows that: (1) leveraging sparsity can lead to significant energy savings, but (2) the design of an accelerator should be tailored to the specific range of sparsity of the applications.")
+    \end{itemize}
+\end{itemize}
+
+\clearpage
+NOTE: You must include the ``LLM Usage" and ``References" sections (see below), but they will \emph{not} count towards your page limit.
+
+\section{LLM Usage}
+Please include short answers to the following questions.
+
+\begin{itemize}
+    \item How did you use the LLM? 
+    \item For which parts of the project was an LLM most helpful?
+    \item For which parts of the project was an LLM \textit{not} helpful?
+\end{itemize}
+
+\begin{thebibliography}{00}
+\bibitem{b1} Author names, ``Paper title,'' Name or journal/conference, vol. XX, pp. XX--XX, Month Year.
+\end{thebibliography}
+
+\end{document}

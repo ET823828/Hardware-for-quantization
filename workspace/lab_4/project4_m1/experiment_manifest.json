@@ -5253,6 +5253,308 @@
       }
     }
   ],
+  "prefill_m_sweep_runs": [
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m128__baseline_fp16__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m128",
+      "config_id": "BASELINE_FP16",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m128__c0__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m128",
+      "config_id": "C0",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m128__c1__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m128",
+      "config_id": "C1",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m128__c7__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m128",
+      "config_id": "C7",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 128,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m256__baseline_fp16__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m256",
+      "config_id": "BASELINE_FP16",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 256,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m256__c0__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m256",
+      "config_id": "C0",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 256,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m256__c1__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m256",
+      "config_id": "C1",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 256,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m256__c7__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m256",
+      "config_id": "C7",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 256,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m512__baseline_fp16__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m512",
+      "config_id": "BASELINE_FP16",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 512,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m512__c0__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m512",
+      "config_id": "C0",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 512,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m512__c1__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m512",
+      "config_id": "C1",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 512,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m512__c7__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m512",
+      "config_id": "C7",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 512,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m1024__baseline_fp16__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m1024",
+      "config_id": "BASELINE_FP16",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1024,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m1024__c0__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m1024",
+      "config_id": "C0",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1024,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m1024__c1__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m1024",
+      "config_id": "C1",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1024,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m1024__c7__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m1024",
+      "config_id": "C7",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 1024,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m2048__baseline_fp16__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m2048",
+      "config_id": "BASELINE_FP16",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 2048,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m2048__c0__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m2048",
+      "config_id": "C0",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 2048,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m2048__c1__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m2048",
+      "config_id": "C1",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 2048,
+        "n": 11008,
+        "k": 4096
+      }
+    },
+    {
+      "suite": "prefill_m_sweep",
+      "run_id": "prefill_m_sweep__llm__prefill_m2048__c7__baseline",
+      "workload_id": "LLM",
+      "phase_id": "prefill_m2048",
+      "config_id": "C7",
+      "arch_id": "baseline",
+      "num_quantmac": 1,
+      "num_rescalemac": 1,
+      "shape": {
+        "m": 2048,
+        "n": 11008,
+        "k": 4096
+      }
+    }
+  ],
   "legacy_validation_runs": [
     {
       "suite": "legacy_validation",

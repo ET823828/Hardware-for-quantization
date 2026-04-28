@@ -293,6 +293,8 @@ ARCH_DEFAULTS: dict[str, float | int] = {
 
 PROPOSAL_CONFIG_IDS = list(QUANT_CONFIGS.keys())
 MILESTONE3_CONFIG_IDS = ["C1", "C5", "C7"]
+PREFILL_M_SWEEP_VALUES = [128, 256, 512, 1024, 2048]
+PREFILL_M_SWEEP_CONFIG_IDS = ["BASELINE_FP16", "C0", "C1", "C7"]
 UNIT_COUNT_OPTIONS = [1, 2, 4, 8]
 
 
@@ -407,6 +409,25 @@ def default_manifest() -> dict[str, Any]:
             }
         )
 
+    prefill_m_sweep_runs: list[dict[str, Any]] = []
+    sweep_workload = WORKLOADS["LLM"]
+    for m_value, config_id in product(PREFILL_M_SWEEP_VALUES, PREFILL_M_SWEEP_CONFIG_IDS):
+        arch = default_arch_variant()
+        phase_id = f"prefill_m{m_value}"
+        prefill_m_sweep_runs.append(
+            {
+                "suite": "prefill_m_sweep",
+                "run_id": run_id("prefill_m_sweep", "LLM", phase_id, config_id, arch.arch_id),
+                "workload_id": "LLM",
+                "phase_id": phase_id,
+                "config_id": config_id,
+                "arch_id": arch.arch_id,
+                "num_quantmac": arch.num_quantmac,
+                "num_rescalemac": arch.num_rescalemac,
+                "shape": {"m": m_value, "n": sweep_workload.n, "k": sweep_workload.k},
+            }
+        )
+
     legacy_runs = [
         {
             "suite": "legacy_validation",
@@ -453,6 +474,7 @@ def default_manifest() -> dict[str, Any]:
         "accuracy_inputs": default_accuracy_inputs(),
         "proposal_runs": proposal_runs,
         "milestone3_runs": milestone3_runs,
+        "prefill_m_sweep_runs": prefill_m_sweep_runs,
         "legacy_validation_runs": legacy_runs,
     }
 
@@ -461,6 +483,7 @@ def manifest_runs(manifest: dict[str, Any], suite: str) -> list[dict[str, Any]]:
     key = {
         "proposal": "proposal_runs",
         "milestone3": "milestone3_runs",
+        "prefill_m_sweep": "prefill_m_sweep_runs",
         "legacy_validation": "legacy_validation_runs",
     }[suite]
     return list(manifest.get(key, []))

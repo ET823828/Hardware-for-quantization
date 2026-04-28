@@ -19,6 +19,7 @@ from experiment_defs import (
     DEFAULT_MANIFEST_PATH,
     DEFAULT_SATURATION_TOLERANCE,
     FIGURES_DIR,
+    GENERATED_DIR,
     RESULTS_DIR,
     ensure_dir,
     get_quant_config,
@@ -29,12 +30,14 @@ from experiment_defs import (
 
 PROPOSAL_HARDWARE_CSV = RESULTS_DIR / "proposal_hardware_summary.csv"
 MILESTONE3_HARDWARE_CSV = RESULTS_DIR / "milestone3_hardware_summary.csv"
+PREFILL_M_SWEEP_HARDWARE_CSV = RESULTS_DIR / "prefill_m_sweep_hardware_summary.csv"
 ACCURACY_CSV = RESULTS_DIR / "accuracy_summary.csv"
 COMBINED_CSV = RESULTS_DIR / "proposal_combined_summary.csv"
 BEST_CONFIGS_CSV = RESULTS_DIR / "proposal_best_configs.csv"
 PARETO_CSV = RESULTS_DIR / "proposal_pareto_frontier.csv"
 ADAPTIVE_CSV = RESULTS_DIR / "phase_adaptive_savings.csv"
 M3_SATURATION_CSV = RESULTS_DIR / "milestone3_saturation.csv"
+PREFILL_M_SENSITIVITY_CSV = RESULTS_DIR / "prefill_m_sensitivity.csv"
 ANALYSIS_STATUS_JSON = RESULTS_DIR / "analysis_status.json"
 
 
@@ -414,6 +417,78 @@ def analyze_milestone3(saturation_tolerance: float) -> list[dict[str, Any]]:
     return saturation_rows
 
 
+def resolve_breakdown_path(row: dict[str, Any]) -> Path:
+    raw = str(row.get("breakdown_file", ""))
+    if raw:
+        direct = Path(raw)
+        if direct.exists():
+            return direct
+    return GENERATED_DIR / row["suite"] / row["run_id"] / "breakdown.json"
+
+
+def c7_rescale_pct(row: dict[str, Any]) -> float | str:
+    breakdown_path = resolve_breakdown_path(row)
+    if not breakdown_path.exists():
+        return ""
+    try:
+        breakdown = json.loads(breakdown_path.read_text())
+    except json.JSONDecodeError:
+        return ""
+    energy_per_einsum = breakdown.get("energy_per_einsum", {})
+    if not isinstance(energy_per_einsum, dict):
+        return ""
+    energy_total = to_float(breakdown.get("energy_total")) or to_float(row.get("energy_total_pj"))
+    if energy_total in (None, 0.0):
+        return ""
+    rescale_energy = sum(
+        float(value)
+        for name, value in energy_per_einsum.items()
+        if str(name).startswith("Rescale")
+    )
+    return 100.0 * rescale_energy / energy_total
+
+
+def analyze_prefill_m_sweep() -> list[dict[str, Any]]:
+    rows = [row for row in load_csv(PREFILL_M_SWEEP_HARDWARE_CSV) if row.get("status") == "ok"]
+    sensitivity_rows: list[dict[str, Any]] = []
+    for m_value in sorted({int(row["m"]) for row in rows if row.get("m")}):
+        peers = [row for row in rows if int(row["m"]) == m_value]
+        by_config = {row["config_id"]: row for row in peers}
+        required = {"BASELINE_FP16", "C0", "C1", "C7"}
+        if not required.issubset(by_config):
+            continue
+
+        fp16 = by_config["BASELINE_FP16"]
+        ideal = by_config["C0"]
+        c1 = by_config["C1"]
+        c7 = by_config["C7"]
+        fp16_energy = to_float(fp16.get("energy_total_pj"))
+        ideal_energy = to_float(ideal.get("energy_total_pj"))
+        c1_energy = to_float(c1.get("energy_total_pj"))
+        c7_energy = to_float(c7.get("energy_total_pj"))
+        fp16_latency = to_float(fp16.get("latency_cycles"))
+        c7_latency = to_float(c7.get("latency_cycles"))
+        if None in {fp16_energy, ideal_energy, c1_energy, c7_energy, fp16_latency, c7_latency}:
+            continue
+        if fp16_energy == 0.0 or ideal_energy == 0.0 or c7_energy == 0.0 or fp16_latency == 0.0:
+            continue
+
+        sensitivity_rows.append(
+            {
+                "m": m_value,
+                "fp16_energy_pj": fp16_energy,
+                "c7_energy_pj": c7_energy,
+                "c7_vs_fp16_energy": c7_energy / fp16_energy,
+                "c7_rescale_pct": c7_rescale_pct(c7),
+                "c7_vs_ideal_energy": c7_energy / ideal_energy,
+                "c7_latency_vs_fp16": c7_latency / fp16_latency,
+                "c1_vs_c7_energy": c1_energy / c7_energy,
+            }
+        )
+    write_csv(PREFILL_M_SENSITIVITY_CSV, sensitivity_rows)
+    return sensitivity_rows
+
+
 def maybe_plot_pareto(rows: list[dict[str, Any]], adaptive_rows: list[dict[str, Any]]) -> None:
     if not rows:
         return
@@ -526,6 +601,45 @@ def maybe_plot_pareto(rows: list[dict[str, Any]], adaptive_rows: list[dict[str, 
     plt.close(fig)
 
 
+def maybe_plot_prefill_m_sensitivity(rows: list[dict[str, Any]]) -> None:
+    if not rows:
+        return
+    try:
+        matplotlib = importlib.import_module("matplotlib")
+        matplotlib.use("Agg")
+        plt = importlib.import_module("matplotlib.pyplot")
+    except Exception:
+        return
+
+    ensure_dir(FIGURES_DIR)
+    plotted_rows = sorted(rows, key=lambda row: int(row["m"]))
+    x_values = [int(row["m"]) for row in plotted_rows]
+    energy_values = [float(row["c7_vs_fp16_energy"]) for row in plotted_rows]
+    rescale_values = [
+        to_float(row.get("c7_rescale_pct")) if to_float(row.get("c7_rescale_pct")) is not None else math.nan
+        for row in plotted_rows
+    ]
+
+    fig, ax_energy = plt.subplots(figsize=(7, 4))
+    ax_rescale = ax_energy.twinx()
+    ax_energy.plot(x_values, energy_values, marker="o", color="tab:blue", label="C7 / FP16 energy")
+    ax_energy.axhline(1.0, color="0.35", linestyle="--", linewidth=1)
+    ax_rescale.plot(x_values, rescale_values, marker="s", color="tab:red", label="C7 rescale energy")
+    ax_energy.set_xscale("log", base=2)
+    ax_energy.set_xticks(x_values)
+    ax_energy.set_xticklabels([str(value) for value in x_values])
+    ax_energy.set_xlabel("Prefill M")
+    ax_energy.set_ylabel("C7 Energy / FP16")
+    ax_rescale.set_ylabel("C7 Rescale Share (%)")
+    ax_energy.set_title("NVFP4-like C7 Prefill M Sensitivity")
+    lines, labels = ax_energy.get_legend_handles_labels()
+    lines2, labels2 = ax_rescale.get_legend_handles_labels()
+    ax_energy.legend(lines + lines2, labels + labels2, loc="best")
+    fig.tight_layout()
+    fig.savefig(FIGURES_DIR / "prefill_m_sensitivity.png", dpi=200)
+    plt.close(fig)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Analyze proposal and milestone-3 sweep results.")
     parser.add_argument("--accuracy-floor", type=float, default=DEFAULT_ACCURACY_FLOOR)
@@ -537,7 +651,9 @@ def main() -> None:
     args = build_parser().parse_args()
     rows, best_rows, adaptive_rows = analyze_proposal(args.accuracy_floor)
     milestone3_rows = analyze_milestone3(args.saturation_tolerance)
+    prefill_m_rows = analyze_prefill_m_sweep()
     maybe_plot_pareto(rows, adaptive_rows)
+    maybe_plot_prefill_m_sensitivity(prefill_m_rows)
     if rows:
         print(f"Wrote combined proposal summary to {COMBINED_CSV}")
         print(f"Wrote best-config table to {BEST_CONFIGS_CSV}")
@@ -546,7 +662,14 @@ def main() -> None:
     else:
         print(f"Proposal analysis incomplete; see {ANALYSIS_STATUS_JSON}")
     print(f"Wrote milestone-3 saturation table to {M3_SATURATION_CSV}")
-    print(f"Best rows: {len(best_rows)} | milestone3 saturation rows: {len(milestone3_rows)}")
+    if prefill_m_rows:
+        print(f"Wrote prefill M-sensitivity table to {PREFILL_M_SENSITIVITY_CSV}")
+    else:
+        print(f"Prefill M-sensitivity analysis skipped or incomplete; expected hardware rows in {PREFILL_M_SWEEP_HARDWARE_CSV}")
+    print(
+        f"Best rows: {len(best_rows)} | milestone3 saturation rows: {len(milestone3_rows)} | "
+        f"prefill M rows: {len(prefill_m_rows)}"
+    )
 
 
 if __name__ == "__main__":

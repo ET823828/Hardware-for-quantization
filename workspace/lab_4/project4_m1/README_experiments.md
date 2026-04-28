@@ -28,6 +28,7 @@ launching commands and previewing those saved outputs.
   Default checked-in manifest covering:
   - proposal sweep: `10 configs x 3 workloads x 2 phases`
   - milestone-3 sweep: `3 configs x 3 workloads x 2 phases x 16 arch variants`
+  - prefill M-sensitivity sweep: `5 M values x 4 configs`
   - legacy validation: the original `4096 x 4096` notebook cases
 
 ## Usage
@@ -63,6 +64,7 @@ python3 workspace/lab_4/project4_m1/dump_accuracy_snapshot.py from-openvla \
   --output workspace/lab_4/project4_m1/accuracy_inputs/vla_action_head.npz
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-accuracy --suite proposal
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite proposal --jobs 1
+python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite prefill_m_sweep --jobs 1
 python3 workspace/lab_4/project4_m1/run_sweeps.py run-hardware --suite milestone3 --jobs 4
 python3 workspace/lab_4/project4_m1/run_sweeps.py verify-legacy
 python3 workspace/lab_4/project4_m1/analyze_results.py
@@ -72,6 +74,11 @@ python3 workspace/lab_4/project4_m1/analyze_results.py
 
 - The hardware runner generates concrete `arch.yaml` and `workload.yaml`
   files under `generated/<suite>/<run_id>/`.
+- The `prefill_m_sweep` suite is hardware-only and evaluates LLM FFN prefill
+  shapes at `M={128,256,512,1024,2048}` for FP16 baseline, ideal W4A4, MXFP4-like
+  C1, and NVFP4-like C7. `analyze_results.py` writes
+  `results/prefill_m_sensitivity.csv` and `figures/prefill_m_sensitivity.png`
+  when all required rows for an `M` value are present.
 - Proposal hardware CSVs generated before the inference-time prequantized
   workload update are stale. Rerun proposal hardware with `--rerun-ok` before
   using `proposal_hardware_summary.csv` for figures or final claims.

@@ -1,7 +1,8 @@
 {
   "workload": {
     "iteration_space_shape": {
-      "m": "0 <= m < 256",
+      "mo": "0 <= mo < 2",
+      "mi": "0 <= mi < 128",
       "nbo": "0 <= nbo < 43",
       "nbi": "0 <= nbi < 16",
       "ni": "0 <= ni < 16",
@@ -25,7 +26,8 @@
           {
             "name": "A",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "kb",
               "ki"
             ],
@@ -34,7 +36,8 @@
           {
             "name": "Sba",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "kb"
             ],
             "output": true
@@ -47,7 +50,8 @@
           {
             "name": "A",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "kb",
               "ki"
             ],
@@ -56,7 +60,8 @@
           {
             "name": "Sba",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "kb"
             ],
             "density": 1.0
@@ -64,7 +69,8 @@
           {
             "name": "Aq",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "kb",
               "ki"
             ],
@@ -78,7 +84,8 @@
           {
             "name": "Aq",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "kb",
               "ki"
             ],
@@ -98,7 +105,8 @@
           {
             "name": "Yraw",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "nbo",
               "nbi",
               "ni",
@@ -114,7 +122,8 @@
           {
             "name": "Yraw",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "nbo",
               "nbi",
               "ni",
@@ -125,7 +134,8 @@
           {
             "name": "Sba",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "kb"
             ],
             "density": 1.0
@@ -133,7 +143,8 @@
           {
             "name": "Ytmp",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "nbo",
               "nbi",
               "ni",
@@ -149,7 +160,8 @@
           {
             "name": "Ytmp",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "nbo",
               "nbi",
               "ni",
@@ -170,7 +182,8 @@
           {
             "name": "Y",
             "projection": [
-              "m",
+              "mo",
+              "mi",
               "nbo",
               "nbi",
               "ni"

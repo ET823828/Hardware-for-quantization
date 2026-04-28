@@ -1,0 +1,78 @@
+{
+  "einsum_names": [
+    "BlockScaleA",
+    "BlockQuantA",
+    "MatMulBlock",
+    "RescaleBlockA",
+    "RescaleBlockW"
+  ],
+  "energy_per_einsum": {
+    "BlockScaleA": 14843904.0,
+    "BlockQuantA": 17465344.0,
+    "MatMulBlock": 36651296358.4,
+    "RescaleBlockA": 14500199137.279999,
+    "RescaleBlockW": 8131082977.28
+  },
+  "latency_per_einsum": {
+    "BlockScaleA": 133120.0,
+    "BlockQuantA": 133120.0,
+    "MatMulBlock": 2885681152.0,
+    "RescaleBlockA": 90179584.0,
+    "RescaleBlockW": 45088768.0
+  },
+  "energy_compute_per_einsum": {
+    "BlockScaleA": 4194304.0,
+    "BlockQuantA": 4194304.0,
+    "MatMulBlock": 9234179686.4,
+    "RescaleBlockA": 43285217.28,
+    "RescaleBlockW": 43285217.28
+  },
+  "energy_memory_per_einsum": {
+    "BlockScaleA": 10649600.0,
+    "BlockQuantA": 13271040.0,
+    "MatMulBlock": 27417116672.0,
+    "RescaleBlockA": 14456913920.0,
+    "RescaleBlockW": 8087797760.0
+  },
+  "latency_compute_per_einsum": {
+    "BlockScaleA": 131072.0,
+    "BlockQuantA": 131072.0,
+    "MatMulBlock": 721420288.0,
+    "RescaleBlockA": 22544384.0,
+    "RescaleBlockW": 22544384.0
+  },
+  "latency_memory_per_einsum": {
+    "BlockScaleA": 133120.0,
+    "BlockQuantA": 133120.0,
+    "MatMulBlock": 2885681152.0,
+    "RescaleBlockA": 90179584.0,
+    "RescaleBlockW": 45088768.0
+  },
+  "energy_per_component": {
+    "DRAM": 29751869440.0,
+    "QuantMAC": 8388608.0,
+    "GLB": 14461992960.0,
+    "RF": 5771886592.0,
+    "FP4MAC": 9234179686.4,
+    "RescaleFineMAC": 86570434.56,
+    "RescaleCoarseMAC": 0.0,
+    "FP16MAC": 0.0
+  },
+  "latency_per_component": {
+    "QuantMAC": 131072.0,
+    "DRAM": 270532608.0,
+    "GLB": 45264896.0,
+    "FP4MAC": 721420288.0,
+    "RF": 2885681152.0,
+    "RescaleFineMAC": 22544384.0
+  },
+  "bottleneck_component": "RF",
+  "energy_total": 59314887720.96,
+  "latency_total": 3021215744.0,
+  "energy_total_column": "derived_from_breakdown",
+  "latency_total_column": "derived_from_breakdown",
+  "hardware_model": "inference_prequantized",
+  "output_elements": 11272192,
+  "energy_pj_per_output": 5262.054418604651,
+  "area_total": 3.8925712e-07
+}

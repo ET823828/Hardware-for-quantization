@@ -339,6 +339,34 @@ def split_n_projection(shape: dict[str, int]) -> tuple[dict[str, str], list[str]
     raise ValueError(f"Workload requires n to be divisible by 16, got n={n}")
 
 
+def split_m_projection(shape: dict[str, int]) -> tuple[dict[str, str], list[str]]:
+    m = shape["m"]
+    if m <= 255:
+        return (
+            {
+                "m": f"0 <= m < {m}",
+            },
+            ["m"],
+        )
+    if m % 128 == 0:
+        return (
+            {
+                "mo": f"0 <= mo < {m // 128}",
+                "mi": "0 <= mi < 128",
+            },
+            ["mo", "mi"],
+        )
+    if m % 64 == 0:
+        return (
+            {
+                "mo": f"0 <= mo < {m // 64}",
+                "mi": "0 <= mi < 64",
+            },
+            ["mo", "mi"],
+        )
+    raise ValueError(f"Workload requires m to be representable with <=255-sized ranks, got m={m}")
+
+
 def build_one_level_workload(shape: dict[str, int], block_size: int, scale_bits: int, acc_bits: int) -> dict[str, Any]:
     kb = shape["k"] // block_size
     n_iter_shape, n_projection = split_n_projection(shape)
@@ -426,15 +454,22 @@ def build_one_level_inference_workload(
     block_size: int,
     scale_bits: int,
     acc_bits: int,
+    *,
+    split_m: bool = False,
 ) -> dict[str, Any]:
     """Inference graph with offline-quantized weights and runtime activation quantization."""
 
     kb = shape["k"] // block_size
     n_iter_shape, n_projection = split_n_projection(shape)
+    if split_m:
+        m_iter_shape, m_projection = split_m_projection(shape)
+    else:
+        m_iter_shape = {"m": f"0 <= m < {shape['m']}"}
+        m_projection = ["m"]
     return {
         "workload": {
             "iteration_space_shape": {
-                "m": f"0 <= m < {shape['m']}",
+                **m_iter_shape,
                 **n_iter_shape,
                 "kb": f"0 <= kb < {kb}",
                 "ki": f"0 <= ki < {block_size}",
@@ -453,40 +488,40 @@ def build_one_level_inference_workload(
                 {
                     "name": "BlockScaleA",
                     "tensor_accesses": [
-                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Sba", "projection": ["m", "kb"], "output": True},
+                        {"name": "A", "projection": [*m_projection, "kb", "ki"], "density": 1.0},
+                        {"name": "Sba", "projection": [*m_projection, "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "BlockQuantA",
                     "tensor_accesses": [
-                        {"name": "A", "projection": ["m", "kb", "ki"], "density": 1.0},
-                        {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
-                        {"name": "Aq", "projection": ["m", "kb", "ki"], "output": True},
+                        {"name": "A", "projection": [*m_projection, "kb", "ki"], "density": 1.0},
+                        {"name": "Sba", "projection": [*m_projection, "kb"], "density": 1.0},
+                        {"name": "Aq", "projection": [*m_projection, "kb", "ki"], "output": True},
                     ],
                 },
                 {
                     "name": "MatMulBlock",
                     "tensor_accesses": [
-                        {"name": "Aq", "projection": ["m", "kb", "ki"], "density": 1.0},
+                        {"name": "Aq", "projection": [*m_projection, "kb", "ki"], "density": 1.0},
                         {"name": "Wq", "projection": [*n_projection, "kb", "ki"], "density": 1.0},
-                        {"name": "Yraw", "projection": ["m", *n_projection, "kb"], "output": True},
+                        {"name": "Yraw", "projection": [*m_projection, *n_projection, "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "RescaleBlockA",
                     "tensor_accesses": [
-                        {"name": "Yraw", "projection": ["m", *n_projection, "kb"], "density": 1.0},
-                        {"name": "Sba", "projection": ["m", "kb"], "density": 1.0},
-                        {"name": "Ytmp", "projection": ["m", *n_projection, "kb"], "output": True},
+                        {"name": "Yraw", "projection": [*m_projection, *n_projection, "kb"], "density": 1.0},
+                        {"name": "Sba", "projection": [*m_projection, "kb"], "density": 1.0},
+                        {"name": "Ytmp", "projection": [*m_projection, *n_projection, "kb"], "output": True},
                     ],
                 },
                 {
                     "name": "RescaleBlockW",
                     "tensor_accesses": [
-                        {"name": "Ytmp", "projection": ["m", *n_projection, "kb"], "density": 1.0},
+                        {"name": "Ytmp", "projection": [*m_projection, *n_projection, "kb"], "density": 1.0},
                         {"name": "Sbw", "projection": [*n_projection, "kb"], "density": 1.0},
-                        {"name": "Y", "projection": ["m", *n_projection], "output": True},
+                        {"name": "Y", "projection": [*m_projection, *n_projection], "output": True},
                     ],
                 },
             ],
@@ -970,6 +1005,7 @@ def build_workload(run_spec: dict[str, Any]) -> dict[str, Any]:
             block_size=config.block_size or 16,
             scale_bits=config.fine_scale_bits or SCALE_FORMATS[config.fine_rescale_format]["storage_bits"],
             acc_bits=acc_bits,
+            split_m=run_spec.get("suite") == "prefill_m_sweep",
         )
     if config.topology == "two_level":
         if uses_compact_two_level_workload(run_spec):
@@ -1199,6 +1235,14 @@ def extract_hardware_breakdown(df: Any, best_idx: int, einsum_names: list[str]) 
     }
 
 
+def record_hardware_warnings(row: dict[str, Any], breakdown: dict[str, Any], warnings: list[str]) -> None:
+    if not warnings:
+        return
+    breakdown["warnings"] = warnings
+    if row.get("status") != "ok":
+        row["error"] = " | ".join(warnings)
+
+
 def assert_energy_total_matches_breakdown(
     *,
     energy_total: float,
@@ -1331,8 +1375,7 @@ def run_hardware_case(run_spec: dict[str, Any]) -> dict[str, Any]:
         row["area_m2"] = breakdown["area_total"]
         row["bottleneck_component"] = breakdown["bottleneck_component"]
         warnings = [warning for warning in (mapping_warning, area_warning) if warning]
-        if warnings:
-            row["error"] = " | ".join(warnings)
+        record_hardware_warnings(row, breakdown, warnings)
         return row
     except Exception as exc:
         row["status"] = "error"

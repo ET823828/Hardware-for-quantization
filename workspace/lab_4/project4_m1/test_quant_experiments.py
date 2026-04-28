@@ -104,6 +104,47 @@ class QuantExperimentTests(unittest.TestCase):
         self.assertEqual(iter_shape, {"nb": "0 <= nb < 16", "ni": "0 <= ni < 16"})
         self.assertEqual(projection, ["nb", "ni"])
 
+    def test_split_m_projection_splits_large_m_for_prefill_sweeps(self) -> None:
+        iter_shape, projection = run_sweeps.split_m_projection({"m": 1024, "n": 11008, "k": 4096})
+
+        self.assertEqual(iter_shape, {"mo": "0 <= mo < 8", "mi": "0 <= mi < 128"})
+        self.assertEqual(projection, ["mo", "mi"])
+
+    def test_prefill_one_level_workload_splits_m_dimension(self) -> None:
+        run_spec = next(
+            row
+            for row in experiment_defs.default_manifest()["prefill_m_sweep_runs"]
+            if row["config_id"] == "C1" and row["phase_id"] == "prefill_m1024"
+        )
+
+        workload = run_sweeps.build_workload(run_spec)
+        iter_shape = workload["workload"]["iteration_space_shape"]
+        matmul = next(e for e in workload["workload"]["einsums"] if e["name"] == "MatMulBlock")
+
+        self.assertNotIn("m", iter_shape)
+        self.assertEqual(iter_shape["mo"], "0 <= mo < 8")
+        self.assertEqual(iter_shape["mi"], "0 <= mi < 128")
+        self.assertEqual(matmul["tensor_accesses"][0]["projection"], ["mo", "mi", "kb", "ki"])
+        self.assertEqual(matmul["tensor_accesses"][2]["projection"], ["mo", "mi", "nbo", "nbi", "ni", "kb"])
+
+    def test_record_hardware_warnings_keeps_success_rows_clean(self) -> None:
+        row = {"status": "ok", "error": ""}
+        breakdown: dict[str, object] = {}
+
+        run_sweeps.record_hardware_warnings(row, breakdown, ["mapping serialization failed", "total_area unavailable"])
+
+        self.assertEqual(row["error"], "")
+        self.assertEqual(breakdown["warnings"], ["mapping serialization failed", "total_area unavailable"])
+
+    def test_record_hardware_warnings_populates_error_for_failed_rows(self) -> None:
+        row = {"status": "error", "error": ""}
+        breakdown: dict[str, object] = {}
+
+        run_sweeps.record_hardware_warnings(row, breakdown, ["mapping serialization failed"])
+
+        self.assertEqual(row["error"], "mapping serialization failed")
+        self.assertEqual(breakdown["warnings"], ["mapping serialization failed"])
+
     def test_llm_prefill_two_level_uses_compact_mapper_workload(self) -> None:
         run_spec = next(
             row

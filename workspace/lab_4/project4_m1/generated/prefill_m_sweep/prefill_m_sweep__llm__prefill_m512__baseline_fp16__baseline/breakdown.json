@@ -21,8 +21,8 @@
     "MatMul": 270598144.0
   },
   "energy_per_component": {
-    "DRAM": 28847964160.0,
     "RF": 0.0,
+    "DRAM": 28847964160.0,
     "FP16MAC": 23085449216.0,
     "GLB": 28862054400.0,
     "QuantMAC": 0.0,
@@ -32,8 +32,8 @@
   },
   "latency_per_component": {
     "FP16MAC": 360710144.0,
-    "DRAM": 270598144.0,
     "RF": 0.0,
+    "DRAM": 270598144.0,
     "GLB": 180355072.0
   },
   "bottleneck_component": "FP16MAC",

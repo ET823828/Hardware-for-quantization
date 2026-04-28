@@ -176,6 +176,25 @@ class QuantExperimentTests(unittest.TestCase):
 
         self.assertEqual(filtered, [runs[1]])
 
+    def test_prefill_m_sweep_manifest_has_unique_hardware_runs(self) -> None:
+        manifest = experiment_defs.default_manifest()
+        runs = manifest["prefill_m_sweep_runs"]
+        run_ids = {run["run_id"] for run in runs}
+        shapes_by_m = {run["shape"]["m"] for run in runs}
+        configs = {run["config_id"] for run in runs}
+
+        self.assertEqual(len(runs), 20)
+        self.assertEqual(len(run_ids), 20)
+        self.assertEqual(shapes_by_m, {128, 256, 512, 1024, 2048})
+        self.assertEqual(configs, {"BASELINE_FP16", "C0", "C1", "C7"})
+        self.assertTrue(all(run["suite"] == "prefill_m_sweep" for run in runs))
+        self.assertTrue(all(run["workload_id"] == "LLM" for run in runs))
+        self.assertTrue(all(run["shape"]["n"] == 11008 and run["shape"]["k"] == 4096 for run in runs))
+        self.assertEqual(
+            run_sweeps.target_hardware_csv("prefill_m_sweep").name,
+            "prefill_m_sweep_hardware_summary.csv",
+        )
+
     def test_two_level_quantization_assigns_different_coarse_scales_for_tensor_vs_row(self) -> None:
         rows = [
             [6.0, 0.0, 0.0, 0.0],
@@ -498,6 +517,94 @@ class QuantExperimentTests(unittest.TestCase):
                 (
                     analyze_results.PROPOSAL_HARDWARE_CSV,
                     analyze_results.ACCURACY_CSV,
+                ) = original_values
+
+    def test_analyze_prefill_m_sweep_writes_ratios_and_rescale_pct(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            tmp = Path(tmp_dir)
+            hardware_csv = tmp / "prefill_m_sweep_hardware_summary.csv"
+            sensitivity_csv = tmp / "prefill_m_sensitivity.csv"
+            c7_breakdown = tmp / "c7_breakdown.json"
+            c7_breakdown.write_text(
+                json.dumps(
+                    {
+                        "energy_total": 250.0,
+                        "energy_per_einsum": {
+                            "MatMulNVFP4": 60.0,
+                            "RescaleBlockA": 90.0,
+                            "RescaleBlockW": 60.0,
+                            "RescaleTensorA": 20.0,
+                            "RescaleTensorW": 10.0,
+                            "BlockQuantA": 10.0,
+                        },
+                    }
+                )
+            )
+            base_row = {
+                "suite": "prefill_m_sweep",
+                "status": "ok",
+                "workload_id": "LLM",
+                "phase_id": "prefill_m128",
+                "arch_id": "baseline",
+                "m": 128,
+                "n": 11008,
+                "k": 4096,
+                "latency_cycles": 100.0,
+                "breakdown_file": "",
+            }
+            write_csv(
+                hardware_csv,
+                [
+                    {
+                        **base_row,
+                        "run_id": "prefill_m_sweep__llm__prefill_m128__baseline_fp16__baseline",
+                        "config_id": "BASELINE_FP16",
+                        "energy_total_pj": 200.0,
+                    },
+                    {
+                        **base_row,
+                        "run_id": "prefill_m_sweep__llm__prefill_m128__c0__baseline",
+                        "config_id": "C0",
+                        "energy_total_pj": 100.0,
+                    },
+                    {
+                        **base_row,
+                        "run_id": "prefill_m_sweep__llm__prefill_m128__c1__baseline",
+                        "config_id": "C1",
+                        "energy_total_pj": 150.0,
+                    },
+                    {
+                        **base_row,
+                        "run_id": "prefill_m_sweep__llm__prefill_m128__c7__baseline",
+                        "config_id": "C7",
+                        "energy_total_pj": 250.0,
+                        "latency_cycles": 50.0,
+                        "breakdown_file": str(c7_breakdown),
+                    },
+                ],
+            )
+
+            original_values = (
+                analyze_results.PREFILL_M_SWEEP_HARDWARE_CSV,
+                analyze_results.PREFILL_M_SENSITIVITY_CSV,
+            )
+            try:
+                analyze_results.PREFILL_M_SWEEP_HARDWARE_CSV = hardware_csv
+                analyze_results.PREFILL_M_SENSITIVITY_CSV = sensitivity_csv
+
+                rows = analyze_results.analyze_prefill_m_sweep()
+
+                self.assertEqual(len(rows), 1)
+                self.assertAlmostEqual(float(rows[0]["c7_vs_fp16_energy"]), 1.25)
+                self.assertAlmostEqual(float(rows[0]["c7_vs_ideal_energy"]), 2.5)
+                self.assertAlmostEqual(float(rows[0]["c7_latency_vs_fp16"]), 0.5)
+                self.assertAlmostEqual(float(rows[0]["c1_vs_c7_energy"]), 0.6)
+                self.assertAlmostEqual(float(rows[0]["c7_rescale_pct"]), 72.0)
+                self.assertTrue(sensitivity_csv.exists())
+            finally:
+                (
+                    analyze_results.PREFILL_M_SWEEP_HARDWARE_CSV,
+                    analyze_results.PREFILL_M_SENSITIVITY_CSV,
                 ) = original_values
 
 

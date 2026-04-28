@@ -47,6 +47,7 @@ from experiment_defs import (
 
 PROPOSAL_HARDWARE_CSV = RESULTS_DIR / "proposal_hardware_summary.csv"
 MILESTONE3_HARDWARE_CSV = RESULTS_DIR / "milestone3_hardware_summary.csv"
+PREFILL_M_SWEEP_HARDWARE_CSV = RESULTS_DIR / "prefill_m_sweep_hardware_summary.csv"
 LEGACY_HARDWARE_CSV = RESULTS_DIR / "legacy_validation_summary.csv"
 ACCURACY_CSV = RESULTS_DIR / "accuracy_summary.csv"
 
@@ -926,7 +927,7 @@ def uses_compact_two_level_workload(run_spec: dict[str, Any]) -> bool:
     if isinstance(config, dict):
         return False
     return (
-        run_spec.get("suite") == "proposal"
+        run_spec.get("suite") in {"proposal", "prefill_m_sweep"}
         and config.topology == "two_level"
         and (config.coarse_granularity or "tensor") == "tensor"
     )
@@ -934,7 +935,7 @@ def uses_compact_two_level_workload(run_spec: dict[str, Any]) -> bool:
 
 def hardware_model_label(run_spec: dict[str, Any]) -> str:
     config = get_quant_config(run_spec["config_id"])
-    if run_spec.get("suite") == "proposal" and not isinstance(config, dict):
+    if run_spec.get("suite") in {"proposal", "prefill_m_sweep"} and not isinstance(config, dict):
         if config.topology == "two_level" and uses_compact_two_level_workload(run_spec):
             return "compact_two_level_inference"
         if config.topology in {"zero_level", "one_level"}:
@@ -1871,6 +1872,8 @@ def target_hardware_csv(suite: str) -> Path:
         return PROPOSAL_HARDWARE_CSV
     if suite == "milestone3":
         return MILESTONE3_HARDWARE_CSV
+    if suite == "prefill_m_sweep":
+        return PREFILL_M_SWEEP_HARDWARE_CSV
     if suite == "legacy_validation":
         return LEGACY_HARDWARE_CSV
     raise KeyError(f"Unknown suite: {suite}")
@@ -1973,7 +1976,11 @@ def process_runs_with_progress(
 def command_write_manifest(args: argparse.Namespace) -> None:
     manifest = default_manifest()
     write_json_file(Path(args.output), manifest)
-    print(f"Wrote manifest with {len(manifest['proposal_runs'])} proposal runs and {len(manifest['milestone3_runs'])} milestone3 runs to {args.output}")
+    print(
+        f"Wrote manifest with {len(manifest['proposal_runs'])} proposal runs, "
+        f"{len(manifest['milestone3_runs'])} milestone3 runs, and "
+        f"{len(manifest['prefill_m_sweep_runs'])} prefill M-sweep runs to {args.output}"
+    )
 
 
 def command_run_hardware(args: argparse.Namespace) -> None:
@@ -2095,14 +2102,14 @@ def build_parser() -> argparse.ArgumentParser:
 
     status = subparsers.add_parser("status", help="Show missing/non-ok rows for a hardware summary without running new cases.")
     status.add_argument("--manifest", default=str(DEFAULT_MANIFEST_PATH))
-    status.add_argument("--suite", choices=["proposal", "milestone3", "legacy_validation"], default="proposal")
+    status.add_argument("--suite", choices=["proposal", "milestone3", "prefill_m_sweep", "legacy_validation"], default="proposal")
     add_run_selectors(status, include_arch=True)
     status.add_argument("--max-rows", type=int, default=80)
     status.set_defaults(func=command_status)
 
     run_hardware = subparsers.add_parser("run-hardware", help="Generate workload/arch files and run the hardware sweep if AccelForge is available.")
     run_hardware.add_argument("--manifest", default=str(DEFAULT_MANIFEST_PATH))
-    run_hardware.add_argument("--suite", choices=["proposal", "milestone3", "legacy_validation"], default="proposal")
+    run_hardware.add_argument("--suite", choices=["proposal", "milestone3", "prefill_m_sweep", "legacy_validation"], default="proposal")
     add_run_selectors(run_hardware, include_arch=True)
     run_hardware.add_argument("--limit", type=int)
     run_hardware.add_argument("--jobs", type=int, default=1, help="Number of parallel workers to use for independent cases.")

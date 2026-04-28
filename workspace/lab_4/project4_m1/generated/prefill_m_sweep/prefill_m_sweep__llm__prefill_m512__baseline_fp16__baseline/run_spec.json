@@ -1,0 +1,15 @@
+{
+  "suite": "prefill_m_sweep",
+  "run_id": "prefill_m_sweep__llm__prefill_m512__baseline_fp16__baseline",
+  "workload_id": "LLM",
+  "phase_id": "prefill_m512",
+  "config_id": "BASELINE_FP16",
+  "arch_id": "baseline",
+  "num_quantmac": 1,
+  "num_rescalemac": 1,
+  "shape": {
+    "m": 512,
+    "n": 11008,
+    "k": 4096
+  }
+}

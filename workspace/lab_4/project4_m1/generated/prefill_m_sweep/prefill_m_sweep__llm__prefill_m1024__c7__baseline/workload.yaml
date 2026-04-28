@@ -1,0 +1,256 @@
+{
+  "workload": {
+    "iteration_space_shape": {
+      "m": "0 <= m < 1024",
+      "nbo": "0 <= nbo < 43",
+      "nbi": "0 <= nbi < 16",
+      "ni": "0 <= ni < 16",
+      "kb": "0 <= kb < 256",
+      "ki": "0 <= ki < 16",
+      "ga": "0 <= ga < 1",
+      "gw": "0 <= gw < 1"
+    },
+    "bits_per_value": {
+      "A": 16,
+      "Sga": 32,
+      "Sgw": 32,
+      "Sba": 8,
+      "Sbw": 8,
+      "Aq": 4,
+      "Wq": 4,
+      "Yraw": 32,
+      "Ytmp": 32,
+      "Yblk": 32,
+      "Ytmp2": 32,
+      "Y": 16
+    },
+    "einsums": [
+      {
+        "name": "BlockScaleA",
+        "tensor_accesses": [
+          {
+            "name": "A",
+            "projection": [
+              "m",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sba",
+            "projection": [
+              "m",
+              "kb"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "BlockQuantA",
+        "tensor_accesses": [
+          {
+            "name": "A",
+            "projection": [
+              "m",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sba",
+            "projection": [
+              "m",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Aq",
+            "projection": [
+              "m",
+              "kb",
+              "ki"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "MatMulNVFP4",
+        "tensor_accesses": [
+          {
+            "name": "Aq",
+            "projection": [
+              "m",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Wq",
+            "projection": [
+              "nbo",
+              "nbi",
+              "ni",
+              "kb",
+              "ki"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Yraw",
+            "projection": [
+              "m",
+              "nbo",
+              "nbi",
+              "ni",
+              "kb"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "RescaleBlockA",
+        "tensor_accesses": [
+          {
+            "name": "Yraw",
+            "projection": [
+              "m",
+              "nbo",
+              "nbi",
+              "ni",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sba",
+            "projection": [
+              "m",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Ytmp",
+            "projection": [
+              "m",
+              "nbo",
+              "nbi",
+              "ni",
+              "kb"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "RescaleBlockW",
+        "tensor_accesses": [
+          {
+            "name": "Ytmp",
+            "projection": [
+              "m",
+              "nbo",
+              "nbi",
+              "ni",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sbw",
+            "projection": [
+              "nbo",
+              "nbi",
+              "ni",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Yblk",
+            "projection": [
+              "m",
+              "nbo",
+              "nbi",
+              "ni",
+              "kb"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "RescaleTensorA",
+        "tensor_accesses": [
+          {
+            "name": "Yblk",
+            "projection": [
+              "m",
+              "nbo",
+              "nbi",
+              "ni",
+              "kb"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sga",
+            "projection": [
+              "ga"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Ytmp2",
+            "projection": [
+              "m",
+              "nbo",
+              "nbi",
+              "ni"
+            ],
+            "output": true
+          }
+        ]
+      },
+      {
+        "name": "RescaleTensorW",
+        "tensor_accesses": [
+          {
+            "name": "Ytmp2",
+            "projection": [
+              "m",
+              "nbo",
+              "nbi",
+              "ni"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Sgw",
+            "projection": [
+              "gw"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Y",
+            "projection": [
+              "m",
+              "nbo",
+              "nbi",
+              "ni"
+            ],
+            "output": true
+          }
+        ]
+      }
+    ]
+  }
+}

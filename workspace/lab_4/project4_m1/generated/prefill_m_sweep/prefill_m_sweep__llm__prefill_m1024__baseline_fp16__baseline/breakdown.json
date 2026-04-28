@@ -1,0 +1,48 @@
+{
+  "einsum_names": [
+    "MatMul"
+  ],
+  "energy_per_einsum": {
+    "MatMul": 161590935552.0
+  },
+  "latency_per_einsum": {
+    "MatMul": 721420288.0
+  },
+  "energy_compute_per_einsum": {
+    "MatMul": 46170898432.0
+  },
+  "energy_memory_per_einsum": {
+    "MatMul": 115420037120.0
+  },
+  "latency_compute_per_einsum": {
+    "MatMul": 721420288.0
+  },
+  "latency_memory_per_einsum": {
+    "MatMul": 541196288.0
+  },
+  "energy_per_component": {
+    "RF": 0.0,
+    "DRAM": 57695928320.0,
+    "FP16MAC": 46170898432.0,
+    "GLB": 57724108800.0,
+    "QuantMAC": 0.0,
+    "FP4MAC": 0.0,
+    "RescaleFineMAC": 0.0,
+    "RescaleCoarseMAC": 0.0
+  },
+  "latency_per_component": {
+    "FP16MAC": 721420288.0,
+    "RF": 0.0,
+    "DRAM": 541196288.0,
+    "GLB": 360710144.0
+  },
+  "bottleneck_component": "FP16MAC",
+  "energy_total": 161590935552.0,
+  "latency_total": 721420288.0,
+  "energy_total_column": "derived_from_breakdown",
+  "latency_total_column": "derived_from_breakdown",
+  "hardware_model": "full_accelforge_graph",
+  "output_elements": 11272192,
+  "energy_pj_per_output": 14335.360465116279,
+  "area_total": 3.9067712000000004e-07
+}

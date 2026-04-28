@@ -1,0 +1,15 @@
+{
+  "suite": "prefill_m_sweep",
+  "run_id": "prefill_m_sweep__llm__prefill_m256__c1__baseline",
+  "workload_id": "LLM",
+  "phase_id": "prefill_m256",
+  "config_id": "C1",
+  "arch_id": "baseline",
+  "num_quantmac": 1,
+  "num_rescalemac": 1,
+  "shape": {
+    "m": 256,
+    "n": 11008,
+    "k": 4096
+  }
+}

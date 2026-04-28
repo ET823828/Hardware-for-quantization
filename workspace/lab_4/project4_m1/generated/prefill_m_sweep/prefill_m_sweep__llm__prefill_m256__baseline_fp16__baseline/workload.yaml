@@ -1,0 +1,45 @@
+{
+  "workload": {
+    "iteration_space_shape": {
+      "m": "0 <= m < 256",
+      "n": "0 <= n < 11008",
+      "k": "0 <= k < 4096"
+    },
+    "bits_per_value": {
+      "A": 16,
+      "W": 16,
+      "Y": 16
+    },
+    "einsums": [
+      {
+        "name": "MatMul",
+        "tensor_accesses": [
+          {
+            "name": "A",
+            "projection": [
+              "m",
+              "k"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "W",
+            "projection": [
+              "n",
+              "k"
+            ],
+            "density": 1.0
+          },
+          {
+            "name": "Y",
+            "projection": [
+              "m",
+              "n"
+            ],
+            "output": true
+          }
+        ]
+      }
+    ]
+  }
+}

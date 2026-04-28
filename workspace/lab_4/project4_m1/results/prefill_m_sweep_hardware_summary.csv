@@ -1,0 +1,273 @@
+suite,run_id,status,workload_id,phase_id,config_id,arch_id,m,n,k,num_quantmac,num_rescalemac,energy_pj,energy_total_pj,energy_pj_per_output,latency_cycles,area_m2,bottleneck_component,workload_file,arch_file,mapping_file,breakdown_file,hardware_model,error,duration_s
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m1024__baseline_fp16__baseline,ok,LLM,prefill_m1024,BASELINE_FP16,baseline,1024,11008,4096,1,1,161590935552.0,161590935552.0,14335.360465116279,721420288.0,3.9067712000000004e-07,FP16MAC,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__baseline_fp16__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__baseline_fp16__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__baseline_fp16__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__baseline_fp16__baseline/breakdown.json,full_accelforge_graph,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,35.628
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m1024__c0__baseline,ok,LLM,prefill_m1024,C0,baseline,1024,11008,4096,1,1,43809138278.4,43809138278.4,3886.479069767442,2885681152.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c0__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,90.388
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m1024__c1__baseline,error,LLM,prefill_m1024,C1,baseline,1024,11008,4096,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c1__baseline/breakdown.json,inference_prequantized,"Python integer 1024 out of bounds for uint8
+joblib.externals.loky.process_executor._RemoteTraceback: 
+""""""
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 490, in _process_worker
+    r = call_item()
+        ^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 291, in __call__
+    return self.fn(*self.args, **self.kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 607, in __call__
+    return [func(*args, **kwargs) for func, args, kwargs in self.items]
+            ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_pmappings_from_templates.py"", line 230, in make_pmappings_from_templates
+    result, tensor2mapping = make_tile_shapes(job)
+                             ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 2051, in make_tile_shapes
+    return _make_tile_shapes(job)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1995, in _make_tile_shapes
+    _calculate_iterations_and_rank_columns(pmapping.nodes, job, df, shape)
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1735, in _calculate_iterations_and_rank_columns
+    (outer_initial - rank_var_initial) / rank_var_stride + 1
+     ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+OverflowError: Python integer 1024 out of bounds for uint8
+Einsum MatMulBlock compatibility Compatibility(n_loops=5, tensors={Reservation('Aq', (Loop('KB', , False), Loop('M', , False), Loop('KB', , False), Loop('KI', , False), Loop('M', , False)), 'GLB'), Reservation('Yraw', (Loop('KB', , False), Loop('M', , False)), 'GLB')}), splits={}
+""""""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1256, in run_hardware_case
+    all_mappings = spec.map_workload_to_arch()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
+    return map_workload_to_arch(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
+    pmappings = make_pmappings(
+                ^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
+    result = _make_pmappings(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
+    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
+    for (
+  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
+    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
+    self._raise_error_fast()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
+    raise self._result
+OverflowError: Python integer 1024 out of bounds for uint8
+Einsum MatMulBlock compatibility Compatibility(n_loops=5, tensors={Reservation('Aq', (Loop('KB', , False), Loop('M', , False), Loop('KB', , False), Loop('KI', , False), Loop('M', , False)), 'GLB'), Reservation('Yraw', (Loop('KB', , False), Loop('M', , False)), 'GLB')}), splits={}
+",118.097
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m1024__c7__baseline,ok,LLM,prefill_m1024,C7,baseline,1024,11008,4096,1,1,141725462538.0,141725462538.0,12573.017079375511,3338193921.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m1024__c7__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1031.032
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m128__baseline_fp16__baseline,ok,LLM,prefill_m128,BASELINE_FP16,baseline,128,11008,4096,1,1,20198866944.0,20198866944.0,14335.360465116279,90177536.0,3.9067712000000004e-07,FP16MAC,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__baseline_fp16__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__baseline_fp16__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__baseline_fp16__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__baseline_fp16__baseline/breakdown.json,full_accelforge_graph,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,45.521
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m128__c0__baseline,ok,LLM,prefill_m128,C0,baseline,128,11008,4096,1,1,5476142284.8,5476142284.8,3886.479069767442,360710144.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c0__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,82.014
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m128__c1__baseline,ok,LLM,prefill_m128,C1,baseline,128,11008,4096,1,1,7414320005.12,7414320005.12,5262.025348837209,377651200.0,3.8925712e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c1__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,564.39
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m128__c7__baseline,ok,LLM,prefill_m128,C7,baseline,128,11008,4096,1,1,17714605578.0,17714605578.0,12572.252550701762,439901185.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m128__c7__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1008.013
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m2048__baseline_fp16__baseline,ok,LLM,prefill_m2048,BASELINE_FP16,baseline,2048,11008,4096,1,1,323181871104.0,323181871104.0,14335.360465116279,1442840576.0,3.9067712000000004e-07,FP16MAC,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__baseline_fp16__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__baseline_fp16__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__baseline_fp16__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__baseline_fp16__baseline/breakdown.json,full_accelforge_graph,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,37.545
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m2048__c0__baseline,ok,LLM,prefill_m2048,C0,baseline,2048,11008,4096,1,1,87618276556.8,87618276556.8,3886.479069767442,5771362304.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c0__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,103.789
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m2048__c1__baseline,error,LLM,prefill_m2048,C1,baseline,2048,11008,4096,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c1__baseline/breakdown.json,inference_prequantized,"Python integer 2048 out of bounds for uint8
+joblib.externals.loky.process_executor._RemoteTraceback: 
+""""""
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 490, in _process_worker
+    r = call_item()
+        ^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 291, in __call__
+    return self.fn(*self.args, **self.kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 607, in __call__
+    return [func(*args, **kwargs) for func, args, kwargs in self.items]
+            ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_pmappings_from_templates.py"", line 230, in make_pmappings_from_templates
+    result, tensor2mapping = make_tile_shapes(job)
+                             ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 2051, in make_tile_shapes
+    return _make_tile_shapes(job)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1995, in _make_tile_shapes
+    _calculate_iterations_and_rank_columns(pmapping.nodes, job, df, shape)
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1735, in _calculate_iterations_and_rank_columns
+    (outer_initial - rank_var_initial) / rank_var_stride + 1
+     ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+OverflowError: Python integer 2048 out of bounds for uint8
+Einsum MatMulBlock compatibility Compatibility(n_loops=5, tensors={Reservation('Aq', (Loop('KB', , False), Loop('M', , False), Loop('KB', , False), Loop('KI', , False), Loop('M', , False)), 'GLB'), Reservation('Yraw', (Loop('KB', , False), Loop('M', , False)), 'GLB')}), splits={}
+""""""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1256, in run_hardware_case
+    all_mappings = spec.map_workload_to_arch()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
+    return map_workload_to_arch(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
+    pmappings = make_pmappings(
+                ^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
+    result = _make_pmappings(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
+    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
+    for (
+  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
+    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
+    self._raise_error_fast()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
+    raise self._result
+OverflowError: Python integer 2048 out of bounds for uint8
+Einsum MatMulBlock compatibility Compatibility(n_loops=5, tensors={Reservation('Aq', (Loop('KB', , False), Loop('M', , False), Loop('KB', , False), Loop('KI', , False), Loop('M', , False)), 'GLB'), Reservation('Yraw', (Loop('KB', , False), Loop('M', , False)), 'GLB')}), splits={}
+",122.455
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m2048__c7__baseline,ok,LLM,prefill_m2048,C7,baseline,2048,11008,4096,1,1,292129529866.0,292129529866.0,12957.97347428078,6676299777.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m2048__c7__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,793.215
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m256__baseline_fp16__baseline,ok,LLM,prefill_m256,BASELINE_FP16,baseline,256,11008,4096,1,1,40397733888.0,40397733888.0,14335.360465116279,180355072.0,3.9067712000000004e-07,FP16MAC,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__baseline_fp16__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__baseline_fp16__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__baseline_fp16__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__baseline_fp16__baseline/breakdown.json,full_accelforge_graph,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,34.627
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m256__c0__baseline,ok,LLM,prefill_m256,C0,baseline,256,11008,4096,1,1,10952284569.6,10952284569.6,3886.479069767442,721420288.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c0__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,87.352
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m256__c1__baseline,error,LLM,prefill_m256,C1,baseline,256,11008,4096,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c1__baseline/breakdown.json,inference_prequantized,"Python integer 256 out of bounds for uint8
+joblib.externals.loky.process_executor._RemoteTraceback: 
+""""""
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 490, in _process_worker
+    r = call_item()
+        ^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 291, in __call__
+    return self.fn(*self.args, **self.kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 607, in __call__
+    return [func(*args, **kwargs) for func, args, kwargs in self.items]
+            ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_pmappings_from_templates.py"", line 230, in make_pmappings_from_templates
+    result, tensor2mapping = make_tile_shapes(job)
+                             ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 2051, in make_tile_shapes
+    return _make_tile_shapes(job)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1995, in _make_tile_shapes
+    _calculate_iterations_and_rank_columns(pmapping.nodes, job, df, shape)
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1735, in _calculate_iterations_and_rank_columns
+    (outer_initial - rank_var_initial) / rank_var_stride + 1
+     ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+OverflowError: Python integer 256 out of bounds for uint8
+Einsum MatMulBlock compatibility Compatibility(n_loops=5, tensors={Reservation('Aq', (Loop('KB', , False), Loop('M', , False), Loop('KB', , False), Loop('KI', , False), Loop('M', , False)), 'GLB'), Reservation('Yraw', (Loop('KB', , False), Loop('M', , False)), 'GLB')}), splits={}
+""""""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1256, in run_hardware_case
+    all_mappings = spec.map_workload_to_arch()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
+    return map_workload_to_arch(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
+    pmappings = make_pmappings(
+                ^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
+    result = _make_pmappings(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
+    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
+    for (
+  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
+    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
+    self._raise_error_fast()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
+    raise self._result
+OverflowError: Python integer 256 out of bounds for uint8
+Einsum MatMulBlock compatibility Compatibility(n_loops=5, tensors={Reservation('Aq', (Loop('KB', , False), Loop('M', , False), Loop('KB', , False), Loop('KI', , False), Loop('M', , False)), 'GLB'), Reservation('Yraw', (Loop('KB', , False), Loop('M', , False)), 'GLB')}), splits={}
+",120.19
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m256__c7__baseline,ok,LLM,prefill_m256,C7,baseline,256,11008,4096,1,1,35429211146.0,35429211146.0,12572.252547153206,879802369.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m256__c7__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1047.046
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m512__baseline_fp16__baseline,ok,LLM,prefill_m512,BASELINE_FP16,baseline,512,11008,4096,1,1,80795467776.0,80795467776.0,14335.360465116279,360710144.0,3.9067712000000004e-07,FP16MAC,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__baseline_fp16__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__baseline_fp16__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__baseline_fp16__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__baseline_fp16__baseline/breakdown.json,full_accelforge_graph,total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,35.467
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m512__c0__baseline,ok,LLM,prefill_m512,C0,baseline,512,11008,4096,1,1,21904569139.2,21904569139.2,3886.479069767442,1442840576.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c0__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c0__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c0__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c0__baseline/breakdown.json,inference_prequantized,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,89.574
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m512__c1__baseline,error,LLM,prefill_m512,C1,baseline,512,11008,4096,1,1,,,,,,,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c1__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c1__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c1__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c1__baseline/breakdown.json,inference_prequantized,"Python integer 512 out of bounds for uint8
+joblib.externals.loky.process_executor._RemoteTraceback: 
+""""""
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 490, in _process_worker
+    r = call_item()
+        ^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/externals/loky/process_executor.py"", line 291, in __call__
+    return self.fn(*self.args, **self.kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 607, in __call__
+    return [func(*args, **kwargs) for func, args, kwargs in self.items]
+            ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_pmappings_from_templates.py"", line 230, in make_pmappings_from_templates
+    result, tensor2mapping = make_tile_shapes(job)
+                             ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 2051, in make_tile_shapes
+    return _make_tile_shapes(job)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1995, in _make_tile_shapes
+    _calculate_iterations_and_rank_columns(pmapping.nodes, job, df, shape)
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings_from_templates/make_tile_shapes.py"", line 1735, in _calculate_iterations_and_rank_columns
+    (outer_initial - rank_var_initial) / rank_var_stride + 1
+     ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+OverflowError: Python integer 512 out of bounds for uint8
+Einsum MatMulBlock compatibility Compatibility(n_loops=5, tensors={Reservation('Aq', (Loop('KB', , False), Loop('M', , False), Loop('KB', , False), Loop('KI', , False), Loop('M', , False)), 'GLB'), Reservation('Yraw', (Loop('KB', , False), Loop('M', , False)), 'GLB')}), splits={}
+""""""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File ""/home/workspace/workspace/lab_4/project4_m1/run_sweeps.py"", line 1256, in run_hardware_case
+    all_mappings = spec.map_workload_to_arch()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/frontend/spec.py"", line 441, in map_workload_to_arch
+    return map_workload_to_arch(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 75, in map_workload_to_arch
+    pmappings = make_pmappings(
+                ^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 172, in make_pmappings
+    result = _make_pmappings(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/main.py"", line 237, in _make_pmappings
+    pmapping_groups, pmapping_objects, einsum2jobs = pmapper.make_pmappings(
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/home/build/accelforge/mapper/FFM/_make_pmappings/make_pmappings.py"", line 361, in make_pmappings
+    for (
+  File ""/home/build/accelforge/util/parallel.py"", line 169, in yield_results
+    for result in Parallel(n_jobs=n_jobs, **args)(jobs):
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1682, in _get_outputs
+    yield from self._retrieve()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1784, in _retrieve
+    self._raise_error_fast()
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 1859, in _raise_error_fast
+    error_job.get_result(self.timeout)
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 758, in get_result
+    return self._return_or_raise()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File ""/usr/local/lib/python3.12/dist-packages/joblib/parallel.py"", line 773, in _return_or_raise
+    raise self._result
+OverflowError: Python integer 512 out of bounds for uint8
+Einsum MatMulBlock compatibility Compatibility(n_loops=5, tensors={Reservation('Aq', (Loop('KB', , False), Loop('M', , False), Loop('KB', , False), Loop('KI', , False), Loop('M', , False)), 'GLB'), Reservation('Yraw', (Loop('KB', , False), Loop('M', , False)), 'GLB')}), splits={}
+",121.304
+prefill_m_sweep,prefill_m_sweep__llm__prefill_m512__c7__baseline,ok,LLM,prefill_m512,C7,baseline,512,11008,4096,1,1,70858424847.0,70858424847.0,12572.253000481183,1714518721.0,3.9067712000000004e-07,RF,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c7__baseline/workload.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c7__baseline/arch.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c7__baseline/mapping.yaml,/home/workspace/workspace/lab_4/project4_m1/generated/prefill_m_sweep/prefill_m_sweep__llm__prefill_m512__c7__baseline/breakdown.json,compact_two_level_inference,mapping serialization failed: Error calling function `_serialize_model`: AttributeError: 'InvertibleSet' object has no attribute '_bits_per_value' | total_area unavailable: Area of DRAM is not set. Please call the Spec's `calculate_component_area_energy_latency_leak` method before accessing this property.,1039.571

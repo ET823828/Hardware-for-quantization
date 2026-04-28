@@ -1,0 +1,47 @@
+{
+  "einsum_names": [
+    "MatMulRaw4"
+  ],
+  "energy_per_einsum": {
+    "MatMulRaw4": 87618276556.8
+  },
+  "latency_per_einsum": {
+    "MatMulRaw4": 5771362304.0
+  },
+  "energy_compute_per_einsum": {
+    "MatMulRaw4": 18468359372.8
+  },
+  "energy_memory_per_einsum": {
+    "MatMulRaw4": 69149917184.0
+  },
+  "latency_compute_per_einsum": {
+    "MatMulRaw4": 1442840576.0
+  },
+  "latency_memory_per_einsum": {
+    "MatMulRaw4": 5771362304.0
+  },
+  "energy_per_component": {
+    "RF": 11543773184.0,
+    "DRAM": 57606144000.0,
+    "FP4MAC": 18468359372.8,
+    "GLB": 0.0,
+    "QuantMAC": 0.0,
+    "RescaleFineMAC": 0.0,
+    "RescaleCoarseMAC": 0.0,
+    "FP16MAC": 0.0
+  },
+  "latency_per_component": {
+    "FP4MAC": 1442840576.0,
+    "RF": 5771362304.0,
+    "DRAM": 541130752.0
+  },
+  "bottleneck_component": "RF",
+  "energy_total": 87618276556.8,
+  "latency_total": 5771362304.0,
+  "energy_total_column": "derived_from_breakdown",
+  "latency_total_column": "derived_from_breakdown",
+  "hardware_model": "inference_prequantized",
+  "output_elements": 22544384,
+  "energy_pj_per_output": 3886.479069767442,
+  "area_total": 3.9067712000000004e-07
+}

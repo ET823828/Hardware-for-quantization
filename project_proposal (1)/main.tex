@@ -10,6 +10,16 @@
 \usepackage{multirow}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+% Tighter spacing between floats and surrounding text
+\setlength{\textfloatsep}{10pt plus 1pt minus 1pt}
+\setlength{\floatsep}{8pt plus 1pt minus 1pt}
+\setlength{\intextsep}{8pt plus 1pt minus 1pt}
+\setlength{\dbltextfloatsep}{6pt plus 1pt minus 1pt}
+\setlength{\dblfloatsep}{6pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{6pt}
+\setlength{\belowcaptionskip}{0pt}
+
 \begin{document}
 
 \title{Phase-Adaptive Quantization:\\
@@ -50,7 +60,7 @@ design space---an accuracy-floor pass that admits a
 block-granularity family, followed by a cost-driven pick within
 the family---which on all six (workload, phase) cells returns
 the same configuration as exhaustive sweep.  An analytic per-output cost model further
-shows the headline savings only grow as the input length $M$
+shows the headline savings stay or grow as the input length $M$
 scales to production prompt lengths.
 \end{abstract}
 
@@ -500,16 +510,13 @@ preceding claims hold or strengthen as $M$ grows.
 
 \begin{figure}[!htbp]
 \centering
-\fbox{\parbox{0.85\columnwidth}{\centering\vspace{1em}
-\textit{[Placeholder] M-scaling figure}\\
-$x$: $M\in\{1,16,64,128,512,2048,8192\}$;\\
-$y$: phase-adaptive saving vs.\ C7 (\%).\\
-Three curves: LLM, VLM, VLA prefill.\\
-Expected: monotone non-decreasing per analytic model.
-\vspace{1em}}}
-\caption{Phase-adaptive energy saving vs.\ C7 as $M$ grows;
-$M{=}128$ is a conservative lower bound for
-Table~\ref{tab:best}.}
+\includegraphics[width=0.92\columnwidth]{figures/m_scaling.pdf}
+\caption{Per-output energy of FP16 / C7 / C1 on LLM prefill
+across $M\!\in\!\{128,\dots,2048\}$.  All three configurations
+are nearly $M$-invariant, consistent with the cost decomposition
+of Sec.~\ref{sec:mscaling}; the C1-vs-C7 gap stays at
+$58$--$59\%$ over the entire range.  VLM and VLA prefill scans
+are future work.}
 \label{fig:mscan}
 \end{figure}
 
